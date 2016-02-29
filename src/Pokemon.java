@@ -1,7 +1,7 @@
 import processing.core.*;
 
 public class Pokemon extends PApplet {
-	int x, y, x2, y2, characterX, characterY, radius , step;
+	int x, y, characterX, characterY, radius , step;
 	int black, white;
 	PImage map1;
 	PImage map2;
@@ -11,14 +11,15 @@ public class Pokemon extends PApplet {
 	}
 
 	public void settings() {
-		size(1200,750);
+		size(1200,700);
 	}
 
 	public void setup() {
-		map2 = loadImage("underbackground.jpg");
-		map1 = loadImage("background.jpg");
+		map2 = loadImage("Pallet Town1B.png");
+		map1 = loadImage("Pallet Town1F.png");
 		characterX = width / 2;
 		characterY = height /2;
+		x = y = 0;
 		step = 5;
 		radius = 30;
 		black = color(0, 0, 0);
@@ -26,59 +27,32 @@ public class Pokemon extends PApplet {
 	}
 
 	public void draw() {
-		x = constrain(x, 0, map1.width - width);
-		y = constrain(y, 0, map1.height - height);
-		
-		x2 = constrain(x2, 0, map1.width - width);
-		y2 = constrain(y2, 0, map1.height - height);
-
-		image(map2,-x,-y);
+		//Bottom
+		image(map2,-x, -y);
+				
+		//Top
 		image(map1, -x, -y);
-
+		
 		stroke(255, 0, 0);
 		fill(0, 255, 0);
 		ellipse(characterX, characterY, radius, radius);
 	}
-
+	
 	public void keyPressed() {
-		if (key == 'd' && map2.get(characterX, characterY) == white) {
-			x = x + step;
-			x2 = x2 + step;
+		if (key == 'd' && map2.get(characterX + (radius /2), characterY) == white) {
 			characterX = characterX + step;
-			}
-			
-		else if(map2.get(characterX, characterY) == black){
-				characterX = characterX - 100;
-			}
+		}
 
-		if (key == 'a' && map2.get(characterX, characterY) == white) {
-			x = x - step;
-			x2 = x2 - step;
+		if (key == 'a' && map2.get(characterX - (radius /2), characterY) == white) {
 			characterX = characterX - step;
-			}
-			
-		else if(map2.get(characterX, characterY) == black){
-			characterX = characterX + 100;
-			}
+		}
 		
-		if (key == 'w' && map2.get(characterX, characterY) == white) {
-			y = y - step;
-			y2 = y2 - step;
+		if (key == 'w' && map2.get(characterX, characterY - (radius /2)) == white) {
 			characterY = characterY - step;
 		}
-			
-			else if(map2.get(characterX, characterY) == black){
-				characterY = characterY + 100;
-			}
 
-		if (key == 's' && map2.get(characterX, characterY) == white) {
-			y = y + step;
-			y2 = y2 + step;
+		if (key == 's' && map2.get(characterX, characterY + (radius /2)) == white) {
 			characterY = characterY + step;
-			}
-			
-		else if(map2.get(characterX, characterY) == black){
-			characterY = characterY - 100;
-			}
 		}
+	}
 }
