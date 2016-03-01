@@ -3,6 +3,7 @@ import processing.core.*;
 class InGame {
 	PImage map1;
 	PImage map2;
+	PImage character;
 	int x, y;
 	int characterX, characterY;
 	int radius , step ,location;
@@ -13,12 +14,12 @@ class InGame {
 
 	InGame(Pokemon _p5){
 		p5 = _p5;
-		location = 4;
+		location = 2;
 		x = y = 0;
 		characterX = p5.width / 2;
 		characterY = p5.height * 3/4;
 		radius = 30;
-		step = 5;
+		step = 10;
 		black = 0;
 		white = -1;
 		green = -16711936;
@@ -39,10 +40,12 @@ class InGame {
 		map2 = p5.loadImage(background[location]);
 		map1 = p5.loadImage(background[location + 1]);
 		
-		movement[0] = ".png";
-		movement[1] = ".png";
-		movement[2] = ".png";
+		movement[0] = "down1.png";
+		movement[1] = "left3.png";
+		movement[2] = "right3.png";
+		movement[3] = "up3.png";
 		
+		character = p5.loadImage(movement[0]);
 	}
 	
 	void displayMap(){
@@ -54,75 +57,84 @@ class InGame {
 	}
 	
 	void displayCharacter(){
-		p5.stroke(255, 0, 0);
-		p5.fill(0, 255, 0);
-		p5.ellipse(characterX, characterY, radius, radius);
+		//p5.stroke(255, 0, 0);
+		//p5.fill(0, 255, 0);
+		//p5.ellipse(characterX, characterY, radius, radius);
+		p5.image(character, characterX, characterY);
 	}
 	
 	void keyPressed() {	
 		//--------------D----------------------
-		if (p5.key == 'd' && map2.get(characterX + (radius /2), characterY) == white) {
+		if (p5.key == 'd' && map2.get(characterX + character.width, characterY) >= white && map2.get(characterX + character.width, characterY + character.height) >= white) {
 			characterX = characterX + step;
+			character = p5.loadImage(movement[2]);
 			p5.key = 'm';
 		}
 		
-		if(p5.key == 'd' && map2.get(characterX + (radius /2), characterY) == green){
+		if(p5.key == 'd' && map2.get(characterX+ character.width, characterY) >= green && map2.get(characterX + character.width, characterY + character.height) >= green){
 			characterX = characterX + step;
+			character = p5.loadImage(movement[2]);
 			p5.key = 'm';
 		}
 		//--------------A----------------------
-		if (p5.key == 'a' && map2.get(characterX - (radius /2), characterY) == white){
+		if (p5.key == 'a' && map2.get(characterX, characterY) >= white && map2.get(characterX, characterY + character.height) >= white){
 			characterX = characterX - step;
+			character = p5.loadImage(movement[1]);
 			p5.key = 'm';
 		}
 		
-		if(p5.key == 'a' && map2.get(characterX - (radius /2), characterY) == green){
+		if(p5.key == 'a' && map2.get(characterX, characterY) >= green && map2.get(characterX, characterY + character.height) >= green){
 			characterX = characterX - step;
+			character = p5.loadImage(movement[1]);
 			p5.key = 'm';
 		}
 		//--------------W----------------------
-		if (p5.key == 'w' && map2.get(characterX, characterY - (radius /2)) == white){
-			if(characterY - radius <= 0){
+		if (p5.key == 'w' && map2.get(characterX, characterY) >= white && map2.get(characterX + character.width, characterY) >= white){
+			if(characterY <= 0){
 				location=location + 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
 				characterY = p5.height;
 			}
 			characterY = characterY - step;
+			character = p5.loadImage(movement[3]);
 			p5.key = 'm';
 		}
 		
-		else if(p5.key == 'w' && map2.get(characterX, characterY - (radius /2)) == green){
-			if(characterY - radius <= 0){
+		else if(p5.key == 'w' && map2.get(characterX, characterY) >= green && map2.get(characterX + character.width, characterY) >= green){
+			if(characterY <= 0){
 				location=location + 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
 				characterY = p5.height;
 			}
 			characterY = characterY - step;
+			character = p5.loadImage(movement[3]);
 			p5.key = 'm';
 		}
 			
 		//--------------S----------------------
-		if (p5.key == 's' && map2.get(characterX, characterY + (radius /2)) == white) {
-			if(characterY + radius >= p5.height){
+		if (p5.key == 's' && map2.get(characterX, characterY + character.height) >= white && map2.get(characterX + character.width, characterY + character.height) >= white) {
+			if(characterY + character.height >= p5.height){
 				location=location - 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
 				characterY = 0;
 			}
 			characterY = characterY + step;
+			character = p5.loadImage(movement[0]);
 			p5.key = 'm';
 		}
 		
-		else if(p5.key == 's' && map2.get(characterX, characterY + (radius /2)) == green){
-			if(characterY + radius >= p5.height){
+		else if(p5.key == 's' && map2.get(characterX, characterY + character.height) >= green && map2.get(characterX + character.width, characterY + character.height) >= green){
+			if(characterY + character.height >= p5.height){
 				location=location - 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
 				characterY = 0;
 			}
 			characterY = characterY + step;
+			character = p5.loadImage(movement[0]);
 			p5.key = 'm';
 		}
 	}
