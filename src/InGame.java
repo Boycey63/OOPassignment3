@@ -18,7 +18,7 @@ class InGame {
 		characterX = p5.width / 2;
 		characterY = p5.height * 3/4;
 		radius = 30;
-		step = 10;
+		step = 5;
 		black = 0;
 		white = -1;
 		green = -16711936;
@@ -40,6 +40,9 @@ class InGame {
 		map1 = p5.loadImage(background[location + 1]);
 		
 		movement[0] = ".png";
+		movement[1] = ".png";
+		movement[2] = ".png";
+		
 	}
 	
 	void displayMap(){
@@ -83,6 +86,7 @@ class InGame {
 				location=location + 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
+				characterY = p5.height;
 			}
 			characterY = characterY - step;
 			p5.key = 'm';
@@ -93,6 +97,7 @@ class InGame {
 				location=location + 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
+				characterY = p5.height;
 			}
 			characterY = characterY - step;
 			p5.key = 'm';
@@ -104,6 +109,7 @@ class InGame {
 				location=location - 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
+				characterY = 0;
 			}
 			characterY = characterY + step;
 			p5.key = 'm';
@@ -114,6 +120,7 @@ class InGame {
 				location=location - 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
+				characterY = 0;
 			}
 			characterY = characterY + step;
 			p5.key = 'm';
