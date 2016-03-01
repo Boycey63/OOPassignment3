@@ -9,17 +9,19 @@ class InGame {
 	int black, white, green, backColour;
 	Pokemon p5;
 	String[] background = new String[20];
+	String[] movement = new String[20];
 
 	InGame(Pokemon _p5){
 		p5 = _p5;
-		location = x = y = 6;
+		location = 4;
+		x = y = 0;
 		characterX = p5.width / 2;
-		characterY = p5.height /2;
+		characterY = p5.height * 3/4;
 		radius = 30;
 		step = 10;
 		black = 0;
 		white = -1;
-		green = -16712192;
+		green = -16711936;
 		background[0] = "Pallet Town2B.png";
 		background[1] = "Pallet Town2F.png";
 		background[2] = "Pallet Town1B.png";
@@ -33,8 +35,11 @@ class InGame {
 		background[10] = ".png";
 		background[11] = ".png";
 		background[12] = ".png";
+	
 		map2 = p5.loadImage(background[location]);
 		map1 = p5.loadImage(background[location + 1]);
+		
+		movement[0] = ".png";
 	}
 	
 	void displayMap(){
@@ -51,7 +56,8 @@ class InGame {
 		p5.ellipse(characterX, characterY, radius, radius);
 	}
 	
-	void keyPressed() {				
+	void keyPressed() {	
+		//--------------D----------------------
 		if (p5.key == 'd' && map2.get(characterX + (radius /2), characterY) == white) {
 			characterX = characterX + step;
 			p5.key = 'm';
@@ -61,7 +67,7 @@ class InGame {
 			characterX = characterX + step;
 			p5.key = 'm';
 		}
-		
+		//--------------A----------------------
 		if (p5.key == 'a' && map2.get(characterX - (radius /2), characterY) == white){
 			characterX = characterX - step;
 			p5.key = 'm';
@@ -71,23 +77,44 @@ class InGame {
 			characterX = characterX - step;
 			p5.key = 'm';
 		}
-		
+		//--------------W----------------------
 		if (p5.key == 'w' && map2.get(characterX, characterY - (radius /2)) == white){
+			if(characterY - radius <= 0){
+				location=location + 2;
+				map2 = p5.loadImage(background[location]);
+				map1 = p5.loadImage(background[location + 1]);
+			}
 			characterY = characterY - step;
 			p5.key = 'm';
 		}
 		
-		if(p5.key == 'w' && map2.get(characterX, characterY - (radius /2)) == green){
+		else if(p5.key == 'w' && map2.get(characterX, characterY - (radius /2)) == green){
+			if(characterY - radius <= 0){
+				location=location + 2;
+				map2 = p5.loadImage(background[location]);
+				map1 = p5.loadImage(background[location + 1]);
+			}
 			characterY = characterY - step;
 			p5.key = 'm';
 		}
-
+			
+		//--------------S----------------------
 		if (p5.key == 's' && map2.get(characterX, characterY + (radius /2)) == white) {
+			if(characterY + radius >= p5.height){
+				location=location - 2;
+				map2 = p5.loadImage(background[location]);
+				map1 = p5.loadImage(background[location + 1]);
+			}
 			characterY = characterY + step;
 			p5.key = 'm';
 		}
 		
-		if(p5.key == 's' && map2.get(characterX, characterY + (radius /2)) == green){
+		else if(p5.key == 's' && map2.get(characterX, characterY + (radius /2)) == green){
+			if(characterY + radius >= p5.height){
+				location=location - 2;
+				map2 = p5.loadImage(background[location]);
+				map1 = p5.loadImage(background[location + 1]);
+			}
 			characterY = characterY + step;
 			p5.key = 'm';
 		}
