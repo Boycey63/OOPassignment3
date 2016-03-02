@@ -20,5 +20,6 @@ public class Pokemon extends PApplet {
 		ingame.displayMap();
 		ingame.displayCharacter();
 		ingame.keyPressed();
+		LoadData.loadfile();
 	}
 }
