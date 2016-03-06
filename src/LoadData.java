@@ -40,7 +40,7 @@ public class LoadData {
 				//Divides each line into Tokens
 				StringTokenizer st = new StringTokenizer(line,split);
 				
-				//Inserts each token into a different araylist
+				//Inserts each token into a different arraylist
 				while(st.hasMoreTokens()){
 					Pokemon.pokemon.add(st.nextToken());
 					Pokemon.p_name.add(st.nextToken());
