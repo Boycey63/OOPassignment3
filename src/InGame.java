@@ -5,7 +5,6 @@ class InGame {
 	PImage map2;
 	PImage character;
 	int x, y;
-	int characterX, characterY;
 	int radius , step ,location;
 	int black, white, green, backColour;
 	Pokemon p5;
@@ -16,8 +15,8 @@ class InGame {
 		p5 = _p5;
 		location = 2;
 		x = y = 0;
-		characterX = p5.width / 2;
-		characterY = p5.height * 3/4;
+		Pokemon.characterX = p5.width / 2;
+		Pokemon.characterY = p5.height * 3/4;
 		radius = 30;
 		step = 10;
 		black = 0;
@@ -57,83 +56,80 @@ class InGame {
 	}
 	
 	void displayCharacter(){
-		//p5.stroke(255, 0, 0);
-		//p5.fill(0, 255, 0);
-		//p5.ellipse(characterX, characterY, radius, radius);
-		p5.image(character, characterX, characterY);
+		p5.image(character, Pokemon.characterX, Pokemon.characterY);
 	}
 	
 	void keyPressed() {	
 		//--------------D----------------------
-		if (p5.key == 'd' && map2.get(characterX + character.width, characterY) >= white && map2.get(characterX + character.width, characterY + character.height) >= white) {
-			characterX = characterX + step;
+		if (p5.key == 'd' && map2.get(Pokemon.characterX + character.width, Pokemon.characterY) >= white && map2.get(Pokemon.characterX + character.width, Pokemon.characterY + character.height) >= white) {
+			Pokemon.characterX = Pokemon.characterX + step;
 			character = p5.loadImage(movement[2]);
 			p5.key = 'm';
 		}
 		
-		if(p5.key == 'd' && map2.get(characterX+ character.width, characterY) >= green && map2.get(characterX + character.width, characterY + character.height) >= green){
-			characterX = characterX + step;
+		if(p5.key == 'd' && map2.get(Pokemon.characterX+ character.width, Pokemon.characterY) >= green && map2.get(Pokemon.characterX + character.width, Pokemon.characterY + character.height) >= green){
+			Pokemon.characterX = Pokemon.characterX + step;
 			character = p5.loadImage(movement[2]);
 			p5.key = 'm';
 		}
 		//--------------A----------------------
-		if (p5.key == 'a' && map2.get(characterX, characterY) >= white && map2.get(characterX, characterY + character.height) >= white){
-			characterX = characterX - step;
+		if (p5.key == 'a' && map2.get(Pokemon.characterX, Pokemon.characterY) >= white && map2.get(Pokemon.characterX, Pokemon.characterY + character.height) >= white){
+			Pokemon.characterX = Pokemon.characterX - step;
 			character = p5.loadImage(movement[1]);
 			p5.key = 'm';
 		}
 		
-		if(p5.key == 'a' && map2.get(characterX, characterY) >= green && map2.get(characterX, characterY + character.height) >= green){
-			characterX = characterX - step;
+		if(p5.key == 'a' && map2.get(Pokemon.characterX, Pokemon.characterY) >= green && map2.get(Pokemon.characterX, Pokemon.characterY + character.height) >= green){
+			Pokemon.characterX = Pokemon.characterX - step;
 			character = p5.loadImage(movement[1]);
 			p5.key = 'm';
 		}
 		//--------------W----------------------
-		if (p5.key == 'w' && map2.get(characterX, characterY) >= white && map2.get(characterX + character.width, characterY) >= white){
-			if(characterY <= 0){
+		if (p5.key == 'w' && map2.get(Pokemon.characterX, Pokemon.characterY) >= white && map2.get(Pokemon.characterX + character.width, Pokemon.characterY) >= white){
+			if(Pokemon.characterY <= 0){
 				location=location + 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
-				characterY = p5.height;
+				Pokemon.characterY = p5.height;
 			}
-			characterY = characterY - step;
+			Pokemon.characterY = Pokemon.characterY - step;
 			character = p5.loadImage(movement[3]);
 			p5.key = 'm';
 		}
 		
-		else if(p5.key == 'w' && map2.get(characterX, characterY) >= green && map2.get(characterX + character.width, characterY) >= green){
-			if(characterY <= 0){
+		else if(p5.key == 'w' && map2.get(Pokemon.characterX, Pokemon.characterY) >= green && map2.get(Pokemon.characterX + character.width, Pokemon.characterY) >= green){
+			if(Pokemon.characterY <= 0){
 				location=location + 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
-				characterY = p5.height;
+				Pokemon.characterY = p5.height;
 			}
-			characterY = characterY - step;
+			Pokemon.characterY = Pokemon.characterY - step;
 			character = p5.loadImage(movement[3]);
 			p5.key = 'm';
 		}
 			
 		//--------------S----------------------
-		if (p5.key == 's' && map2.get(characterX, characterY + character.height) >= white && map2.get(characterX + character.width, characterY + character.height) >= white) {
-			if(characterY + character.height >= p5.height){
+		if (p5.key == 's' && map2.get(Pokemon.characterX, Pokemon.characterY + character.height) >= white && map2.get(Pokemon.characterX + character.width, Pokemon.characterY + character.height) >= white) {
+			if(Pokemon.characterY + character.height >= p5.height){
 				location=location - 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
-				characterY = 0;
+				Pokemon.characterY = 0;
 			}
-			characterY = characterY + step;
+			Pokemon.characterY = Pokemon.characterY + step;
 			character = p5.loadImage(movement[0]);
 			p5.key = 'm';
 		}
 		
-		else if(p5.key == 's' && map2.get(characterX, characterY + character.height) >= green && map2.get(characterX + character.width, characterY + character.height) >= green){
-			if(characterY + character.height >= p5.height){
+		else if(p5.key == 's' && map2.get(Pokemon.characterX, Pokemon.characterY + character.height) >= green && map2.get(Pokemon.characterX + character.width, Pokemon.characterY + character.height) >= green){
+			if(Pokemon.characterY + character.height >= p5.height){
 				location=location - 2;
 				map2 = p5.loadImage(background[location]);
 				map1 = p5.loadImage(background[location + 1]);
-				characterY = 0;
+				Pokemon.characterY = 0;
 			}
-			characterY = characterY + step;
+			Pokemon.characterY = Pokemon.characterY + step;
 			character = p5.loadImage(movement[0]);
 			p5.key = 'm';
 		}
