@@ -10,15 +10,15 @@ public class Pokemon extends PApplet {
 	public static int characterX, characterY;
 	public static ArrayList pokemon = new ArrayList();
 	public static ArrayList <String> p_name = new ArrayList<String>();
-	public static ArrayList p_hp = new ArrayList();
-	public static ArrayList p_attack = new ArrayList();
-	public static ArrayList p_defense = new ArrayList();
-	public static ArrayList p_speed = new ArrayList();
-	public static ArrayList p_special = new ArrayList();
-	public static ArrayList p_total = new ArrayList();
-	public static ArrayList p_average = new ArrayList();
-	public static ArrayList p_id = new ArrayList();
-	
+	public static ArrayList <Integer>p_hp = new ArrayList<Integer>();
+	public static ArrayList <Integer>p_attack = new ArrayList<Integer>();
+	public static ArrayList <Integer>p_defense = new ArrayList<Integer>();
+	public static ArrayList <Integer>p_speed = new ArrayList<Integer>();
+	public static ArrayList <Integer>p_special = new ArrayList<Integer>();
+	public static ArrayList <Integer>p_total = new ArrayList<Integer>();
+	public static ArrayList <Float>p_average = new ArrayList<Float>();
+	public static ArrayList <Integer>p_id = new ArrayList<Integer>();
+
 	public static boolean walkingView;
 	public static boolean battleView;
 	
@@ -50,6 +50,7 @@ public class Pokemon extends PApplet {
 		
 		if(battleView == true){
 			walkingView = false;
+			battlescene.defaultDraw();
 			battlescene.option1();
 		}
 	}

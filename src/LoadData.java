@@ -24,16 +24,16 @@ public class LoadData {
 		//Tries to initalise the variables and run loop 
 		try{
 			br = new BufferedReader(new FileReader(pokedex));
-			Pokemon.pokemon = new ArrayList();
-			Pokemon.p_name = new ArrayList();
-			Pokemon.p_hp = new ArrayList();
-			Pokemon.p_attack = new ArrayList();
-			Pokemon.p_defense = new ArrayList();
-			Pokemon.p_speed = new ArrayList();
-			Pokemon.p_special = new ArrayList();
-			Pokemon.p_total = new ArrayList();
-			Pokemon.p_average = new ArrayList();
-			Pokemon.p_id = new ArrayList();
+			Pokemon.pokemon = new ArrayList<String>();
+			Pokemon.p_name = new ArrayList<String>();
+			Pokemon.p_hp = new ArrayList<Integer>();
+			Pokemon.p_attack = new ArrayList<Integer>();
+			Pokemon.p_defense = new ArrayList<Integer>();
+			Pokemon.p_speed = new ArrayList<Integer>();
+			Pokemon.p_special = new ArrayList<Integer>();
+			Pokemon.p_total = new ArrayList<Integer>();
+			Pokemon.p_average = new ArrayList<Float>();
+			Pokemon.p_id = new ArrayList<Integer>();
 			
 			//Checks if string is empty
 			while((line = br.readLine()) != null){
@@ -44,19 +44,23 @@ public class LoadData {
 				while(st.hasMoreTokens()){
 					Pokemon.pokemon.add(st.nextToken());
 					Pokemon.p_name.add(st.nextToken());
-					Pokemon.p_hp.add(st.nextToken());
-					Pokemon.p_attack.add(st.nextToken());
-					Pokemon.p_defense.add(st.nextToken());
-					Pokemon.p_speed.add(st.nextToken());
-					Pokemon.p_special.add(st.nextToken());
-					Pokemon.p_total.add(st.nextToken());
-					Pokemon.p_average.add(st.nextToken());
-					Pokemon.p_id.add(st.nextToken());
+					Pokemon.p_hp.add(Integer.parseInt(st.nextToken()));
+					Pokemon.p_attack.add(Integer.parseInt(st.nextToken()));
+					Pokemon.p_defense.add(Integer.parseInt(st.nextToken()));
+					Pokemon.p_speed.add(Integer.parseInt(st.nextToken()));
+					Pokemon.p_special.add(Integer.parseInt(st.nextToken()));
+					Pokemon.p_total.add(Integer.parseInt(st.nextToken()));
+					Pokemon.p_average.add(Float.parseFloat(st.nextToken()));
+					Pokemon.p_id.add(Integer.parseInt(st.nextToken()));
 					tokenNumber++;
 				}
 				lineNumber++;
 				tokenNumber = 0;
 			}
+			
+			
+			//int po = Pokemon.p_speed.get(2);
+			//System.out.println(po);
 			
 			//Displays what is the arraylists
 			/*for(counter=0; counter < Pokemon.p_name.size(); counter++){
