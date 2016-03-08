@@ -8,17 +8,28 @@ public class Pokemon extends PApplet {
 	BattleScene battlescene;
 	
 	public static int characterX, characterY;
-	public static ArrayList pokemon = new ArrayList();
-	public static ArrayList <String> p_name = new ArrayList<String>();
-	public static ArrayList <Integer>p_hp = new ArrayList<Integer>();
-	public static ArrayList <Integer>p_attack = new ArrayList<Integer>();
-	public static ArrayList <Integer>p_defense = new ArrayList<Integer>();
-	public static ArrayList <Integer>p_speed = new ArrayList<Integer>();
-	public static ArrayList <Integer>p_special = new ArrayList<Integer>();
-	public static ArrayList <Integer>p_total = new ArrayList<Integer>();
-	public static ArrayList <Float>p_average = new ArrayList<Float>();
-	public static ArrayList <Integer>p_id = new ArrayList<Integer>();
+	
+	public static ArrayList <Integer>p_id;
+	public static ArrayList <String> p_name;
+	public static ArrayList <Integer>p_TOThp;
+	public static ArrayList <Integer>p_ACThp;
+	public static ArrayList <Integer>p_attack;
+	public static ArrayList <Integer>p_defense;
+	public static ArrayList <Integer>p_speed;
+	public static ArrayList <Integer>p_special;
+	public static ArrayList <Integer>p_total;
 
+	public static ArrayList <String>party_name;
+	public static ArrayList <Integer>party_TOThp;
+	public static ArrayList <Integer>party_ACThp;
+	public static ArrayList <Integer>party_attack;
+	public static ArrayList <Integer>party_defense;
+	public static ArrayList <Integer>party_speed;
+	public static ArrayList <Integer>party_special;
+	public static ArrayList <Integer>party_total;
+	public static ArrayList <Integer>party_id;
+
+	public static int opt;
 	public static boolean walkingView;
 	public static boolean battleView;
 	
@@ -28,18 +39,22 @@ public class Pokemon extends PApplet {
 
 	public void settings() {
 		size(1200,700);
-		walkingView = false;
-		battleView = true;
 	}
 
 	public void setup() {
+		walkingView = false;
+		battleView = true;
+		opt = 0;
+		mouseX = 0;
+		mouseY = 0;
 		ingame = new InGame(this);
 		data = new LoadData(this);
 		battlescene = new BattleScene(this);
+		data.loadParty();
+		data.loadPokeArea();
 	}
 
 	public void draw() {
-		data.loadfile();
 		
 		if(walkingView == true){
 			battleView = false;
@@ -51,7 +66,23 @@ public class Pokemon extends PApplet {
 		if(battleView == true){
 			walkingView = false;
 			battlescene.defaultDraw();
-			battlescene.option1();
+			if(opt == 0){
+				//background(255,0,0);
+				battlescene.menu1();
+			}
+			if(opt == 1){
+				battlescene.menu1();
+				battlescene.menu2();
+			}
+			if(opt == 2){
+				battlescene.partyMenu();
+			}
+			if(opt == 3){
+				battlescene.throwBall();
+			}
+			if(opt == 4){
+				walkingView = true;
+			}
 		}
 	}
 }
