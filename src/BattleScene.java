@@ -5,7 +5,6 @@ public class BattleScene {
 	float Rectangle1X, Rectangle1Y, defaultRectangleX, defaultRectangleY;
 	float Rectangle1W, Rectangle1H, defaultRectangleW, defaultRectangleH;
 	int poke_hp;
-	int pokemon;
 	String poke;
 
 	BattleScene(Pokemon _p5){
@@ -14,11 +13,11 @@ public class BattleScene {
 		defaultRectangleX = 10;
 		defaultRectangleW = p5.width - 20;
 		defaultRectangleY = p5.height - (defaultRectangleH + 10);
-		pokemon = p5.floor(p5.random(0,5));
+		Pokemon.wildPokemon = p5.floor(p5.random(0,5));
 	}
 	
 	void defaultDraw(){
-		poke_hp = Pokemon.p_ACThp.get(1);
+		//poke_hp = Pokemon.p_ACThp.get(1);
 		
 		p5.textSize(30);
 		p5.stroke(0);
@@ -26,7 +25,7 @@ public class BattleScene {
 		//User Pokemon
 		p5.text(Pokemon.party_name.get(0), 620, 450);
 		//Wild Pokemon
-		p5.text(Pokemon.p_name.get(pokemon), 40, 40);
+		p5.text(Pokemon.p_name.get(Pokemon.wildPokemon), 40, 40);
 		p5.textSize(25);
 		p5.text("Lvl: " + " variable", 620, 480);
 		p5.text("HP: " + poke_hp, 620, 510);
@@ -54,7 +53,7 @@ public class BattleScene {
 		p5.textSize(20);
 		p5.fill(0);
 		if(Pokemon.opt == 0){
-			p5.text("Fight", Rectangle1X + (Rectangle1W/4) - 60, Rectangle1Y + (Rectangle1H/4));
+		p5.text("Fight", Rectangle1X + (Rectangle1W/4) - 60, Rectangle1Y + (Rectangle1H/4));
 		}
 		if(Pokemon.opt == 1){
 			p5.text("Back", Rectangle1X + (Rectangle1W/4) - 60, Rectangle1Y + (Rectangle1H/4));
@@ -117,6 +116,3 @@ public class BattleScene {
 		
 	}
 }
-
-//Test to print pokemon name
-//p5.text(Pokemon.p_name.get(150), 300, 300);

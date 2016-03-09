@@ -6,8 +6,10 @@ public class Pokemon extends PApplet {
 	InGame ingame;
 	LoadData data;
 	BattleScene battlescene;
+	writeData writedata;
 	
 	public static int characterX, characterY;
+	public static int wildPokemon;
 	
 	public static ArrayList <Integer>p_id;
 	public static ArrayList <String> p_name;
@@ -49,6 +51,7 @@ public class Pokemon extends PApplet {
 		mouseY = 0;
 		ingame = new InGame(this);
 		data = new LoadData(this);
+		writedata = new writeData();
 		battlescene = new BattleScene(this);
 		data.loadParty();
 		data.loadPokeArea();
@@ -79,6 +82,7 @@ public class Pokemon extends PApplet {
 			}
 			if(opt == 3){
 				battlescene.throwBall();
+				writedata.addToParty();
 			}
 			if(opt == 4){
 				walkingView = true;

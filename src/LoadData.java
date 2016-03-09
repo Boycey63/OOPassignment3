@@ -16,13 +16,15 @@ public class LoadData {
 	void loadParty(){
 		file = "Party.csv";
 		BufferedReader bs = null;
-		String line = "";
+		String line;
 		String split = ",";
 		int lineNumber = 0;
 		int tokenNumber = 0;
 		
 		try{
 			bs = new BufferedReader(new FileReader(file));
+			
+			
 			Pokemon.party_name = new ArrayList<String>();
 			Pokemon.party_TOThp = new ArrayList<Integer>();
 			Pokemon.party_ACThp = new ArrayList<Integer>();
@@ -36,7 +38,7 @@ public class LoadData {
 			//Checks if string is empty
 			while((line = bs.readLine()) != null){
 				//Divides each line into Tokens
-				StringTokenizer str = new StringTokenizer(line,split);
+				StringTokenizer str = new StringTokenizer(line, split);
 				
 				while(str.hasMoreTokens()){
 					Pokemon.party_id.add(Integer.parseInt(str.nextToken()));
@@ -50,11 +52,12 @@ public class LoadData {
 					Pokemon.party_total.add(Integer.parseInt(str.nextToken()));
 					tokenNumber++;
 			}
-				//System.out.println(Pokemon.party_TOThp.get(0));
+			
 			lineNumber++;
 			tokenNumber = 0;
 			}
 		}
+		
 		//If the above doesn't work, show an error
 		catch(FileNotFoundException e){
 			e.printStackTrace();
@@ -86,6 +89,7 @@ public class LoadData {
 		
 		try{
 			bs = new BufferedReader(new FileReader(file));
+			Pokemon.p_name = new ArrayList<String>();
 			Pokemon.p_id = new ArrayList<Integer>();
 			Pokemon.p_name = new ArrayList<String>();
 			Pokemon.p_TOThp = new ArrayList<Integer>();
@@ -98,10 +102,10 @@ public class LoadData {
 			
 			//Checks if string is empty
 			while((line = bs.readLine()) != null){
-				//System.out.println(line);
-				
+
 				//Divides each line into Tokens
 				StringTokenizer st = new StringTokenizer(line,split);
+				//Pokemon.p_name.add(line);
 				
 				while(st.hasMoreTokens()){
 					Pokemon.p_id.add(Integer.parseInt(st.nextToken()));
@@ -114,12 +118,10 @@ public class LoadData {
 					Pokemon.p_special.add(Integer.parseInt(st.nextToken()));
 					Pokemon.p_total.add(Integer.parseInt(st.nextToken()));
 					tokenNumber++;
-					//System.out.println(tokenNumber);
 			}
 			lineNumber++;
 			tokenNumber = 0;
 			}
-			//System.out.println(Pokemon.p_name.get(1));
 		}
 		
 		//If the above doesn't work, show an error
