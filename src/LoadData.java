@@ -8,23 +8,21 @@ import java.util.StringTokenizer;
 public class LoadData {
 	Pokemon p5;
 	String file;
-	
-	LoadData(Pokemon _p5){
-		p5 = _p5;
-	}	
-	
-	void loadParty(){
+
+	LoadData() {
+	}
+
+	void loadParty() {
 		file = "Party.csv";
 		BufferedReader bs = null;
 		String line;
 		String split = ",";
 		int lineNumber = 0;
 		int tokenNumber = 0;
-		
-		try{
+
+		try {
 			bs = new BufferedReader(new FileReader(file));
-			
-			
+
 			Pokemon.party_name = new ArrayList<String>();
 			Pokemon.party_TOThp = new ArrayList<Integer>();
 			Pokemon.party_ACThp = new ArrayList<Integer>();
@@ -34,13 +32,13 @@ public class LoadData {
 			Pokemon.party_special = new ArrayList<Integer>();
 			Pokemon.party_total = new ArrayList<Integer>();
 			Pokemon.party_id = new ArrayList<Integer>();
-			
-			//Checks if string is empty
-			while((line = bs.readLine()) != null){
-				//Divides each line into Tokens
+
+			// Checks if string is empty
+			while ((line = bs.readLine()) != null) {
+				// Divides each line into Tokens
 				StringTokenizer str = new StringTokenizer(line, split);
-				
-				while(str.hasMoreTokens()){
+
+				while (str.hasMoreTokens()) {
 					Pokemon.party_id.add(Integer.parseInt(str.nextToken()));
 					Pokemon.party_name.add(str.nextToken());
 					Pokemon.party_TOThp.add(Integer.parseInt(str.nextToken()));
@@ -51,43 +49,42 @@ public class LoadData {
 					Pokemon.party_special.add(Integer.parseInt(str.nextToken()));
 					Pokemon.party_total.add(Integer.parseInt(str.nextToken()));
 					tokenNumber++;
-			}
-			
-			lineNumber++;
-			tokenNumber = 0;
+				}
+				Pokemon.partyCounter++;
+				lineNumber++;
+				tokenNumber = 0;
 			}
 		}
-		
-		//If the above doesn't work, show an error
-		catch(FileNotFoundException e){
+
+		// If the above doesn't work, show an error
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-		//Once complete if the bufferedreader is not empty close it
-		finally{
-			if(bs != null){
-				try{
+		// Once complete if the bufferedreader is not empty close it
+		finally {
+			if (bs != null) {
+				try {
 					bs.close();
 				}
-				//else throw an exception
-				catch(IOException e){
+				// else throw an exception
+				catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
-	
-	void loadPokeArea(){
+
+	void loadPokeArea() {
 		file = "Area1.csv";
 		BufferedReader bs = null;
 		String line;
 		String split = ",";
 		int lineNumber = 0;
 		int tokenNumber = 0;
-		
-		try{
+
+		try {
 			bs = new BufferedReader(new FileReader(file));
 			Pokemon.p_name = new ArrayList<String>();
 			Pokemon.p_id = new ArrayList<Integer>();
@@ -99,15 +96,15 @@ public class LoadData {
 			Pokemon.p_speed = new ArrayList<Integer>();
 			Pokemon.p_special = new ArrayList<Integer>();
 			Pokemon.p_total = new ArrayList<Integer>();
-			
-			//Checks if string is empty
-			while((line = bs.readLine()) != null){
 
-				//Divides each line into Tokens
-				StringTokenizer st = new StringTokenizer(line,split);
-				//Pokemon.p_name.add(line);
-				
-				while(st.hasMoreTokens()){
+			// Checks if string is empty
+			while ((line = bs.readLine()) != null) {
+
+				// Divides each line into Tokens
+				StringTokenizer st = new StringTokenizer(line, split);
+				// Pokemon.p_name.add(line);
+
+				while (st.hasMoreTokens()) {
 					Pokemon.p_id.add(Integer.parseInt(st.nextToken()));
 					Pokemon.p_name.add(st.nextToken());
 					Pokemon.p_TOThp.add(Integer.parseInt(st.nextToken()));
@@ -118,27 +115,26 @@ public class LoadData {
 					Pokemon.p_special.add(Integer.parseInt(st.nextToken()));
 					Pokemon.p_total.add(Integer.parseInt(st.nextToken()));
 					tokenNumber++;
-			}
-			lineNumber++;
-			tokenNumber = 0;
+				}
+				lineNumber++;
+				tokenNumber = 0;
 			}
 		}
-		
-		//If the above doesn't work, show an error
-		catch(FileNotFoundException e){
+
+		// If the above doesn't work, show an error
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-		//Once complete if the bufferedreader is not empty close it
-		finally{
-			if(bs != null){
-				try{
+		// Once complete if the bufferedreader is not empty close it
+		finally {
+			if (bs != null) {
+				try {
 					bs.close();
 				}
-				//else throw an exception
-				catch(IOException e){
+				// else throw an exception
+				catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
