@@ -1,19 +1,23 @@
+import java.util.*;
 import processing.core.*;
 
 public class BattleScene {
 	Pokemon p5;
 	float Rectangle1X, Rectangle1Y, defaultRectangleX, defaultRectangleY;
 	float Rectangle1W, Rectangle1H, defaultRectangleW, defaultRectangleH;
+	public static int wildPokemon;
 	int poke_hp;
 	String poke;
+	public static int seconds, time, setTime;
 
 	BattleScene(Pokemon _p5) {
 		p5 = _p5;
+		time = seconds = 0;
 		defaultRectangleH = 170;
 		defaultRectangleX = 10;
 		defaultRectangleW = p5.width - 20;
 		defaultRectangleY = p5.height - (defaultRectangleH + 10);
-		Pokemon.wildPokemon = p5.floor(p5.random(0, 5));
+		wildPokemon = p5.floor(p5.random(0, 5));
 	}
 
 	void defaultDraw() {
@@ -23,9 +27,9 @@ public class BattleScene {
 		p5.stroke(0);
 		p5.fill(0);
 		// User Pokemon
-		p5.text(Pokemon.party_name.get(0), 620, 450);
+		p5.text(LoadData.party_name.get(0), 620, 450);
 		// Wild Pokemon
-		p5.text(Pokemon.p_name.get(Pokemon.wildPokemon), 40, 40);
+		p5.text(LoadData.p_name.get(wildPokemon), 40, 40);
 		p5.textSize(25);
 		p5.text("Lvl: " + " variable", 620, 480);
 		p5.text("HP: " + poke_hp, 620, 510);
@@ -118,5 +122,32 @@ public class BattleScene {
 
 	void throwBall() {
 
+	}
+
+	void resetTimer() {
+		seconds = time = 0;
+	}
+
+	void startTimer() {
+		if (seconds == 0) {
+			setTime = p5.floor(p5.random(5, 15));
+			seconds++;
+		}
+
+		if (InGame.map2.get(InGame.characterX, InGame.characterY) == -16711936) {
+			seconds++;
+		}
+
+		if (seconds == 60) {
+			seconds = seconds / 60;
+			time++;
+			System.out.println(time);
+			System.out.println(setTime);
+		}
+	}
+
+	void startBattle() {
+		Pokemon.battleView = true;
+		Pokemon.opt = 0;
 	}
 }

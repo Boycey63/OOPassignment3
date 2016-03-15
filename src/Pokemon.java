@@ -8,30 +8,6 @@ public class Pokemon extends PApplet {
 	BattleScene battlescene;
 	writeData writedata;
 
-	public static int characterX, characterY;
-	public static int wildPokemon;
-	public static int partyCounter;
-
-	public static ArrayList<Integer> p_id;
-	public static ArrayList<String> p_name;
-	public static ArrayList<Integer> p_TOThp;
-	public static ArrayList<Integer> p_ACThp;
-	public static ArrayList<Integer> p_attack;
-	public static ArrayList<Integer> p_defense;
-	public static ArrayList<Integer> p_speed;
-	public static ArrayList<Integer> p_special;
-	public static ArrayList<Integer> p_total;
-
-	public static ArrayList<String> party_name;
-	public static ArrayList<Integer> party_TOThp;
-	public static ArrayList<Integer> party_ACThp;
-	public static ArrayList<Integer> party_attack;
-	public static ArrayList<Integer> party_defense;
-	public static ArrayList<Integer> party_speed;
-	public static ArrayList<Integer> party_special;
-	public static ArrayList<Integer> party_total;
-	public static ArrayList<Integer> party_id;
-
 	public static int opt;
 	public static boolean walkingView;
 	public static boolean battleView;
@@ -48,7 +24,6 @@ public class Pokemon extends PApplet {
 		walkingView = false;
 		battleView = true;
 		opt = 0;
-		partyCounter = 0;
 		mouseX = 0;
 		mouseY = 0;
 		ingame = new InGame(this);
@@ -66,13 +41,18 @@ public class Pokemon extends PApplet {
 			ingame.displayMap();
 			ingame.displayCharacter();
 			ingame.keyPressed();
+			battlescene.startTimer();
+			
+			if(BattleScene.time == BattleScene.setTime){
+				battlescene.startBattle();
+				BattleScene.seconds = 0;
+			}
 		}
 
 		if (battleView == true) {
 			walkingView = false;
 			battlescene.defaultDraw();
 			if (opt == 0) {
-				// background(255,0,0);
 				battlescene.menu1();
 			}
 			if (opt == 1) {
