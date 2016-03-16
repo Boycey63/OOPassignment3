@@ -5,24 +5,24 @@ public class BattleScene {
 	Pokemon p5;
 	float Rectangle1X, Rectangle1Y, defaultRectangleX, defaultRectangleY;
 	float Rectangle1W, Rectangle1H, defaultRectangleW, defaultRectangleH;
+	public static int seconds, time, setTime;
 	public static int wildPokemon;
+	public static boolean resetTimer;
 	int poke_hp;
 	String poke;
-	public static int seconds, time, setTime;
 
 	BattleScene(Pokemon _p5) {
 		p5 = _p5;
+		resetTimer = true;
 		time = seconds = 0;
 		defaultRectangleH = 170;
 		defaultRectangleX = 10;
 		defaultRectangleW = p5.width - 20;
 		defaultRectangleY = p5.height - (defaultRectangleH + 10);
-		wildPokemon = p5.floor(p5.random(0, 5));
 	}
 
 	void defaultDraw() {
-		// poke_hp = Pokemon.p_ACThp.get(1);
-
+		p5.background(180);
 		p5.textSize(30);
 		p5.stroke(0);
 		p5.fill(0);
@@ -68,33 +68,35 @@ public class BattleScene {
 		if (p5.mouseX > (Rectangle1X) && p5.mouseX < (Rectangle1X + (Rectangle1W / 2)) && p5.mouseY > (Rectangle1Y)
 				&& p5.mouseY < (Rectangle1Y + Rectangle1H)) {
 			// if(mousePressed)
-			if (p5.key == 'e') {
-				// p5.background(0,0,0);
+			if (p5.mousePressed == true && Pokemon.opt == 0) {
 				Pokemon.opt = 1;
-				p5.mouseX = 0;
-				p5.mouseY = 0;
-				if (p5.mousePressed && Pokemon.opt == 1) {
-					// p5.background(0,255,0);
-					Pokemon.opt = 0;
-				}
+			}
+			if(p5.mousePressed == true && Pokemon.opt == 1){ 
+				Pokemon.opt = 0;
 			}
 		}
 		if (p5.mouseX > (Rectangle1X + (Rectangle1W / 2)) && p5.mouseX < (Rectangle1X + Rectangle1W)
 				&& p5.mouseY > (Rectangle1Y) && p5.mouseY < (Rectangle1Y + Rectangle1H)) {
-			Pokemon.opt = 2;
+			if (p5.mousePressed == true) {
+				Pokemon.opt = 2;
+			}
 		}
 
 		if (p5.mouseX > Rectangle1X && p5.mouseX < (Rectangle1X + (Rectangle1W / 2))
 				&& p5.mouseY > (Rectangle1Y + (Rectangle1H / 2)) && p5.mouseY < (Rectangle1Y + Rectangle1H)) {
-			Pokemon.opt = 3;
+			if (p5.mousePressed == true) {
+				Pokemon.opt = 3;
+			}
 		}
 		if (p5.mouseX > (Rectangle1X + (Rectangle1W / 2)) && p5.mouseX < (Rectangle1X + Rectangle1W)
 				&& p5.mouseY > (Rectangle1Y + (Rectangle1H / 2)) && p5.mouseY < (Rectangle1Y + Rectangle1H)) {
-			Pokemon.opt = 4;
+			if (p5.mousePressed == true) {
+				Pokemon.opt = 4;
+			}
 		}
 	}
 
-	void menu2() {
+	void attackMenu() {
 		Rectangle1H = 120;
 		Rectangle1W = 350;
 		Rectangle1X = p5.width / 7 + 59;
@@ -124,30 +126,31 @@ public class BattleScene {
 
 	}
 
-	void resetTimer() {
-		seconds = time = 0;
-	}
-
 	void startTimer() {
-		if (seconds == 0) {
-			setTime = p5.floor(p5.random(5, 15));
-			seconds++;
+		//Resets the timer, battle option and changes the next wild pokemon
+		if(resetTimer == true){
+			seconds = time = 0;
+			Pokemon.opt = 0;
+			//Randomly selects pokemon based on the possible pokemon in area
+			wildPokemon = p5.floor(p5.random(0, LoadData.areaCounter));
+			//Randomly set the time till the next battle
+			setTime = p5.floor(p5.random(2, 6));
+			//seconds++;
+			resetTimer = false;
 		}
+		seconds++;
 
-		if (InGame.map2.get(InGame.characterX, InGame.characterY) == -16711936) {
-			seconds++;
-		}
-
+		//Divides the default amount of frames by 60 to find seconds
 		if (seconds == 60) {
 			seconds = seconds / 60;
 			time++;
-			System.out.println(time);
-			System.out.println(setTime);
 		}
-	}
 
-	void startBattle() {
-		Pokemon.battleView = true;
-		Pokemon.opt = 0;
+		//Once time reaches the next battle time
+		if (time == setTime) {
+			Pokemon.battleView = true;
+			Pokemon.walkingView = false;
+			resetTimer = true;
+		}
 	}
 }

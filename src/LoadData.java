@@ -30,9 +30,9 @@ public class LoadData {
 	public static ArrayList<Integer> party_id;
 
 	public static int partyCounter;
+	public static int areaCounter;
 	
 	LoadData() {
-		partyCounter = 0;
 	}
 
 	void loadParty() {
@@ -42,6 +42,7 @@ public class LoadData {
 		String split = ",";
 		int lineNumber = 0;
 		int tokenNumber = 0;
+		partyCounter = 0;
 
 		try {
 			bs = new BufferedReader(new FileReader(file));
@@ -61,6 +62,7 @@ public class LoadData {
 				// Divides each line into Tokens
 				StringTokenizer str = new StringTokenizer(line, split);
 
+				//Converts string values and stores into arraylists
 				while (str.hasMoreTokens()) {
 					party_id.add(Integer.parseInt(str.nextToken()));
 					party_name.add(str.nextToken());
@@ -73,6 +75,7 @@ public class LoadData {
 					party_total.add(Integer.parseInt(str.nextToken()));
 					tokenNumber++;
 				}
+				//Counts how many pokemon in the party
 				partyCounter++;
 				lineNumber++;
 				tokenNumber = 0;
@@ -106,6 +109,8 @@ public class LoadData {
 		String split = ",";
 		int lineNumber = 0;
 		int tokenNumber = 0;
+		areaCounter = -1;
+		
 
 		try {
 			bs = new BufferedReader(new FileReader(file));
@@ -125,8 +130,8 @@ public class LoadData {
 
 				// Divides each line into Tokens
 				StringTokenizer st = new StringTokenizer(line, split);
-				// Pokemon.p_name.add(line);
 
+				//Converts string values and stores into arraylists
 				while (st.hasMoreTokens()) {
 					p_id.add(Integer.parseInt(st.nextToken()));
 					p_name.add(st.nextToken());
@@ -139,6 +144,8 @@ public class LoadData {
 					p_total.add(Integer.parseInt(st.nextToken()));
 					tokenNumber++;
 				}
+				//Counts how many pokemon in area
+				areaCounter++;
 				lineNumber++;
 				tokenNumber = 0;
 			}
