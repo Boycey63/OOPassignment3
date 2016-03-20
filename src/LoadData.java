@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 public class LoadData {
 	Pokemon p5;
 	String file;
-	
+
 	public static ArrayList<Integer> p_id;
 	public static ArrayList<String> p_name;
 	public static ArrayList<Integer> p_TOThp;
@@ -31,21 +31,24 @@ public class LoadData {
 
 	public static int partyCounter;
 	public static int areaCounter;
-	
+
 	LoadData() {
+	}
+
+	void loadALL() {
+		loadParty();
+		loadPokeArea();
 	}
 
 	void loadParty() {
 		file = "Party.csv";
-		BufferedReader bs = null;
+		BufferedReader br = null;
 		String line;
 		String split = ",";
-		int lineNumber = 0;
-		int tokenNumber = 0;
 		partyCounter = 0;
 
 		try {
-			bs = new BufferedReader(new FileReader(file));
+			br = new BufferedReader(new FileReader(file));
 
 			party_name = new ArrayList<String>();
 			party_TOThp = new ArrayList<Integer>();
@@ -58,11 +61,11 @@ public class LoadData {
 			party_id = new ArrayList<Integer>();
 
 			// Checks if string is empty
-			while ((line = bs.readLine()) != null) {
+			while ((line = br.readLine()) != null) {
 				// Divides each line into Tokens
 				StringTokenizer str = new StringTokenizer(line, split);
 
-				//Converts string values and stores into arraylists
+				// Converts string values and stores into arraylists
 				while (str.hasMoreTokens()) {
 					party_id.add(Integer.parseInt(str.nextToken()));
 					party_name.add(str.nextToken());
@@ -73,12 +76,9 @@ public class LoadData {
 					party_speed.add(Integer.parseInt(str.nextToken()));
 					party_special.add(Integer.parseInt(str.nextToken()));
 					party_total.add(Integer.parseInt(str.nextToken()));
-					tokenNumber++;
 				}
-				//Counts how many pokemon in the party
+				// Counts how many pokemon in the party
 				partyCounter++;
-				lineNumber++;
-				tokenNumber = 0;
 			}
 		}
 
@@ -90,9 +90,9 @@ public class LoadData {
 		}
 		// Once complete if the bufferedreader is not empty close it
 		finally {
-			if (bs != null) {
+			if (br != null) {
 				try {
-					bs.close();
+					br.close();
 				}
 				// else throw an exception
 				catch (IOException e) {
@@ -104,16 +104,13 @@ public class LoadData {
 
 	void loadPokeArea() {
 		file = "Area1.csv";
-		BufferedReader bs = null;
-		String line;
+		BufferedReader br = null;
+		String line = "";
 		String split = ",";
-		int lineNumber = 0;
-		int tokenNumber = 0;
 		areaCounter = -1;
-		
 
 		try {
-			bs = new BufferedReader(new FileReader(file));
+			br = new BufferedReader(new FileReader(file));
 			p_name = new ArrayList<String>();
 			p_id = new ArrayList<Integer>();
 			p_name = new ArrayList<String>();
@@ -126,12 +123,12 @@ public class LoadData {
 			p_total = new ArrayList<Integer>();
 
 			// Checks if string is empty
-			while ((line = bs.readLine()) != null) {
+			while ((line = br.readLine()) != null) {
 
 				// Divides each line into Tokens
 				StringTokenizer st = new StringTokenizer(line, split);
-
-				//Converts string values and stores into arraylists
+				// System.out.println(line);
+				// Converts string values and stores into arraylists
 				while (st.hasMoreTokens()) {
 					p_id.add(Integer.parseInt(st.nextToken()));
 					p_name.add(st.nextToken());
@@ -142,12 +139,9 @@ public class LoadData {
 					p_speed.add(Integer.parseInt(st.nextToken()));
 					p_special.add(Integer.parseInt(st.nextToken()));
 					p_total.add(Integer.parseInt(st.nextToken()));
-					tokenNumber++;
 				}
-				//Counts how many pokemon in area
+				// Counts how many pokemon in area
 				areaCounter++;
-				lineNumber++;
-				tokenNumber = 0;
 			}
 		}
 
@@ -159,9 +153,52 @@ public class LoadData {
 		}
 		// Once complete if the bufferedreader is not empty close it
 		finally {
-			if (bs != null) {
+			if (br != null) {
 				try {
-					bs.close();
+					br.close();
+				}
+				// else throw an exception
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	void loadSaveGame() {
+		file = "SavedGame.csv";
+		BufferedReader br = null;
+		String line;
+		String split = ",";
+
+		try {
+			br = new BufferedReader(new FileReader(file));
+
+			while ((line = br.readLine()) != null) {
+
+				StringTokenizer st = new StringTokenizer(line, split);
+
+				while (st.hasMoreTokens()) {
+					//Sets location of background image + x and y of character
+					InGame.location = (Integer.parseInt(st.nextToken()));
+					InGame.characterX = (Integer.parseInt(st.nextToken()));
+					InGame.characterY = (Integer.parseInt(st.nextToken()));
+				}
+			}
+		}
+
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		finally {
+			if (br != null) {
+				try {
+					br.close();
 				}
 				// else throw an exception
 				catch (IOException e) {

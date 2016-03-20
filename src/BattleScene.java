@@ -71,7 +71,7 @@ public class BattleScene {
 			if (p5.mousePressed == true && Pokemon.opt == 0) {
 				Pokemon.opt = 1;
 			}
-			if(p5.mousePressed == true && Pokemon.opt == 1){ 
+			if (p5.mousePressed == true && Pokemon.opt == 1) {
 				Pokemon.opt = 0;
 			}
 		}
@@ -127,26 +127,26 @@ public class BattleScene {
 	}
 
 	void startTimer() {
-		//Resets the timer, battle option and changes the next wild pokemon
-		if(resetTimer == true){
+		// Resets the timer, battle option and changes the next wild pokemon
+		if (resetTimer == true) {
 			seconds = time = 0;
 			Pokemon.opt = 0;
-			//Randomly selects pokemon based on the possible pokemon in area
+			// Randomly selects pokemon based on the possible pokemon in area
 			wildPokemon = p5.floor(p5.random(0, LoadData.areaCounter));
-			//Randomly set the time till the next battle
-			setTime = p5.floor(p5.random(2, 6));
-			//seconds++;
+			// Randomly set the time till the next battle
+			setTime = p5.floor(p5.random(1, 4));
+			// seconds++;
 			resetTimer = false;
 		}
 		seconds++;
 
-		//Divides the default amount of frames by 60 to find seconds
+		// Divides the default amount of frames by 60 to find seconds
 		if (seconds == 60) {
 			seconds = seconds / 60;
 			time++;
 		}
 
-		//Once time reaches the next battle time
+		// Once time reaches the next battle time
 		if (time == setTime) {
 			Pokemon.battleView = true;
 			Pokemon.walkingView = false;

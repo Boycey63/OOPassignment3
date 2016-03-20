@@ -6,26 +6,27 @@ class InGame {
 	public static PImage map2;
 	PImage character;
 	int x, y;
-	int radius, step, location;
+	int radius, step;
+	public static int location;
 	int black, white, backColour;
 	public static int green;
 	Pokemon p5;
-	String[] background = new String[20];
+	public static String[] background = new String[20];
 	String[] movement = new String[20];
 
 	InGame(Pokemon _p5) {
 		p5 = _p5;
-		location = 2;
 		x = y = 0;
+		location = 2;
 		characterX = p5.width / 2;
 		characterY = p5.height * 3 / 4;
 		radius = 30;
-		step = 10;
+		step = 7;
 		black = 0;
 		white = -1;
 		green = -16711936;
-		
-		//Initializes the image array
+
+		// Initializes the image array
 		background[0] = "Pallet Town2B.png";
 		background[1] = "Pallet Town2F.png";
 		background[2] = "Pallet Town1B.png";
@@ -40,17 +41,13 @@ class InGame {
 		background[11] = ".png";
 		background[12] = ".png";
 
-		//Set background image
-		map2 = p5.loadImage(background[location]);
-		map1 = p5.loadImage(background[location + 1]);
-		
-		//Initializes movement array
+		// Initializes movement array
 		movement[0] = "down1.png";
 		movement[1] = "left3.png";
 		movement[2] = "right3.png";
 		movement[3] = "up3.png";
 
-		//Set movement image
+		// Set movement image
 		character = p5.loadImage(movement[0]);
 	}
 
