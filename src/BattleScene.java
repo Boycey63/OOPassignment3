@@ -1,20 +1,19 @@
-import java.util.*;
-import processing.core.*;
-
 public class BattleScene {
-	Pokemon p5;
+	static Pokemon p5;
 	float Rectangle1X, Rectangle1Y, defaultRectangleX, defaultRectangleY;
 	float Rectangle1W, Rectangle1H, defaultRectangleW, defaultRectangleH;
 	public static int seconds, time, setTime;
 	public static int wildPokemon;
+	public static int wildTotHP, wildActHP, wildAttack, wildDefense, wildSpeed, wildSpecial, wildTotal;
 	public static boolean resetTimer;
+	public static int opt;
 	int poke_hp;
 	String poke;
 
 	BattleScene(Pokemon _p5) {
 		p5 = _p5;
 		resetTimer = true;
-		time = seconds = 0;
+		time = seconds = opt = 0;
 		defaultRectangleH = 170;
 		defaultRectangleX = 10;
 		defaultRectangleW = p5.width - 20;
@@ -56,10 +55,10 @@ public class BattleScene {
 
 		p5.textSize(20);
 		p5.fill(0);
-		if (Pokemon.opt == 0) {
+		if (opt == 0) {
 			p5.text("Fight", Rectangle1X + (Rectangle1W / 4) - 60, Rectangle1Y + (Rectangle1H / 4));
 		}
-		if (Pokemon.opt == 1) {
+		if (opt == 1) {
 			p5.text("Back", Rectangle1X + (Rectangle1W / 4) - 60, Rectangle1Y + (Rectangle1H / 4));
 		}
 		p5.text("Pokemon", Rectangle1X + (Rectangle1W * 3 / 4) - 60, Rectangle1Y + (Rectangle1H / 4));
@@ -68,30 +67,30 @@ public class BattleScene {
 		if (p5.mouseX > (Rectangle1X) && p5.mouseX < (Rectangle1X + (Rectangle1W / 2)) && p5.mouseY > (Rectangle1Y)
 				&& p5.mouseY < (Rectangle1Y + Rectangle1H)) {
 			// if(mousePressed)
-			if (p5.mousePressed == true && Pokemon.opt == 0) {
-				Pokemon.opt = 1;
+			if (p5.mousePressed == true && opt == 0) {
+				opt = 1;
 			}
-			if (p5.mousePressed == true && Pokemon.opt == 1) {
-				Pokemon.opt = 0;
+			if (p5.mousePressed == true && opt == 1) {
+				opt = 0;
 			}
 		}
 		if (p5.mouseX > (Rectangle1X + (Rectangle1W / 2)) && p5.mouseX < (Rectangle1X + Rectangle1W)
 				&& p5.mouseY > (Rectangle1Y) && p5.mouseY < (Rectangle1Y + Rectangle1H)) {
 			if (p5.mousePressed == true) {
-				Pokemon.opt = 2;
+				opt = 2;
 			}
 		}
 
 		if (p5.mouseX > Rectangle1X && p5.mouseX < (Rectangle1X + (Rectangle1W / 2))
 				&& p5.mouseY > (Rectangle1Y + (Rectangle1H / 2)) && p5.mouseY < (Rectangle1Y + Rectangle1H)) {
 			if (p5.mousePressed == true) {
-				Pokemon.opt = 3;
+				opt = 3;
 			}
 		}
 		if (p5.mouseX > (Rectangle1X + (Rectangle1W / 2)) && p5.mouseX < (Rectangle1X + Rectangle1W)
 				&& p5.mouseY > (Rectangle1Y + (Rectangle1H / 2)) && p5.mouseY < (Rectangle1Y + Rectangle1H)) {
 			if (p5.mousePressed == true) {
-				Pokemon.opt = 4;
+				opt = 4;
 			}
 		}
 	}
@@ -126,20 +125,27 @@ public class BattleScene {
 
 	}
 
-	void startTimer() {
+	public static void startTimer() {
 		// Resets the timer, battle option and changes the next wild pokemon
 		if (resetTimer == true) {
 			seconds = time = 0;
-			Pokemon.opt = 0;
+			opt = 0;
 			// Randomly selects pokemon based on the possible pokemon in area
 			wildPokemon = p5.floor(p5.random(0, LoadData.areaCounter));
+			wildActHP = (LoadData.p_ACThp.get(BattleScene.wildPokemon) + p5.floor(p5.random(1, 15)));
+			wildTotHP = wildActHP;
+			wildAttack = (LoadData.p_attack.get(BattleScene.wildPokemon) + p5.floor(p5.random(1, 15)));
+			wildDefense = (LoadData.p_defense.get(BattleScene.wildPokemon) + p5.floor(p5.random(1, 15)));
+			wildSpeed = (LoadData.p_speed.get(BattleScene.wildPokemon) + p5.floor(p5.random(1, 15)));
+			wildSpecial = (LoadData.p_special.get(BattleScene.wildPokemon) + p5.floor(p5.random(1, 15)));
+			wildTotal = wildTotHP + wildAttack + wildDefense + wildSpeed + wildSpecial;
 			// Randomly set the time till the next battle
 			setTime = p5.floor(p5.random(1, 4));
 			// seconds++;
 			resetTimer = false;
 		}
 		seconds++;
-
+		
 		// Divides the default amount of frames by 60 to find seconds
 		if (seconds == 60) {
 			seconds = seconds / 60;
@@ -150,6 +156,40 @@ public class BattleScene {
 		if (time == setTime) {
 			Pokemon.battleView = true;
 			Pokemon.walkingView = false;
+			resetTimer = true;
+		}
+	}
+	
+	void runBattleScene(){
+		defaultDraw();
+
+		// Displays default battle menu
+		if (opt == 0) {
+			menu1();
+		}
+		// Opt variable changes the Battle option
+		// Displays attack menu
+		if (opt == 1) {
+			menu1();
+			attackMenu();
+		}
+
+		// Displays party menu
+		if (opt == 2) {
+			partyMenu();
+		}
+
+		// Possibly catches pokemon and changes to walk mode
+		if (opt == 3) {
+			throwBall();
+			writeData.addToParty();
+			LoadData.loadParty();
+			BattleScene.resetTimer = true;
+			Pokemon.walkingView = true;
+		}
+		// Possibly runs from pokemon
+		if (opt == 4) {
+			Pokemon.walkingView = true;
 			resetTimer = true;
 		}
 	}

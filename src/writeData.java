@@ -5,13 +5,13 @@ import java.io.File;
 
 public class writeData {
 	String file;
-	int partySize;
+	public static int partySize;
 
 	writeData() {
 		partySize = 6;
 	}
 
-	void addToParty() {
+	public static void addToParty() {
 		BufferedWriter bw = null;
 
 		try {
@@ -47,15 +47,16 @@ public class writeData {
 			// If there is less than six in party will write new pokemon
 			if (LoadData.partyCounter < partySize) {
 				StringBuilder makeLine = new StringBuilder();
+				//wildTotHP, wildActHP, wildAttack, wildDefense, wildSpeed, wildSpecial
 				makeLine.append(LoadData.p_id.get(LoadData.partyCounter) + ",");
 				makeLine.append(LoadData.p_name.get(BattleScene.wildPokemon) + ",");
-				makeLine.append(LoadData.p_TOThp.get(BattleScene.wildPokemon) + ",");
-				makeLine.append(LoadData.p_ACThp.get(BattleScene.wildPokemon) + ",");
-				makeLine.append(LoadData.p_attack.get(BattleScene.wildPokemon) + ",");
-				makeLine.append(LoadData.p_defense.get(BattleScene.wildPokemon) + ",");
-				makeLine.append(LoadData.p_speed.get(BattleScene.wildPokemon) + ",");
-				makeLine.append(LoadData.p_special.get(BattleScene.wildPokemon) + ",");
-				makeLine.append(LoadData.p_total.get(BattleScene.wildPokemon) + "");
+				makeLine.append(BattleScene.wildTotHP + ",");
+				makeLine.append(BattleScene.wildActHP + ",");
+				makeLine.append(BattleScene.wildAttack + ",");
+				makeLine.append(BattleScene.wildDefense + ",");
+				makeLine.append(BattleScene.wildSpeed + ",");
+				makeLine.append(BattleScene.wildSpecial + ",");
+				makeLine.append(BattleScene.wildTotal + "");
 				System.out.println("You caught : " + LoadData.p_name.get(BattleScene.wildPokemon));
 
 				String newLine = makeLine.toString();
@@ -80,8 +81,12 @@ public class writeData {
 			}
 		}
 	}
+	
+	public static void newParty(){
+		//write pokemon to party
+	}
 
-	void saveGame() {
+	public static void saveGame() {
 		BufferedWriter bw = null;
 
 		try {
@@ -98,7 +103,8 @@ public class writeData {
 			StringBuilder makeLine = new StringBuilder();
 			makeLine.append(InGame.location + ",");
 			makeLine.append(InGame.characterX + ",");
-			makeLine.append(InGame.characterY);
+			makeLine.append(InGame.characterY + ",");
+			makeLine.append(InGame.tempMovement);
 
 			String newLine = makeLine.toString();
 

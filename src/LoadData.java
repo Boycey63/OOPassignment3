@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 public class LoadData {
 	Pokemon p5;
-	String file;
+	public static String file;
 
 	public static ArrayList<Integer> p_id;
 	public static ArrayList<String> p_name;
@@ -19,6 +19,7 @@ public class LoadData {
 	public static ArrayList<Integer> p_special;
 	public static ArrayList<Integer> p_total;
 
+	public static ArrayList<Integer> party_id;
 	public static ArrayList<String> party_name;
 	public static ArrayList<Integer> party_TOThp;
 	public static ArrayList<Integer> party_ACThp;
@@ -27,7 +28,16 @@ public class LoadData {
 	public static ArrayList<Integer> party_speed;
 	public static ArrayList<Integer> party_special;
 	public static ArrayList<Integer> party_total;
-	public static ArrayList<Integer> party_id;
+	
+	public static ArrayList<Integer> start_id;
+	public static ArrayList<String> start_name;
+	public static ArrayList<Integer> start_TOThp;
+	public static ArrayList<Integer> start_ACThp;
+	public static ArrayList<Integer> start_attack;
+	public static ArrayList<Integer> start_defense;
+	public static ArrayList<Integer> start_speed;
+	public static ArrayList<Integer> start_special;
+	public static ArrayList<Integer> start_total;
 
 	public static int partyCounter;
 	public static int areaCounter;
@@ -40,7 +50,7 @@ public class LoadData {
 		loadPokeArea();
 	}
 
-	void loadParty() {
+	public static void loadParty() {
 		file = "Party.csv";
 		BufferedReader br = null;
 		String line;
@@ -164,6 +174,66 @@ public class LoadData {
 			}
 		}
 	}
+	
+	void loadStartPokemon(){
+		file = "Starters.csv";
+		BufferedReader br = null;
+		String line = "";
+		String split = ",";
+
+		try {
+			br = new BufferedReader(new FileReader(file));
+			start_name = new ArrayList<String>();
+			start_id = new ArrayList<Integer>();
+			start_name = new ArrayList<String>();
+			start_TOThp = new ArrayList<Integer>();
+			start_ACThp = new ArrayList<Integer>();
+			start_attack = new ArrayList<Integer>();
+			start_defense = new ArrayList<Integer>();
+			start_speed = new ArrayList<Integer>();
+			start_special = new ArrayList<Integer>();
+			start_total = new ArrayList<Integer>();
+
+			// Checks if string is empty
+			while ((line = br.readLine()) != null) {
+
+				// Divides each line into Tokens
+				StringTokenizer st = new StringTokenizer(line, split);
+				// System.out.println(line);
+				// Converts string values and stores into arraylists
+				while (st.hasMoreTokens()) {
+					start_id.add(Integer.parseInt(st.nextToken()));
+					start_name.add(st.nextToken());
+					start_TOThp.add(Integer.parseInt(st.nextToken()));
+					start_ACThp.add(Integer.parseInt(st.nextToken()));
+					start_attack.add(Integer.parseInt(st.nextToken()));
+					start_defense.add(Integer.parseInt(st.nextToken()));
+					start_speed.add(Integer.parseInt(st.nextToken()));
+					start_special.add(Integer.parseInt(st.nextToken()));
+					start_total.add(Integer.parseInt(st.nextToken()));
+				}
+			}
+		}
+
+		// If the above doesn't work, show an error
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// Once complete if the bufferedreader is not empty close it
+		finally {
+			if (br != null) {
+				try {
+					br.close();
+				}
+				// else throw an exception
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
 	void loadSaveGame() {
 		file = "SavedGame.csv";
@@ -183,6 +253,7 @@ public class LoadData {
 					InGame.location = (Integer.parseInt(st.nextToken()));
 					InGame.characterX = (Integer.parseInt(st.nextToken()));
 					InGame.characterY = (Integer.parseInt(st.nextToken()));
+					InGame.tempMovement = (Integer.parseInt(st.nextToken()));
 				}
 			}
 		}
