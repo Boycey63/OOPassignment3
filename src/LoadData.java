@@ -45,7 +45,7 @@ public class LoadData {
 	LoadData() {
 	}
 
-	void loadALL() {
+	public static void loadALL() {
 		loadParty();
 		loadPokeArea();
 	}
@@ -112,7 +112,7 @@ public class LoadData {
 		}
 	}
 
-	void loadPokeArea() {
+	public static void loadPokeArea() {
 		file = "Area1.csv";
 		BufferedReader br = null;
 		String line = "";
@@ -175,7 +175,7 @@ public class LoadData {
 		}
 	}
 	
-	void loadStartPokemon(){
+	public static void loadStartPokemon(){
 		file = "Starters.csv";
 		BufferedReader br = null;
 		String line = "";

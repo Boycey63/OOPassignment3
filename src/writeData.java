@@ -47,7 +47,8 @@ public class writeData {
 			// If there is less than six in party will write new pokemon
 			if (LoadData.partyCounter < partySize) {
 				StringBuilder makeLine = new StringBuilder();
-				//wildTotHP, wildActHP, wildAttack, wildDefense, wildSpeed, wildSpecial
+				// wildTotHP, wildActHP, wildAttack, wildDefense, wildSpeed,
+				// wildSpecial
 				makeLine.append(LoadData.p_id.get(LoadData.partyCounter) + ",");
 				makeLine.append(LoadData.p_name.get(BattleScene.wildPokemon) + ",");
 				makeLine.append(BattleScene.wildTotHP + ",");
@@ -81,9 +82,53 @@ public class writeData {
 			}
 		}
 	}
-	
-	public static void newParty(){
-		//write pokemon to party
+
+	public static void newParty() {
+		// write pokemon to party
+		BufferedWriter bw = null;
+
+		try {
+			File file = new File("Party.csv");
+
+			// Checks if file exists and if not creates the file
+			if (!file.exists()) {
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			FileWriter fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
+
+			StringBuilder makeLine = new StringBuilder();
+
+			makeLine.append(LoadData.start_id.get(LoadData.partyCounter) + ",");
+			makeLine.append(LoadData.start_name.get(MainMenu.chosenPok) + ",");
+			makeLine.append(LoadData.start_TOThp.get(MainMenu.chosenPok) + ",");
+			makeLine.append(LoadData.start_ACThp.get(MainMenu.chosenPok) + ",");
+			makeLine.append(LoadData.start_attack.get(MainMenu.chosenPok) + ",");
+			makeLine.append(LoadData.start_defense.get(MainMenu.chosenPok) + ",");
+			makeLine.append(LoadData.start_speed.get(MainMenu.chosenPok) + ",");
+			makeLine.append(LoadData.start_special.get(MainMenu.chosenPok) + ",");
+			makeLine.append(LoadData.start_total.get(MainMenu.chosenPok) + "");
+
+			String newLine = makeLine.toString();
+
+			bw.write(newLine);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (bw != null)
+					bw.close();
+			} catch (Exception ex) {
+				System.out.println("Error in closing the BufferedWriter" + ex);
+			}
+		}
 	}
 
 	public static void saveGame() {
