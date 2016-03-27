@@ -1,3 +1,4 @@
+
 //Set pokemon stats
 
 import processing.core.*;
@@ -31,12 +32,14 @@ public class Pokemon extends PApplet {
 		writedata = new writeData();
 		battlescene = new BattleScene(this);
 		mainMenu = new MainMenu(this);
+		loadData.loadPokeArea();
+		loadData.loadParty();
 		loadData.loadSaveGame();
 
 		// Set saved background image
 		InGame.map2 = loadImage(InGame.background[InGame.location]);
 		InGame.map1 = loadImage(InGame.background[InGame.location + 1]);
-		InGame.character = loadImage(InGame.movement[InGame.tempMovement]);	
+		InGame.character = loadImage(InGame.movement[InGame.tempMovement]);
 	}
 
 	public void draw() {
@@ -50,8 +53,8 @@ public class Pokemon extends PApplet {
 			walkingView = mainmenu = false;
 			battlescene.runBattleScene();
 		}
-		
-		if (mainmenu == true){
+
+		if (mainmenu == true) {
 			battleView = walkingView = false;
 			mainMenu.gameMenu();
 		}

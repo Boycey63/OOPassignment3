@@ -24,15 +24,11 @@ public class MainMenu {
 
 		if (p5.key == p5.ENTER) {
 			Pokemon.walkingView = true;
+			System.out.println(LoadData.party_name.get(0));
 			p5.key = 'm';
 		}
 
 		if (p5.key == p5.TAB) {
-			File file = new File("party.csv");
-			if (file.exists()) {
-				file.delete();
-			}
-			System.out.println("File deleted");
 			newGame = true;
 		}
 
@@ -46,40 +42,53 @@ public class MainMenu {
 		}
 	}
 
+	void deleteFile() {
+		File file = new File("party.csv");
+		if (file.exists()) {
+			file.delete();
+		}
+		System.out.println("File deleted");
+	}
+
+	void resetLocation() {
+		InGame.location = 2;
+		InGame.characterX = 304;
+		InGame.characterY = 413;
+		InGame.tempMovement = 0;
+		InGame.character = p5.loadImage(InGame.movement[InGame.tempMovement]);
+	}
+
 	void keyPressed() {
 		if (newGame == true) {
 			if (p5.key == '1') {
-				System.out.println("Done");
+				deleteFile();
+				resetLocation();
 				chosenPok = 0;
-				LoadData.loadStartPokemon();
 				writeData.newParty();
-				LoadData.loadALL();
+				LoadData.loadParty();
+				System.out.println("CheckPoint");
 				Pokemon.walkingView = true;
 			}
 
 			if (p5.key == '2') {
-				System.out.println("Done");
+				deleteFile();
+				resetLocation();
 				chosenPok = 1;
-				LoadData.loadStartPokemon();
 				writeData.newParty();
-				LoadData.loadALL();
+				LoadData.loadParty();
+				System.out.println("CheckPoint");
 				Pokemon.walkingView = true;
 			}
 
 			if (p5.key == '3') {
-				System.out.println("Done");
+				deleteFile();
+				resetLocation();
 				chosenPok = 2;
-				LoadData.loadStartPokemon();
 				writeData.newParty();
-				LoadData.loadALL();
+				LoadData.loadParty();
+				System.out.println("CheckPoint");
 				Pokemon.walkingView = true;
 			}
 		}
 	}
 }
-//Reset Position of character
-
-//InGame.location = 2;
-//InGame.characterX = 304;
-//InGame.characterY = 413;
-//InGame.tempMovement = 0;

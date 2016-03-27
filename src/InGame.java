@@ -17,10 +17,6 @@ class InGame {
 
 	InGame(Pokemon _p5) {
 		p5 = _p5;
-		location = 2;
-		characterX = 304;
-		characterY = 413;
-		radius = 30;
 		step = 7;
 		black = 0;
 		white = -1;
@@ -50,7 +46,7 @@ class InGame {
 
 	void displayMap() {
 		// Bottom
-		p5.image(map2 , 0, 0);
+		p5.image(map2, 0, 0);
 
 		// Top
 		p5.image(map1, 0, 0);
@@ -153,9 +149,9 @@ class InGame {
 			p5.key = 'm';
 		}
 	}
-	
-	void runInGame(){
-		//Saves and exits program
+
+	void runInGame() {
+		// Saves and exits program
 		if (p5.key == 'z') {
 			writeData.saveGame();
 			System.out.println("Location = " + InGame.location);
@@ -171,7 +167,10 @@ class InGame {
 		keyPressed();
 
 		// If character is inside green start timer
-		if (InGame.map2.get(InGame.characterX, InGame.characterY) == InGame.green  || InGame.map2.get(InGame.topR, InGame.characterY) == InGame.green || InGame.map2.get(InGame.characterX, InGame.bottomL) == InGame.green || InGame.map2.get(InGame.topR, InGame.bottomL) == InGame.green) {
+		if (InGame.map2.get(InGame.characterX, InGame.characterY) == InGame.green
+				|| InGame.map2.get(InGame.topR, InGame.characterY) == InGame.green
+				|| InGame.map2.get(InGame.characterX, InGame.bottomL) == InGame.green
+				|| InGame.map2.get(InGame.topR, InGame.bottomL) == InGame.green) {
 			BattleScene.startTimer();
 		}
 	}

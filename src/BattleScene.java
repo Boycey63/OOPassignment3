@@ -131,7 +131,9 @@ public class BattleScene {
 			seconds = time = 0;
 			opt = 0;
 			// Randomly selects pokemon based on the possible pokemon in area
+			// Set base stats of the pokemon
 			wildPokemon = p5.floor(p5.random(0, LoadData.areaCounter));
+			System.out.println(LoadData.p_name.get(wildPokemon));
 			wildActHP = (LoadData.p_ACThp.get(BattleScene.wildPokemon) + p5.floor(p5.random(1, 15)));
 			wildTotHP = wildActHP;
 			wildAttack = (LoadData.p_attack.get(BattleScene.wildPokemon) + p5.floor(p5.random(1, 15)));
@@ -141,11 +143,10 @@ public class BattleScene {
 			wildTotal = wildTotHP + wildAttack + wildDefense + wildSpeed + wildSpecial;
 			// Randomly set the time till the next battle
 			setTime = p5.floor(p5.random(1, 4));
-			// seconds++;
 			resetTimer = false;
 		}
 		seconds++;
-		
+
 		// Divides the default amount of frames by 60 to find seconds
 		if (seconds == 60) {
 			seconds = seconds / 60;
@@ -159,8 +160,8 @@ public class BattleScene {
 			resetTimer = true;
 		}
 	}
-	
-	void runBattleScene(){
+
+	void runBattleScene() {
 		defaultDraw();
 
 		// Displays default battle menu

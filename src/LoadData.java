@@ -28,7 +28,7 @@ public class LoadData {
 	public static ArrayList<Integer> party_speed;
 	public static ArrayList<Integer> party_special;
 	public static ArrayList<Integer> party_total;
-	
+
 	public static ArrayList<Integer> start_id;
 	public static ArrayList<String> start_name;
 	public static ArrayList<Integer> start_TOThp;
@@ -43,11 +43,6 @@ public class LoadData {
 	public static int areaCounter;
 
 	LoadData() {
-	}
-
-	public static void loadALL() {
-		loadParty();
-		loadPokeArea();
 	}
 
 	public static void loadParty() {
@@ -174,8 +169,8 @@ public class LoadData {
 			}
 		}
 	}
-	
-	public static void loadStartPokemon(){
+
+	public static void loadStartPokemon() {
 		file = "Starters.csv";
 		BufferedReader br = null;
 		String line = "";
@@ -249,7 +244,7 @@ public class LoadData {
 				StringTokenizer st = new StringTokenizer(line, split);
 
 				while (st.hasMoreTokens()) {
-					//Sets location of background image + x and y of character
+					// Sets location of background image + x and y of character
 					InGame.location = (Integer.parseInt(st.nextToken()));
 					InGame.characterX = (Integer.parseInt(st.nextToken()));
 					InGame.characterY = (Integer.parseInt(st.nextToken()));
