@@ -9,7 +9,7 @@ class InGame {
 	public static PImage character;
 	int radius, step;
 	public static int location;
-	int black, white, backColour;
+	int black, white;
 	public static int green;
 	public static String[] background = new String[20];
 	public static String[] movement = new String[20];

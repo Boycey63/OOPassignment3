@@ -4,16 +4,18 @@ import java.io.BufferedWriter;
 import java.io.File;
 
 public class writeData {
+	static Pokemon p5;
 	String file;
 	public static int partySize;
 
-	writeData() {
+	writeData(Pokemon _p5) {
+		p5 = _p5;
 		partySize = 6;
 	}
 
 	public static void addToParty() {
 		BufferedWriter bw = null;
-
+		
 		try {
 			File file = new File("Party.csv");
 
@@ -24,7 +26,6 @@ public class writeData {
 
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
-
 			// Writes previous party into new file
 			// Goes through arraylists with for loop
 			for (int i = 0; i < LoadData.partyCounter; i++) {
@@ -36,9 +37,21 @@ public class writeData {
 				createLine.append(LoadData.party_attack.get(i) + ",");
 				createLine.append(LoadData.party_defense.get(i) + ",");
 				createLine.append(LoadData.party_speed.get(i) + ",");
-				createLine.append(LoadData.party_special.get(i) + ",");
 				createLine.append(LoadData.party_total.get(i) + ",");
-				createLine.append(LoadData.party_xp.get(i) + "");
+				createLine.append(LoadData.party_xp.get(i) + ",");
+				createLine.append(LoadData.party_lvl.get(i) + ",");
+				createLine.append(LoadData.name_move1.get(i) + ",");
+				createLine.append(LoadData.PP_move1.get(i) + ",");
+				createLine.append(LoadData.attPower_move1.get(i) + ",");
+				createLine.append(LoadData.name_move2.get(i) + ",");
+				createLine.append(LoadData.PP_move2.get(i) + ",");
+				createLine.append(LoadData.attPower_move2.get(i) + ",");
+				createLine.append(LoadData.name_move3.get(i) + ",");
+				createLine.append(LoadData.PP_move3.get(i) + ",");
+				createLine.append(LoadData.attPower_move3.get(i) + ",");
+				createLine.append(LoadData.name_move4.get(i) + ",");
+				createLine.append(LoadData.PP_move4.get(i) + ",");
+				createLine.append(LoadData.attPower_move4.get(i) + "");
 
 				String finishedLine = createLine.toString();
 				bw.write(finishedLine);
@@ -48,8 +61,6 @@ public class writeData {
 			// If there is less than six in party will write new pokemon
 			if (LoadData.partyCounter < partySize) {
 				StringBuilder makeLine = new StringBuilder();
-				// wildTotHP, wildActHP, wildAttack, wildDefense, wildSpeed,
-				// wildSpecial
 				makeLine.append(LoadData.p_id.get(LoadData.partyCounter) + ",");
 				makeLine.append(LoadData.p_name.get(BattleScene.wildPokemon) + ",");
 				makeLine.append(BattleScene.wildTotHP + ",");
@@ -57,10 +68,23 @@ public class writeData {
 				makeLine.append(BattleScene.wildAttack + ",");
 				makeLine.append(BattleScene.wildDefense + ",");
 				makeLine.append(BattleScene.wildSpeed + ",");
-				makeLine.append(BattleScene.wildSpecial + ",");
 				makeLine.append(BattleScene.wildTotal + ",");
-				makeLine.append(BattleScene.wildXp + "");
-				System.out.println("You caught : " + LoadData.p_name.get(BattleScene.wildPokemon));
+				makeLine.append(BattleScene.wildXp + ",");
+				makeLine.append(BattleScene.wildLvL + ",");
+				makeLine.append(BattleScene.move_name1 + ",");
+				makeLine.append(BattleScene.move_pp1 + ",");
+				makeLine.append(BattleScene.move_attPower1 + ",");
+				makeLine.append(BattleScene.move_name2 + ",");
+				makeLine.append(BattleScene.move_pp2 + ",");
+				makeLine.append(BattleScene.move_attPower2 + ",");
+				makeLine.append(BattleScene.move_name3 + ",");
+				makeLine.append(BattleScene.move_pp3 + ",");
+				makeLine.append(BattleScene.move_attPower3 + ",");
+				makeLine.append(BattleScene.move_name4 + ",");
+				makeLine.append(BattleScene.move_pp4 + ",");
+				makeLine.append(BattleScene.move_attPower4 + "");
+				
+				//System.out.println("You caught : " + LoadData.p_name.get(BattleScene.wildPokemon));
 
 				String newLine = makeLine.toString();
 
@@ -114,9 +138,20 @@ public class writeData {
 			makeLine.append(MainMenu.chosenAttack + ",");
 			makeLine.append(MainMenu.chosenDefense + ",");
 			makeLine.append(MainMenu.chosenSpeed + ",");
-			makeLine.append(MainMenu.chosenSpecial + ",");
 			makeLine.append(MainMenu.chosenTotal + ",");
-			makeLine.append(MainMenu.chosenXp + "");
+			makeLine.append(MainMenu.chosenXp + ",");
+			makeLine.append(MainMenu.chosenLvL + ",");
+
+			for (int i = 0; i < 4; i++) {
+				int var = p5.floor(p5.random(0, 9));
+				makeLine.append(LoadData.move_name.get(var) + ",");
+				makeLine.append(LoadData.move_PP.get(var) + ",");
+				if (i != 3) {
+					makeLine.append(LoadData.move_attPower.get(var) + ",");
+				} else {
+					makeLine.append(LoadData.move_attPower.get(var) + "");
+				}
+			}
 
 			String newLine = makeLine.toString();
 

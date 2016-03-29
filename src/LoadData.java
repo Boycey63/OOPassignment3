@@ -16,7 +16,6 @@ public class LoadData {
 	public static ArrayList<Integer> p_attack;
 	public static ArrayList<Integer> p_defense;
 	public static ArrayList<Integer> p_speed;
-	public static ArrayList<Integer> p_special;
 	public static ArrayList<Integer> p_total;
 	public static ArrayList<Integer> p_xp;
 
@@ -27,10 +26,22 @@ public class LoadData {
 	public static ArrayList<Integer> party_attack;
 	public static ArrayList<Integer> party_defense;
 	public static ArrayList<Integer> party_speed;
-	public static ArrayList<Integer> party_special;
 	public static ArrayList<Integer> party_total;
 	public static ArrayList<Integer> party_xp;
-
+	public static ArrayList<Integer> party_lvl;
+	public static ArrayList<String> name_move1;
+	public static ArrayList<Integer> PP_move1;
+	public static ArrayList<Integer> attPower_move1;
+	public static ArrayList<String> name_move2;
+	public static ArrayList<Integer> PP_move2;
+	public static ArrayList<Integer> attPower_move2;
+	public static ArrayList<String> name_move3;
+	public static ArrayList<Integer> PP_move3;
+	public static ArrayList<Integer> attPower_move3;
+	public static ArrayList<String> name_move4;
+	public static ArrayList<Integer> PP_move4;
+	public static ArrayList<Integer> attPower_move4;
+	
 	public static ArrayList<Integer> start_id;
 	public static ArrayList<String> start_name;
 	public static ArrayList<Integer> start_TOThp;
@@ -38,16 +49,71 @@ public class LoadData {
 	public static ArrayList<Integer> start_attack;
 	public static ArrayList<Integer> start_defense;
 	public static ArrayList<Integer> start_speed;
-	public static ArrayList<Integer> start_special;
 	public static ArrayList<Integer> start_total;
 	public static ArrayList<Integer> start_xp;
+	public static ArrayList<Integer> start_lvl;
+	
+	public static ArrayList<String> move_name;
+	public static ArrayList<Integer> move_PP;
+	public static ArrayList<Integer> move_attPower;
 
+	public static ArrayList<Integer> party_move_ID;
+	public static ArrayList<String> party_move_name;
+	public static ArrayList<Integer> party_move_PP;
+	public static ArrayList<Integer> party_move_attPower;
+	
 	public static int partyCounter;
 	public static int areaCounter;
 
-	LoadData() {
-	}
+	public static void loadMoves() {
+		file = "Moves.csv";
+		BufferedReader br = null;
+		String line;
+		String split = ",";
+		partyCounter = 0;
 
+		try {
+			br = new BufferedReader(new FileReader(file));
+
+			move_name = new ArrayList<String>();
+			move_PP = new ArrayList<Integer>();
+			move_attPower = new ArrayList<Integer>();
+			
+			// Checks if string is empty
+			while ((line = br.readLine()) != null) {
+				// Divides each line into Tokens
+				StringTokenizer str = new StringTokenizer(line, split);
+
+				// Converts string values and stores into arraylists
+				while (str.hasMoreTokens()) {
+					move_name.add(str.nextToken());
+					move_PP.add(Integer.parseInt(str.nextToken()));
+					move_attPower.add(Integer.parseInt(str.nextToken()));
+				}
+				
+			}
+		}
+
+		// If the above doesn't work, show an error
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// Once complete if the bufferedreader is not empty close it
+		finally {
+			if (br != null) {
+				try {
+					br.close();
+				}
+				// else throw an exception
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	public static void loadParty() {
 		file = "Party.csv";
 		BufferedReader br = null;
@@ -65,9 +131,21 @@ public class LoadData {
 			party_attack = new ArrayList<Integer>();
 			party_defense = new ArrayList<Integer>();
 			party_speed = new ArrayList<Integer>();
-			party_special = new ArrayList<Integer>();
 			party_total = new ArrayList<Integer>();
 			party_xp = new ArrayList<Integer>();
+			party_lvl = new ArrayList<Integer>();
+			name_move1 = new ArrayList<String>();
+			PP_move1 = new ArrayList<Integer>();
+			attPower_move1 = new ArrayList<Integer>();
+			name_move2 = new ArrayList<String>();
+			PP_move2 = new ArrayList<Integer>();
+			attPower_move2 = new ArrayList<Integer>();
+			name_move3 = new ArrayList<String>();
+			PP_move3 = new ArrayList<Integer>();
+			attPower_move3 = new ArrayList<Integer>();
+			name_move4 = new ArrayList<String>();
+			PP_move4 = new ArrayList<Integer>();
+			attPower_move4 = new ArrayList<Integer>();
 
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
@@ -83,12 +161,25 @@ public class LoadData {
 					party_attack.add(Integer.parseInt(str.nextToken()));
 					party_defense.add(Integer.parseInt(str.nextToken()));
 					party_speed.add(Integer.parseInt(str.nextToken()));
-					party_special.add(Integer.parseInt(str.nextToken()));
 					party_total.add(Integer.parseInt(str.nextToken()));
 					party_xp.add(Integer.parseInt(str.nextToken()));
+					party_lvl.add(Integer.parseInt(str.nextToken()));
+					name_move1.add(str.nextToken());
+					PP_move1.add(Integer.parseInt(str.nextToken()));
+					attPower_move1.add(Integer.parseInt(str.nextToken()));
+					name_move2.add(str.nextToken());
+					PP_move2.add(Integer.parseInt(str.nextToken()));
+					attPower_move2.add(Integer.parseInt(str.nextToken()));
+					name_move3.add(str.nextToken());
+					PP_move3.add(Integer.parseInt(str.nextToken()));
+					attPower_move3.add(Integer.parseInt(str.nextToken()));
+					name_move4.add(str.nextToken());
+					PP_move4.add(Integer.parseInt(str.nextToken()));
+					attPower_move4.add(Integer.parseInt(str.nextToken()));
 				}
 				// Counts how many pokemon in the party
 				partyCounter++;
+				//System.out.println(partyCounter);
 			}
 		}
 
@@ -129,7 +220,6 @@ public class LoadData {
 			p_attack = new ArrayList<Integer>();
 			p_defense = new ArrayList<Integer>();
 			p_speed = new ArrayList<Integer>();
-			p_special = new ArrayList<Integer>();
 			p_total = new ArrayList<Integer>();
 			p_xp = new ArrayList<Integer>();
 			
@@ -148,7 +238,6 @@ public class LoadData {
 					p_attack.add(Integer.parseInt(st.nextToken()));
 					p_defense.add(Integer.parseInt(st.nextToken()));
 					p_speed.add(Integer.parseInt(st.nextToken()));
-					p_special.add(Integer.parseInt(st.nextToken()));
 					p_total.add(Integer.parseInt(st.nextToken()));
 					p_xp.add(Integer.parseInt(st.nextToken()));
 				}
@@ -193,9 +282,9 @@ public class LoadData {
 			start_attack = new ArrayList<Integer>();
 			start_defense = new ArrayList<Integer>();
 			start_speed = new ArrayList<Integer>();
-			start_special = new ArrayList<Integer>();
 			start_total = new ArrayList<Integer>();
 			start_xp = new ArrayList<Integer>();
+			start_lvl = new ArrayList<Integer>();
 
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
@@ -212,9 +301,9 @@ public class LoadData {
 					start_attack.add(Integer.parseInt(st.nextToken()));
 					start_defense.add(Integer.parseInt(st.nextToken()));
 					start_speed.add(Integer.parseInt(st.nextToken()));
-					start_special.add(Integer.parseInt(st.nextToken()));
 					start_total.add(Integer.parseInt(st.nextToken()));
 					start_xp.add(Integer.parseInt(st.nextToken()));
+					start_lvl.add(Integer.parseInt(st.nextToken()));
 				}
 			}
 		}

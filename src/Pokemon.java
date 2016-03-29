@@ -29,10 +29,9 @@ public class Pokemon extends PApplet {
 		timerStart = false;
 		ingame = new InGame(this);
 		loadData = new LoadData();
-		writedata = new writeData();
+		writedata = new writeData(this);
 		battlescene = new BattleScene(this);
 		mainMenu = new MainMenu(this);
-		//loadData.loadParty();
 		loadData.loadPokeArea();
 		loadData.loadSaveGame();
 

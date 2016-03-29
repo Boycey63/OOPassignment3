@@ -6,8 +6,8 @@ public class MainMenu {
 	PImage pic;
 	boolean newGame;
 	public static int chosenID;
-	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenSpecial, chosenTotal,
-			chosenXp;
+	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenTotal,
+			chosenXp, chosenLvL;
 	int i;
 
 	MainMenu(Pokemon _p5) {
@@ -28,13 +28,16 @@ public class MainMenu {
 
 		if (p5.key == p5.ENTER) {
 			LoadData.loadParty();
-			p5.key = 'm';
+			System.out.println(LoadData.partyCounter);
+			LoadData.loadMoves();	
 			Pokemon.walkingView = true;
+			p5.key = 'm';
 		}
 
 		if (p5.key == p5.TAB) {
 			newGame = true;
 			LoadData.loadStartPokemon();
+			LoadData.loadMoves();
 			p5.fill(0, 255, 0);
 			p5.rect(570, 50, 300, 150);
 			p5.fill(0, 0, 255);
@@ -42,7 +45,6 @@ public class MainMenu {
 			p5.text("Press 1 for " + LoadData.start_name.get(0), 580, 120);
 			p5.text("Press 2 for " + LoadData.start_name.get(1), 580, 150);
 			p5.text("Press 3 for " + LoadData.start_name.get(2), 580, 180);
-			p5.key = 'm';
 		}
 
 		if (newGame == true) {
@@ -77,6 +79,7 @@ public class MainMenu {
 				intChosen();
 				writeData.newParty();
 				LoadData.loadParty();
+				p5.key = 'm';
 				Pokemon.walkingView = true;
 			}
 
@@ -87,6 +90,7 @@ public class MainMenu {
 				intChosen();
 				writeData.newParty();
 				LoadData.loadParty();
+				p5.key = 'm';
 				Pokemon.walkingView = true;
 			}
 
@@ -97,6 +101,7 @@ public class MainMenu {
 				intChosen();
 				writeData.newParty();
 				LoadData.loadParty();
+				p5.key = 'm';
 				Pokemon.walkingView = true;
 			}
 		}
@@ -108,8 +113,8 @@ public class MainMenu {
 		chosenAttack = (LoadData.start_attack.get(chosenID)) + p5.floor(p5.random(1, 15));
 		chosenDefense = (LoadData.start_defense.get(chosenID) + p5.floor(p5.random(1, 15)));
 		chosenSpeed = (LoadData.start_speed.get(chosenID) + p5.floor(p5.random(1, 15)));
-		chosenSpecial = (LoadData.start_special.get(chosenID) + p5.floor(p5.random(1, 15)));
-		chosenTotal = chosenTotHP + chosenAttack + chosenDefense + chosenSpeed + chosenSpecial;
+		chosenTotal = chosenTotHP + chosenAttack + chosenDefense + chosenSpeed;
 		chosenXp = 0;
+		chosenLvL = 5;
 	}
 }
