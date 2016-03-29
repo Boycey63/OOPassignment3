@@ -5,39 +5,47 @@ public class MainMenu {
 	Pokemon p5;
 	PImage pic;
 	boolean newGame;
-	public static int chosenPok;
+	public static int chosenID;
+	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenSpecial, chosenTotal,
+			chosenXp;
 	int i;
 
 	MainMenu(Pokemon _p5) {
 		p5 = _p5;
 		pic = p5.loadImage("menuPic.jpg");
 		newGame = false;
-		chosenPok = 0;
+		chosenID = 0;
 	}
 
 	void gameMenu() {
 		p5.image(pic, 0, 0);
-		p5.stroke(255);
-		p5.textSize(30);
-		p5.text("Press ENTER = saved game", 30, 30);
-		p5.text("Press TAB = new game", 30, 60);
+		p5.fill(255);
+		p5.rect(870, 30, 300, 640);
+		p5.fill(255, 0, 0);
+		p5.textSize(20);
+		p5.text("Press ENTER = saved game", 870, 60);
+		p5.text("Press TAB = new game", 870, 90);
 
 		if (p5.key == p5.ENTER) {
-			Pokemon.walkingView = true;
-			System.out.println(LoadData.party_name.get(0));
+			LoadData.loadParty();
 			p5.key = 'm';
+			Pokemon.walkingView = true;
 		}
 
 		if (p5.key == p5.TAB) {
 			newGame = true;
+			LoadData.loadStartPokemon();
+			p5.fill(0, 255, 0);
+			p5.rect(570, 50, 300, 150);
+			p5.fill(0, 0, 255);
+			p5.text("Choose a starter pokemon:", 580, 80);
+			p5.text("Press 1 for " + LoadData.start_name.get(0), 580, 120);
+			p5.text("Press 2 for " + LoadData.start_name.get(1), 580, 150);
+			p5.text("Press 3 for " + LoadData.start_name.get(2), 580, 180);
+			p5.key = 'm';
 		}
 
 		if (newGame == true) {
-			LoadData.loadStartPokemon();
-			p5.text("Choose a pokemon", 30, 100);
-			p5.text("Press 1 for" + LoadData.start_name.get(0), 30, 140);
-			p5.text("Press 2 for" + LoadData.start_name.get(1), 30, 170);
-			p5.text("Press 3 for" + LoadData.start_name.get(2), 30, 200);
 			keyPressed();
 		}
 	}
@@ -47,7 +55,6 @@ public class MainMenu {
 		if (file.exists()) {
 			file.delete();
 		}
-		System.out.println("File deleted");
 	}
 
 	void resetLocation() {
@@ -55,7 +62,10 @@ public class MainMenu {
 		InGame.characterX = 304;
 		InGame.characterY = 413;
 		InGame.tempMovement = 0;
+		InGame.map2 = p5.loadImage(InGame.background[InGame.location]);
+		InGame.map1 = p5.loadImage(InGame.background[InGame.location + 1]);
 		InGame.character = p5.loadImage(InGame.movement[InGame.tempMovement]);
+		writeData.saveGame();
 	}
 
 	void keyPressed() {
@@ -63,32 +73,43 @@ public class MainMenu {
 			if (p5.key == '1') {
 				deleteFile();
 				resetLocation();
-				chosenPok = 0;
+				chosenID = 0;
+				intChosen();
 				writeData.newParty();
 				LoadData.loadParty();
-				System.out.println("CheckPoint");
 				Pokemon.walkingView = true;
 			}
 
 			if (p5.key == '2') {
 				deleteFile();
 				resetLocation();
-				chosenPok = 1;
+				chosenID = 1;
+				intChosen();
 				writeData.newParty();
 				LoadData.loadParty();
-				System.out.println("CheckPoint");
 				Pokemon.walkingView = true;
 			}
 
 			if (p5.key == '3') {
 				deleteFile();
 				resetLocation();
-				chosenPok = 2;
+				chosenID = 2;
+				intChosen();
 				writeData.newParty();
 				LoadData.loadParty();
-				System.out.println("CheckPoint");
 				Pokemon.walkingView = true;
 			}
 		}
+	}
+
+	void intChosen() {
+		chosenActHP = (LoadData.start_ACThp.get(chosenID) + p5.floor(p5.random(1, 15)));
+		chosenTotHP = chosenActHP;
+		chosenAttack = (LoadData.start_attack.get(chosenID)) + p5.floor(p5.random(1, 15));
+		chosenDefense = (LoadData.start_defense.get(chosenID) + p5.floor(p5.random(1, 15)));
+		chosenSpeed = (LoadData.start_speed.get(chosenID) + p5.floor(p5.random(1, 15)));
+		chosenSpecial = (LoadData.start_special.get(chosenID) + p5.floor(p5.random(1, 15)));
+		chosenTotal = chosenTotHP + chosenAttack + chosenDefense + chosenSpeed + chosenSpecial;
+		chosenXp = 0;
 	}
 }

@@ -39,7 +39,7 @@ class InGame {
 
 		// Initializes movement array
 		movement[0] = "down1.png";
-		movement[1] = "left3.png";
+		movement[1] = "left1.png";
 		movement[2] = "right3.png";
 		movement[3] = "up3.png";
 	}
@@ -154,10 +154,7 @@ class InGame {
 		// Saves and exits program
 		if (p5.key == 'z') {
 			writeData.saveGame();
-			System.out.println("Location = " + InGame.location);
-			System.out.println("X = " + InGame.characterX);
-			System.out.println("Y = " + InGame.characterY);
-			System.out.println("Temp move =" + tempMovement);
+			System.out.println("Game Saved");
 			p5.exit();
 		}
 

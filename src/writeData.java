@@ -37,7 +37,8 @@ public class writeData {
 				createLine.append(LoadData.party_defense.get(i) + ",");
 				createLine.append(LoadData.party_speed.get(i) + ",");
 				createLine.append(LoadData.party_special.get(i) + ",");
-				createLine.append(LoadData.party_total.get(i) + "");
+				createLine.append(LoadData.party_total.get(i) + ",");
+				createLine.append(LoadData.party_xp.get(i) + "");
 
 				String finishedLine = createLine.toString();
 				bw.write(finishedLine);
@@ -57,7 +58,8 @@ public class writeData {
 				makeLine.append(BattleScene.wildDefense + ",");
 				makeLine.append(BattleScene.wildSpeed + ",");
 				makeLine.append(BattleScene.wildSpecial + ",");
-				makeLine.append(BattleScene.wildTotal + "");
+				makeLine.append(BattleScene.wildTotal + ",");
+				makeLine.append(BattleScene.wildXp + "");
 				System.out.println("You caught : " + LoadData.p_name.get(BattleScene.wildPokemon));
 
 				String newLine = makeLine.toString();
@@ -106,14 +108,15 @@ public class writeData {
 			StringBuilder makeLine = new StringBuilder();
 
 			makeLine.append(LoadData.start_id.get(LoadData.partyCounter) + ",");
-			makeLine.append(LoadData.start_name.get(MainMenu.chosenPok) + ",");
-			makeLine.append(LoadData.start_TOThp.get(MainMenu.chosenPok) + ",");
-			makeLine.append(LoadData.start_ACThp.get(MainMenu.chosenPok) + ",");
-			makeLine.append(LoadData.start_attack.get(MainMenu.chosenPok) + ",");
-			makeLine.append(LoadData.start_defense.get(MainMenu.chosenPok) + ",");
-			makeLine.append(LoadData.start_speed.get(MainMenu.chosenPok) + ",");
-			makeLine.append(LoadData.start_special.get(MainMenu.chosenPok) + ",");
-			makeLine.append(LoadData.start_total.get(MainMenu.chosenPok) + "");
+			makeLine.append(LoadData.start_name.get(MainMenu.chosenID) + ",");
+			makeLine.append(MainMenu.chosenTotHP + ",");
+			makeLine.append(MainMenu.chosenActHP + ",");
+			makeLine.append(MainMenu.chosenAttack + ",");
+			makeLine.append(MainMenu.chosenDefense + ",");
+			makeLine.append(MainMenu.chosenSpeed + ",");
+			makeLine.append(MainMenu.chosenSpecial + ",");
+			makeLine.append(MainMenu.chosenTotal + ",");
+			makeLine.append(MainMenu.chosenXp + "");
 
 			String newLine = makeLine.toString();
 

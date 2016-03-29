@@ -32,8 +32,8 @@ public class Pokemon extends PApplet {
 		writedata = new writeData();
 		battlescene = new BattleScene(this);
 		mainMenu = new MainMenu(this);
+		//loadData.loadParty();
 		loadData.loadPokeArea();
-		loadData.loadParty();
 		loadData.loadSaveGame();
 
 		// Set saved background image
