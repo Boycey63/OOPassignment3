@@ -141,15 +141,34 @@ public class writeData {
 			makeLine.append(MainMenu.chosenTotal + ",");
 			makeLine.append(MainMenu.chosenXp + ",");
 			makeLine.append(MainMenu.chosenLvL + ",");
-
+			
+			int tempvar1 = 10;
+			int tempvar2 = 10;
+			int tempvar3 = 10;
+			
+			//Sets random moves for starter Pokemon
 			for (int i = 0; i < 4; i++) {
 				int var = p5.floor(p5.random(0, 9));
+				//Checks if move has been used before and if so picks another random move
+				while(var == tempvar1 || var == tempvar2 || var == tempvar3){
+					var = p5.floor(p5.random(0, 9));
+				}
 				makeLine.append(LoadData.move_name.get(var) + ",");
 				makeLine.append(LoadData.move_PP.get(var) + ",");
 				if (i != 3) {
 					makeLine.append(LoadData.move_attPower.get(var) + ",");
 				} else {
 					makeLine.append(LoadData.move_attPower.get(var) + "");
+				}
+				//Stores the previous moves given
+				if(i == 0){
+					tempvar1 = var;
+				}
+				if(i == 1){
+					tempvar2 = var;
+				}
+				if(i == 2){
+					tempvar3 = var;
 				}
 			}
 
