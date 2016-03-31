@@ -7,7 +7,7 @@ public class BattleScene {
 	public static int seconds, time, setTime;
 	public static int wildPokemon;
 	public static int wildTotHP, wildActHP, wildAttack, wildDefense, wildSpeed, wildSpecial, wildXpNextLvl, wildTOTXp,
-			wildLvL, wildHPIV, wildAttackIV, wildDefenseIV, wildSpeedIV, wildSpecialIV;
+			wildLvL, wildHPIV, wildAttackIV, wildDefenseIV, wildSpeedIV, wildSpecialIV, wildHPEV, wildAttackEV, wildDefenseEV, wildSpeedEV, wildSpecialEV, wildBaseXP;
 	public static int move_pp1, move_attPower1, move_pp2, move_attPower2, move_pp3, move_attPower3, move_pp4,
 			move_attPower4;
 	public static String move_name1, move_name2, move_name3, move_name4;
@@ -326,6 +326,8 @@ public class BattleScene {
 		wildTOTXp = p5.floor(wildLvL * wildLvL);
 		wildXpNextLvl = p5.floor(wildLvL * wildLvL * wildLvL);
 		int var = p5.floor(p5.random(0, 9));
+		wildHPEV = wildAttackEV = wildDefenseEV = wildSpeedEV = wildSpecialEV = 0;
+		wildBaseXP = (LoadData.areaP_BaseXP.get(wildPokemon));
 		move_name1 = LoadData.move_name.get(var);
 		move_pp1 = LoadData.move_PP.get(var);
 		move_attPower1 = LoadData.move_attPower.get(var);

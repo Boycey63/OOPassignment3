@@ -258,7 +258,6 @@ public class LoadData {
 		
 		try {
 			br = new BufferedReader(new FileReader(file));
-			areaP_name = new ArrayList<String>();
 			areaP_id = new ArrayList<Integer>();
 			areaP_name = new ArrayList<String>();
 			areaP_TOThp = new ArrayList<Integer>();
@@ -267,6 +266,7 @@ public class LoadData {
 			areaP_defense = new ArrayList<Integer>();
 			areaP_speed = new ArrayList<Integer>();
 			areaP_special = new ArrayList<Integer>();
+			areaP_hpEV = new ArrayList<Integer>();
 			areaP_attackEV = new ArrayList<Integer>();
 			areaP_defenseEV = new ArrayList<Integer>();
 			areaP_speedEV = new ArrayList<Integer>();
@@ -289,6 +289,7 @@ public class LoadData {
 					areaP_defense.add(Integer.parseInt(st.nextToken()));
 					areaP_speed.add(Integer.parseInt(st.nextToken()));
 					areaP_special.add(Integer.parseInt(st.nextToken()));
+					areaP_hpEV.add(Integer.parseInt(st.nextToken()));
 					areaP_attackEV.add(Integer.parseInt(st.nextToken()));
 					areaP_defenseEV.add(Integer.parseInt(st.nextToken()));
 					areaP_speedEV.add(Integer.parseInt(st.nextToken()));
@@ -325,10 +326,9 @@ public class LoadData {
 		BufferedReader br = null;
 		String line = "";
 		String split = ",";
-
+		
 		try {
 			br = new BufferedReader(new FileReader(file));
-			start_name = new ArrayList<String>();
 			start_id = new ArrayList<Integer>();
 			start_name = new ArrayList<String>();
 			start_TOThp = new ArrayList<Integer>();
@@ -344,10 +344,10 @@ public class LoadData {
 			start_speedEV = new ArrayList<Integer>();
 			start_specialEV = new ArrayList<Integer>();
 			start_BaseXP = new ArrayList<Integer>();
-			
+
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
-
+				
 				// Divides each line into Tokens
 				StringTokenizer st = new StringTokenizer(line, split);
 				// System.out.println(line);
