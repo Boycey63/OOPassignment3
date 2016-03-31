@@ -9,15 +9,20 @@ public class LoadData {
 	Pokemon p5;
 	public static String file;
 
-	public static ArrayList<Integer> p_id;
-	public static ArrayList<String> p_name;
-	public static ArrayList<Integer> p_TOThp;
-	public static ArrayList<Integer> p_ACThp;
-	public static ArrayList<Integer> p_attack;
-	public static ArrayList<Integer> p_defense;
-	public static ArrayList<Integer> p_speed;
-	public static ArrayList<Integer> p_total;
-	public static ArrayList<Integer> p_xp;
+	public static ArrayList<Integer> areaP_id;
+	public static ArrayList<String> areaP_name;
+	public static ArrayList<Integer> areaP_TOThp;
+	public static ArrayList<Integer> areaP_ACThp;
+	public static ArrayList<Integer> areaP_attack;
+	public static ArrayList<Integer> areaP_defense;
+	public static ArrayList<Integer> areaP_speed;
+	public static ArrayList<Integer> areaP_special;
+	public static ArrayList<Integer> areaP_hpEV;
+	public static ArrayList<Integer> areaP_attackEV;
+	public static ArrayList<Integer> areaP_defenseEV;
+	public static ArrayList<Integer> areaP_speedEV;
+	public static ArrayList<Integer> areaP_specialEV;
+	public static ArrayList<Integer> areaP_BaseXP;
 
 	public static ArrayList<Integer> party_id;
 	public static ArrayList<String> party_name;
@@ -26,9 +31,21 @@ public class LoadData {
 	public static ArrayList<Integer> party_attack;
 	public static ArrayList<Integer> party_defense;
 	public static ArrayList<Integer> party_speed;
-	public static ArrayList<Integer> party_total;
-	public static ArrayList<Integer> party_xp;
+	public static ArrayList<Integer> party_special;
+	public static ArrayList<Integer> party_xpNextLvl;
+	public static ArrayList<Integer> party_TOTxp;
 	public static ArrayList<Integer> party_lvl;
+	public static ArrayList<Integer> party_hpIV;
+	public static ArrayList<Integer> party_attackIV;
+	public static ArrayList<Integer> party_defenseIV;
+	public static ArrayList<Integer> party_speedIV;
+	public static ArrayList<Integer> party_specialIV;
+	public static ArrayList<Integer> party_hpEV;
+	public static ArrayList<Integer> party_attackEV;
+	public static ArrayList<Integer> party_defenseEV;
+	public static ArrayList<Integer> party_speedEV;
+	public static ArrayList<Integer> party_specialEV;
+	public static ArrayList<Integer> party_BaseExp;
 	public static ArrayList<String> name_move1;
 	public static ArrayList<Integer> PP_move1;
 	public static ArrayList<Integer> attPower_move1;
@@ -49,10 +66,15 @@ public class LoadData {
 	public static ArrayList<Integer> start_attack;
 	public static ArrayList<Integer> start_defense;
 	public static ArrayList<Integer> start_speed;
-	public static ArrayList<Integer> start_total;
-	public static ArrayList<Integer> start_xp;
+	public static ArrayList<Integer> start_special;
 	public static ArrayList<Integer> start_lvl;
-	
+	public static ArrayList<Integer> start_hpEV;
+	public static ArrayList<Integer> start_attackEV;
+	public static ArrayList<Integer> start_defenseEV;
+	public static ArrayList<Integer> start_speedEV;
+	public static ArrayList<Integer> start_specialEV;
+	public static ArrayList<Integer> start_BaseXP;
+
 	public static ArrayList<String> move_name;
 	public static ArrayList<Integer> move_PP;
 	public static ArrayList<Integer> move_attPower;
@@ -61,7 +83,7 @@ public class LoadData {
 	public static ArrayList<String> party_move_name;
 	public static ArrayList<Integer> party_move_PP;
 	public static ArrayList<Integer> party_move_attPower;
-	
+
 	public static int partyCounter;
 	public static int areaCounter;
 
@@ -78,7 +100,7 @@ public class LoadData {
 			move_name = new ArrayList<String>();
 			move_PP = new ArrayList<Integer>();
 			move_attPower = new ArrayList<Integer>();
-			
+
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
 				// Divides each line into Tokens
@@ -90,7 +112,7 @@ public class LoadData {
 					move_PP.add(Integer.parseInt(str.nextToken()));
 					move_attPower.add(Integer.parseInt(str.nextToken()));
 				}
-				
+
 			}
 		}
 
@@ -113,7 +135,7 @@ public class LoadData {
 			}
 		}
 	}
-	
+
 	public static void loadParty() {
 		file = "Party.csv";
 		BufferedReader br = null;
@@ -131,9 +153,21 @@ public class LoadData {
 			party_attack = new ArrayList<Integer>();
 			party_defense = new ArrayList<Integer>();
 			party_speed = new ArrayList<Integer>();
-			party_total = new ArrayList<Integer>();
-			party_xp = new ArrayList<Integer>();
+			party_special = new ArrayList<Integer>();
+			party_xpNextLvl = new ArrayList<Integer>();
+			party_TOTxp = new ArrayList<Integer>();
 			party_lvl = new ArrayList<Integer>();
+			party_hpIV = new ArrayList<Integer>();
+			party_attackIV = new ArrayList<Integer>();
+			party_defenseIV = new ArrayList<Integer>();
+			party_speedIV = new ArrayList<Integer>();
+			party_specialIV = new ArrayList<Integer>();
+			party_hpEV = new ArrayList<Integer>();
+			party_attackEV = new ArrayList<Integer>();
+			party_defenseEV = new ArrayList<Integer>();
+			party_speedEV = new ArrayList<Integer>();
+			party_specialEV = new ArrayList<Integer>();
+			party_BaseExp = new ArrayList<Integer>();
 			name_move1 = new ArrayList<String>();
 			PP_move1 = new ArrayList<Integer>();
 			attPower_move1 = new ArrayList<Integer>();
@@ -161,9 +195,21 @@ public class LoadData {
 					party_attack.add(Integer.parseInt(str.nextToken()));
 					party_defense.add(Integer.parseInt(str.nextToken()));
 					party_speed.add(Integer.parseInt(str.nextToken()));
-					party_total.add(Integer.parseInt(str.nextToken()));
-					party_xp.add(Integer.parseInt(str.nextToken()));
+					party_special.add(Integer.parseInt(str.nextToken()));
+					party_xpNextLvl.add(Integer.parseInt(str.nextToken()));
+					party_TOTxp.add(Integer.parseInt(str.nextToken()));
 					party_lvl.add(Integer.parseInt(str.nextToken()));
+					party_hpIV.add(Integer.parseInt(str.nextToken()));
+					party_attackIV.add(Integer.parseInt(str.nextToken()));
+					party_defenseIV.add(Integer.parseInt(str.nextToken()));
+					party_speedIV.add(Integer.parseInt(str.nextToken()));
+					party_specialIV.add(Integer.parseInt(str.nextToken()));
+					party_hpEV.add(Integer.parseInt(str.nextToken()));
+					party_attackEV.add(Integer.parseInt(str.nextToken()));
+					party_defenseEV.add(Integer.parseInt(str.nextToken()));
+					party_speedEV.add(Integer.parseInt(str.nextToken()));
+					party_specialEV.add(Integer.parseInt(str.nextToken()));
+					party_BaseExp.add(Integer.parseInt(str.nextToken()));
 					name_move1.add(str.nextToken());
 					PP_move1.add(Integer.parseInt(str.nextToken()));
 					attPower_move1.add(Integer.parseInt(str.nextToken()));
@@ -179,7 +225,7 @@ public class LoadData {
 				}
 				// Counts how many pokemon in the party
 				partyCounter++;
-				//System.out.println(partyCounter);
+				// System.out.println(partyCounter);
 			}
 		}
 
@@ -209,19 +255,23 @@ public class LoadData {
 		String line = "";
 		String split = ",";
 		areaCounter = -1;
-
+		
 		try {
 			br = new BufferedReader(new FileReader(file));
-			p_name = new ArrayList<String>();
-			p_id = new ArrayList<Integer>();
-			p_name = new ArrayList<String>();
-			p_TOThp = new ArrayList<Integer>();
-			p_ACThp = new ArrayList<Integer>();
-			p_attack = new ArrayList<Integer>();
-			p_defense = new ArrayList<Integer>();
-			p_speed = new ArrayList<Integer>();
-			p_total = new ArrayList<Integer>();
-			p_xp = new ArrayList<Integer>();
+			areaP_name = new ArrayList<String>();
+			areaP_id = new ArrayList<Integer>();
+			areaP_name = new ArrayList<String>();
+			areaP_TOThp = new ArrayList<Integer>();
+			areaP_ACThp = new ArrayList<Integer>();
+			areaP_attack = new ArrayList<Integer>();
+			areaP_defense = new ArrayList<Integer>();
+			areaP_speed = new ArrayList<Integer>();
+			areaP_special = new ArrayList<Integer>();
+			areaP_attackEV = new ArrayList<Integer>();
+			areaP_defenseEV = new ArrayList<Integer>();
+			areaP_speedEV = new ArrayList<Integer>();
+			areaP_specialEV = new ArrayList<Integer>();
+			areaP_BaseXP = new ArrayList<Integer>();
 			
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
@@ -231,15 +281,19 @@ public class LoadData {
 				// System.out.println(line);
 				// Converts string values and stores into arraylists
 				while (st.hasMoreTokens()) {
-					p_id.add(Integer.parseInt(st.nextToken()));
-					p_name.add(st.nextToken());
-					p_TOThp.add(Integer.parseInt(st.nextToken()));
-					p_ACThp.add(Integer.parseInt(st.nextToken()));
-					p_attack.add(Integer.parseInt(st.nextToken()));
-					p_defense.add(Integer.parseInt(st.nextToken()));
-					p_speed.add(Integer.parseInt(st.nextToken()));
-					p_total.add(Integer.parseInt(st.nextToken()));
-					p_xp.add(Integer.parseInt(st.nextToken()));
+					areaP_id.add(Integer.parseInt(st.nextToken()));
+					areaP_name.add(st.nextToken());
+					areaP_TOThp.add(Integer.parseInt(st.nextToken()));
+					areaP_ACThp.add(Integer.parseInt(st.nextToken()));
+					areaP_attack.add(Integer.parseInt(st.nextToken()));
+					areaP_defense.add(Integer.parseInt(st.nextToken()));
+					areaP_speed.add(Integer.parseInt(st.nextToken()));
+					areaP_special.add(Integer.parseInt(st.nextToken()));
+					areaP_attackEV.add(Integer.parseInt(st.nextToken()));
+					areaP_defenseEV.add(Integer.parseInt(st.nextToken()));
+					areaP_speedEV.add(Integer.parseInt(st.nextToken()));
+					areaP_specialEV.add(Integer.parseInt(st.nextToken()));
+					areaP_BaseXP.add(Integer.parseInt(st.nextToken()));
 				}
 				// Counts how many pokemon in area
 				areaCounter++;
@@ -282,10 +336,15 @@ public class LoadData {
 			start_attack = new ArrayList<Integer>();
 			start_defense = new ArrayList<Integer>();
 			start_speed = new ArrayList<Integer>();
-			start_total = new ArrayList<Integer>();
-			start_xp = new ArrayList<Integer>();
+			start_special = new ArrayList<Integer>();
 			start_lvl = new ArrayList<Integer>();
-
+			start_hpEV = new ArrayList<Integer>();
+			start_attackEV = new ArrayList<Integer>();
+			start_defenseEV = new ArrayList<Integer>();
+			start_speedEV = new ArrayList<Integer>();
+			start_specialEV = new ArrayList<Integer>();
+			start_BaseXP = new ArrayList<Integer>();
+			
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
 
@@ -301,9 +360,14 @@ public class LoadData {
 					start_attack.add(Integer.parseInt(st.nextToken()));
 					start_defense.add(Integer.parseInt(st.nextToken()));
 					start_speed.add(Integer.parseInt(st.nextToken()));
-					start_total.add(Integer.parseInt(st.nextToken()));
-					start_xp.add(Integer.parseInt(st.nextToken()));
+					start_special.add(Integer.parseInt(st.nextToken()));
 					start_lvl.add(Integer.parseInt(st.nextToken()));
+					start_hpEV.add(Integer.parseInt(st.nextToken()));
+					start_attackEV.add(Integer.parseInt(st.nextToken()));
+					start_defenseEV.add(Integer.parseInt(st.nextToken()));
+					start_speedEV.add(Integer.parseInt(st.nextToken()));
+					start_specialEV.add(Integer.parseInt(st.nextToken()));
+					start_BaseXP.add(Integer.parseInt(st.nextToken()));
 				}
 			}
 		}

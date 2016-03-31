@@ -1,5 +1,6 @@
 import processing.core.*;
 import java.io.File;
+import java.util.ArrayList;
 
 public class MainMenu {
 	Pokemon p5;
@@ -7,7 +8,7 @@ public class MainMenu {
 	boolean newGame;
 	public static int chosenID;
 	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenTotal,
-			chosenXp, chosenLvL;
+			chosenXp, chosenSpecial;
 	int i;
 
 	MainMenu(Pokemon _p5) {
@@ -108,13 +109,11 @@ public class MainMenu {
 	}
 
 	void intChosen() {
-		chosenActHP = (LoadData.start_ACThp.get(chosenID) + p5.floor(p5.random(1, 15)));
+		chosenActHP = (LoadData.start_ACThp.get(chosenID));
 		chosenTotHP = chosenActHP;
-		chosenAttack = (LoadData.start_attack.get(chosenID)) + p5.floor(p5.random(1, 15));
-		chosenDefense = (LoadData.start_defense.get(chosenID) + p5.floor(p5.random(1, 15)));
-		chosenSpeed = (LoadData.start_speed.get(chosenID) + p5.floor(p5.random(1, 15)));
-		chosenTotal = chosenTotHP + chosenAttack + chosenDefense + chosenSpeed;
-		chosenXp = 0;
-		chosenLvL = 5;
+		chosenAttack = (LoadData.start_attack.get(chosenID));
+		chosenDefense = (LoadData.start_defense.get(chosenID));
+		chosenSpeed = (LoadData.start_speed.get(chosenID));
+		chosenSpecial = (LoadData.start_special.get(chosenID));
 	}
 }

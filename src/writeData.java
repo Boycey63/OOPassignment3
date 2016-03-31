@@ -1,5 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.io.BufferedWriter;
 import java.io.File;
 
@@ -37,9 +38,21 @@ public class writeData {
 				createLine.append(LoadData.party_attack.get(i) + ",");
 				createLine.append(LoadData.party_defense.get(i) + ",");
 				createLine.append(LoadData.party_speed.get(i) + ",");
-				createLine.append(LoadData.party_total.get(i) + ",");
-				createLine.append(LoadData.party_xp.get(i) + ",");
+				createLine.append(LoadData.party_special.get(i) + ",");
+				createLine.append(LoadData.party_xpNextLvl.get(i) + ",");
+				createLine.append(LoadData.party_TOTxp.get(i) + ",");
 				createLine.append(LoadData.party_lvl.get(i) + ",");
+				createLine.append(LoadData.party_hpIV.get(i) + ",");
+				createLine.append(LoadData.party_attackIV.get(i) + ",");
+				createLine.append(LoadData.party_defenseIV.get(i) + ",");
+				createLine.append(LoadData.party_speedIV.get(i) + ",");
+				createLine.append(LoadData.party_specialIV.get(i) + ",");
+				createLine.append(LoadData.party_hpEV.get(i) + ",");
+				createLine.append(LoadData.party_attackEV.get(i) + ",");
+				createLine.append(LoadData.party_defenseEV.get(i) + ",");
+				createLine.append(LoadData.party_speedEV.get(i) + ",");
+				createLine.append(LoadData.party_specialEV.get(i) + ",");
+				createLine.append(LoadData.party_BaseExp.get(i) + ",");
 				createLine.append(LoadData.name_move1.get(i) + ",");
 				createLine.append(LoadData.PP_move1.get(i) + ",");
 				createLine.append(LoadData.attPower_move1.get(i) + ",");
@@ -61,16 +74,23 @@ public class writeData {
 			// If there is less than six in party will write new pokemon
 			if (LoadData.partyCounter < partySize) {
 				StringBuilder makeLine = new StringBuilder();
-				makeLine.append(LoadData.p_id.get(LoadData.partyCounter) + ",");
-				makeLine.append(LoadData.p_name.get(BattleScene.wildPokemon) + ",");
+				makeLine.append(LoadData.areaP_id.get(LoadData.partyCounter) + ",");
+				makeLine.append(LoadData.areaP_name.get(BattleScene.wildPokemon) + ",");
 				makeLine.append(BattleScene.wildTotHP + ",");
 				makeLine.append(BattleScene.wildActHP + ",");
 				makeLine.append(BattleScene.wildAttack + ",");
 				makeLine.append(BattleScene.wildDefense + ",");
 				makeLine.append(BattleScene.wildSpeed + ",");
-				makeLine.append(BattleScene.wildTotal + ",");
-				makeLine.append(BattleScene.wildXp + ",");
+				makeLine.append(BattleScene.wildSpecial + ",");
+				//wildXpNextLvl, wildTOTXp, wildLvL, wildHPIV, wildAttackIV, wildDefenseIV, wildSpeedIV, wildSpecialIV
+				makeLine.append(BattleScene.wildXpNextLvl + ",");
+				makeLine.append(BattleScene.wildTOTXp + ",");
 				makeLine.append(BattleScene.wildLvL + ",");
+				makeLine.append(BattleScene.wildHPIV + ",");
+				makeLine.append(BattleScene.wildAttackIV + ",");
+				makeLine.append(BattleScene.wildDefenseIV + ",");
+				makeLine.append(BattleScene.wildSpeedIV + ",");
+				makeLine.append(BattleScene.wildSpecialIV + ",");
 				makeLine.append(BattleScene.move_name1 + ",");
 				makeLine.append(BattleScene.move_pp1 + ",");
 				makeLine.append(BattleScene.move_attPower1 + ",");
@@ -133,14 +153,19 @@ public class writeData {
 
 			makeLine.append(LoadData.start_id.get(LoadData.partyCounter) + ",");
 			makeLine.append(LoadData.start_name.get(MainMenu.chosenID) + ",");
-			makeLine.append(MainMenu.chosenTotHP + ",");
-			makeLine.append(MainMenu.chosenActHP + ",");
-			makeLine.append(MainMenu.chosenAttack + ",");
-			makeLine.append(MainMenu.chosenDefense + ",");
-			makeLine.append(MainMenu.chosenSpeed + ",");
-			makeLine.append(MainMenu.chosenTotal + ",");
-			makeLine.append(MainMenu.chosenXp + ",");
-			makeLine.append(MainMenu.chosenLvL + ",");
+			makeLine.append(LoadData.start_TOThp.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_ACThp.get(MainMenu.chosenID)+ ",");
+			makeLine.append(LoadData.start_attack.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_defense.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_speed.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_special.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_lvl.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_hpEV.get(MainMenu.chosenID)+ ",");
+			makeLine.append(LoadData.start_attackEV.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_defenseEV.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_speedEV.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_specialEV.get(MainMenu.chosenID) + ",");
+			makeLine.append(LoadData.start_BaseXP.get(MainMenu.chosenID) + ",");
 			
 			int tempvar1 = 10;
 			int tempvar2 = 10;
