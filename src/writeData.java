@@ -16,7 +16,7 @@ public class writeData {
 
 	public static void addToParty() {
 		BufferedWriter bw = null;
-		
+
 		try {
 			File file = new File("Party.csv");
 
@@ -41,17 +41,30 @@ public class writeData {
 				createLine.append(LoadData.party_special.get(i) + ",");
 				createLine.append(LoadData.party_xpNextLvl.get(i) + ",");
 				createLine.append(LoadData.party_TOTxp.get(i) + ",");
+				createLine.append(LoadData.party_CurXP.get(i) + ",");
 				createLine.append(LoadData.party_lvl.get(i) + ",");
 				createLine.append(LoadData.party_hpIV.get(i) + ",");
 				createLine.append(LoadData.party_attackIV.get(i) + ",");
 				createLine.append(LoadData.party_defenseIV.get(i) + ",");
 				createLine.append(LoadData.party_speedIV.get(i) + ",");
 				createLine.append(LoadData.party_specialIV.get(i) + ",");
-				createLine.append(LoadData.party_hpEV.get(i) + ",");
-				createLine.append(LoadData.party_attackEV.get(i) + ",");
-				createLine.append(LoadData.party_defenseEV.get(i) + ",");
-				createLine.append(LoadData.party_speedEV.get(i) + ",");
-				createLine.append(LoadData.party_specialEV.get(i) + ",");
+				// If battle is not won
+				if (BattleScene.BattleCaught == true || BattleScene.BattleWon == false) {
+					createLine.append(LoadData.party_hpEV.get(i) + ",");
+					createLine.append(LoadData.party_attackEV.get(i) + ",");
+					createLine.append(LoadData.party_defenseEV.get(i) + ",");
+					createLine.append(LoadData.party_speedEV.get(i) + ",");
+					createLine.append(LoadData.party_specialEV.get(i) + ",");
+				}
+				// If battle is won, save EVs to user pokemon
+				if (BattleScene.BattleWon == true) {
+					createLine.append(BattleScene.partyHPEV + ",");
+					createLine.append(BattleScene.partyAttackEV + ",");
+					createLine.append(BattleScene.partyDefenseEV + ",");
+					createLine.append(BattleScene.partySpeedEV + ",");
+					createLine.append(BattleScene.partySpecialEV + ",");
+					BattleScene.BattleWon = false;
+				}
 				createLine.append(LoadData.party_BaseExp.get(i) + ",");
 				createLine.append(LoadData.name_move1.get(i) + ",");
 				createLine.append(LoadData.PP_move1.get(i) + ",");
@@ -72,53 +85,58 @@ public class writeData {
 			}
 
 			// If there is less than six in party will write new pokemon
-			if (LoadData.partyCounter < partySize) {
-				StringBuilder makeLine = new StringBuilder();
-				
-				makeLine.append(LoadData.areaP_id.get(LoadData.partyCounter) + ",");
-				makeLine.append(LoadData.areaP_name.get(BattleScene.wildPokemon) + ",");
-				makeLine.append(BattleScene.wildTotHP + ",");
-				makeLine.append(BattleScene.wildActHP + ",");
-				makeLine.append(BattleScene.wildAttack + ",");
-				makeLine.append(BattleScene.wildDefense + ",");
-				makeLine.append(BattleScene.wildSpeed + ",");
-				makeLine.append(BattleScene.wildSpecial + ",");
-				makeLine.append(BattleScene.wildXpNextLvl + ",");
-				makeLine.append(BattleScene.wildTOTXp + ",");
-				makeLine.append(BattleScene.wildLvL + ",");
-				makeLine.append(BattleScene.wildHPIV + ",");
-				makeLine.append(BattleScene.wildAttackIV + ",");
-				makeLine.append(BattleScene.wildDefenseIV + ",");
-				makeLine.append(BattleScene.wildSpeedIV + ",");
-				makeLine.append(BattleScene.wildSpecialIV + ",");
-				makeLine.append(BattleScene.wildHPEV + ",");
-				makeLine.append(BattleScene.wildAttackEV + ",");
-				makeLine.append(BattleScene.wildDefenseEV + ",");
-				makeLine.append(BattleScene.wildSpeedEV + ",");
-				makeLine.append(BattleScene.wildSpecialEV + ",");
-				makeLine.append(BattleScene.wildBaseXP + ",");
-				makeLine.append(BattleScene.move_name1 + ",");
-				makeLine.append(BattleScene.move_pp1 + ",");
-				makeLine.append(BattleScene.move_attPower1 + ",");
-				makeLine.append(BattleScene.move_name2 + ",");
-				makeLine.append(BattleScene.move_pp2 + ",");
-				makeLine.append(BattleScene.move_attPower2 + ",");
-				makeLine.append(BattleScene.move_name3 + ",");
-				makeLine.append(BattleScene.move_pp3 + ",");
-				makeLine.append(BattleScene.move_attPower3 + ",");
-				makeLine.append(BattleScene.move_name4 + ",");
-				makeLine.append(BattleScene.move_pp4 + ",");
-				makeLine.append(BattleScene.move_attPower4 + "");
-				
-				//System.out.println("You caught : " + LoadData.p_name.get(BattleScene.wildPokemon));
+			if (BattleScene.BattleCaught == true) {
+				if (LoadData.partyCounter < partySize) {
+					StringBuilder makeLine = new StringBuilder();
 
-				String newLine = makeLine.toString();
+					makeLine.append(LoadData.areaP_id.get(LoadData.partyCounter) + ",");
+					makeLine.append(LoadData.areaP_name.get(BattleScene.wildPokemon) + ",");
+					makeLine.append(BattleScene.wildTotHP + ",");
+					makeLine.append(BattleScene.wildActHP + ",");
+					makeLine.append(BattleScene.wildAttack + ",");
+					makeLine.append(BattleScene.wildDefense + ",");
+					makeLine.append(BattleScene.wildSpeed + ",");
+					makeLine.append(BattleScene.wildSpecial + ",");
+					makeLine.append(BattleScene.wildXpNextLvl + ",");
+					makeLine.append(BattleScene.wildTOTXp + ",");
+					// Current XP
+					makeLine.append(0 + ",");
+					makeLine.append(BattleScene.wildLvL + ",");
+					makeLine.append(BattleScene.wildHPIV + ",");
+					makeLine.append(BattleScene.wildAttackIV + ",");
+					makeLine.append(BattleScene.wildDefenseIV + ",");
+					makeLine.append(BattleScene.wildSpeedIV + ",");
+					makeLine.append(BattleScene.wildSpecialIV + ",");
+					makeLine.append(BattleScene.wildHPEV + ",");
+					makeLine.append(BattleScene.wildAttackEV + ",");
+					makeLine.append(BattleScene.wildDefenseEV + ",");
+					makeLine.append(BattleScene.wildSpeedEV + ",");
+					makeLine.append(BattleScene.wildSpecialEV + ",");
+					makeLine.append(BattleScene.wildBaseXP + ",");
+					makeLine.append(BattleScene.move_name1 + ",");
+					makeLine.append(BattleScene.move_pp1 + ",");
+					makeLine.append(BattleScene.move_attPower1 + ",");
+					makeLine.append(BattleScene.move_name2 + ",");
+					makeLine.append(BattleScene.move_pp2 + ",");
+					makeLine.append(BattleScene.move_attPower2 + ",");
+					makeLine.append(BattleScene.move_name3 + ",");
+					makeLine.append(BattleScene.move_pp3 + ",");
+					makeLine.append(BattleScene.move_attPower3 + ",");
+					makeLine.append(BattleScene.move_name4 + ",");
+					makeLine.append(BattleScene.move_pp4 + ",");
+					makeLine.append(BattleScene.move_attPower4 + "");
 
-				bw.write(newLine);
-			}
+					// System.out.println("You caught : " +
+					// LoadData.p_name.get(BattleScene.wildPokemon));
 
-			else {
-				System.out.println("Your party is full");
+					String newLine = makeLine.toString();
+
+					bw.write(newLine);
+				}
+
+				else {
+					System.out.println("Your party is full");
+				}
 			}
 		}
 
@@ -151,8 +169,8 @@ public class writeData {
 					e.printStackTrace();
 				}
 			}
-			
-			int var1 =  LoadData.start_lvl.get(MainMenu.chosenID);
+
+			int var1 = LoadData.start_lvl.get(MainMenu.chosenID);
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
 
@@ -161,37 +179,40 @@ public class writeData {
 			makeLine.append(LoadData.start_id.get(LoadData.partyCounter) + ",");
 			makeLine.append(LoadData.start_name.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_ACThp.get(MainMenu.chosenID) + ",");
-			makeLine.append(LoadData.start_ACThp.get(MainMenu.chosenID)+ ",");
+			makeLine.append(LoadData.start_ACThp.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_attack.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_defense.get(MainMenu.chosenID) + ",");
-			makeLine.append(LoadData.start_speed.get(MainMenu.chosenID) + ",");			
+			makeLine.append(LoadData.start_speed.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_special.get(MainMenu.chosenID) + ",");
-			//Sets next XP
-			makeLine.append(var1*var1*var1 + ",");
-			//Sets current level XP
-			makeLine.append(var1*var1 + ",");
+			// Sets next XP
+			makeLine.append(var1 * var1 * var1 + ",");
+			// Sets current level XP
+			makeLine.append(var1 * var1 + ",");
+			// Current XP
+			makeLine.append(0 + ",");
 			makeLine.append(LoadData.start_lvl.get(MainMenu.chosenID) + ",");
 			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
 			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
 			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
 			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
 			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
-			makeLine.append(LoadData.start_hpEV.get(MainMenu.chosenID)+ ",");
+			makeLine.append(LoadData.start_hpEV.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_attackEV.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_defenseEV.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_speedEV.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_specialEV.get(MainMenu.chosenID) + ",");
-			makeLine.append(LoadData.start_BaseXP.get(MainMenu.chosenID) + ",");	
-			
+			makeLine.append(LoadData.start_BaseXP.get(MainMenu.chosenID) + ",");
+
 			int tempvar1 = 10;
 			int tempvar2 = 10;
 			int tempvar3 = 10;
-			
-			//Sets random moves for starter Pokemon
+
+			// Sets random moves for starter Pokemon
 			for (int i = 0; i < 4; i++) {
 				int var2 = p5.floor(p5.random(0, 9));
-				//Checks if move has been used before and if so picks another random move
-				while(var2 == tempvar1 || var2 == tempvar2 || var2 == tempvar3){
+				// Checks if move has been used before and if so picks another
+				// random move
+				while (var2 == tempvar1 || var2 == tempvar2 || var2 == tempvar3) {
 					var2 = p5.floor(p5.random(0, 9));
 				}
 				makeLine.append(LoadData.move_name.get(var2) + ",");
@@ -201,14 +222,14 @@ public class writeData {
 				} else {
 					makeLine.append(LoadData.move_attPower.get(var2) + "");
 				}
-				//Stores the previous moves given
-				if(i == 0){
+				// Stores the previous moves given
+				if (i == 0) {
 					tempvar1 = var2;
 				}
-				if(i == 1){
+				if (i == 1) {
 					tempvar2 = var2;
 				}
-				if(i == 2){
+				if (i == 2) {
 					tempvar3 = var2;
 				}
 			}

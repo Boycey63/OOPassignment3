@@ -11,17 +11,19 @@ public class BattleScene {
 	public static int move_pp1, move_attPower1, move_pp2, move_attPower2, move_pp3, move_attPower3, move_pp4,
 			move_attPower4;
 	public static String move_name1, move_name2, move_name3, move_name4;
-	public static boolean resetTimer;
+	public static boolean resetTimer, BattleWon, BattleLost, BattleCaught;
 	public static int swtch;
 	PImage background;
 	float textX1, textX2, textY1, textY2, choicePosX, choicePosY;
 	String moveNameUsed;
 	int movePPUsed, moveattUsed;
 	double damage;
-
+	public static double partyHPEV, partyAttackEV, partyDefenseEV, partySpeedEV, partySpecialEV;
+	
 	BattleScene(Pokemon _p5) {
 		p5 = _p5;
 		resetTimer = true;
+		BattleWon = BattleLost = BattleCaught = false;
 		swtch = 0;
 		time = seconds = 0;
 		defaultRectangleH = 170;
@@ -112,6 +114,7 @@ public class BattleScene {
 				if (p5.keyPressed == true) {
 					choicePosX = textX1 - 15;
 					choicePosY = textY1 - 12;
+					BattleCaught = true;
 					throwBall();
 					writeData.addToParty();
 					LoadData.loadParty();
@@ -172,6 +175,19 @@ public class BattleScene {
 		}
 
 		if (wildActHP <= 0) {
+			BattleWon = true;
+			partyHPEV = LoadData.party_hpEV.get(0);
+			partyAttackEV = LoadData.party_attackEV.get(0);
+			partyDefenseEV = LoadData.party_defenseEV.get(0);
+			partySpeedEV = LoadData.party_speedEV.get(0);
+			partySpecialEV = LoadData.party_specialEV.get(0);
+			partyHPEV = calGivingEV(wildTotHP, partyHPEV);
+			partyAttackEV = calGivingEV(wildAttack, partyAttackEV);
+			partyDefenseEV = calGivingEV(wildDefense, partyDefenseEV);
+			partySpeedEV = calGivingEV(wildSpeed, partySpeedEV);
+			partySpecialEV = calGivingEV(wildSpecial, partySpecialEV);
+			writeData.addToParty();
+			BattleWon = false;
 			Pokemon.walkingView = true;
 			p5.key = 'm';
 		}
@@ -321,13 +337,14 @@ public class BattleScene {
 		wildDefense = (LoadData.areaP_defense.get(wildPokemon) + wildDefenseIV);
 		wildSpeed = (LoadData.areaP_speed.get(wildPokemon) + wildSpeedIV);
 		wildSpecial = (LoadData.areaP_special.get(wildPokemon) + wildSpecialIV);
+		
 		wildLvL = p5.floor(p5.random(3, 6));
+		wildBaseXP = (LoadData.areaP_BaseXP.get(wildPokemon));
 		
 		wildTOTXp = p5.floor(wildLvL * wildLvL);
 		wildXpNextLvl = p5.floor(wildLvL * wildLvL * wildLvL);
 		int var = p5.floor(p5.random(0, 9));
 		wildHPEV = wildAttackEV = wildDefenseEV = wildSpeedEV = wildSpecialEV = 0;
-		wildBaseXP = (LoadData.areaP_BaseXP.get(wildPokemon));
 		move_name1 = LoadData.move_name.get(var);
 		move_pp1 = LoadData.move_PP.get(var);
 		move_attPower1 = LoadData.move_attPower.get(var);
@@ -343,5 +360,15 @@ public class BattleScene {
 		move_name4 = LoadData.move_name.get(var);
 		move_pp4 = LoadData.move_PP.get(var);
 		move_attPower4 = LoadData.move_attPower.get(var);
+	}
+	
+	static double calGivingEV(int wildVar1, double userVar2){
+		userVar2 = userVar2 + (Math.sqrt(wildVar1))/4;
+		//System.out.println(userVar2 + (Math.sqrt(wildVar1))/4);
+		return userVar2;
+	}
+	
+	static double calEarnedXP(int wildVar1, double userVar2){
+		return userVar2;
 	}
 }
