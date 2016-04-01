@@ -7,8 +7,8 @@ public class MainMenu {
 	PImage pic;
 	boolean newGame;
 	public static int chosenID;
-	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenTotal, chosenXp,
-			chosenSpecial;
+	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenSpecial,
+			 chosenHPIV, chosenAttackIV, chosenDefenseIV, chosenSpeedIV, chosenSpecialIV;
 	int i;
 
 	MainMenu(Pokemon _p5) {
@@ -115,11 +115,21 @@ public class MainMenu {
 	}
 
 	void intChosen() {
+		chosenHPIV = (p5.floor(p5.random(0, 15)));
+		chosenAttackIV = (p5.floor(p5.random(0, 15)));
+		chosenDefenseIV = (p5.floor(p5.random(0, 15)));
+		chosenSpeedIV = (p5.floor(p5.random(0, 15)));
+		chosenSpecialIV = (p5.floor(p5.random(0, 15)));
 		chosenActHP = (LoadData.start_ACThp.get(chosenID));
+		chosenActHP = BattleScene.calStats(chosenActHP, chosenActHP, chosenHPIV, 0, 5);
 		chosenTotHP = chosenActHP;
 		chosenAttack = (LoadData.start_attack.get(chosenID));
+		chosenAttack = BattleScene.calStats(chosenAttack, chosenAttack, chosenAttackIV, 0, 5);
 		chosenDefense = (LoadData.start_defense.get(chosenID));
+		chosenDefense = BattleScene.calStats(chosenDefense, chosenDefense, chosenDefenseIV, 0, 5);
 		chosenSpeed = (LoadData.start_speed.get(chosenID));
+		chosenSpeed = BattleScene.calStats(chosenSpeed, chosenSpeed, chosenSpeedIV, 0, 5);
 		chosenSpecial = (LoadData.start_special.get(chosenID));
+		chosenSpecial = BattleScene.calStats(chosenSpecial, chosenSpecial, chosenSpecialIV, 0, 5);
 	}
 }

@@ -41,7 +41,13 @@ public class writeData {
 				createLine.append(LoadData.party_special.get(i) + ",");
 				createLine.append(LoadData.party_xpNextLvl.get(i) + ",");
 				createLine.append(LoadData.party_TOTxp.get(i) + ",");
+				if (BattleScene.BattleWon == false) {
 				createLine.append(LoadData.party_CurXP.get(i) + ",");
+				}
+				if (BattleScene.BattleWon == true) {
+					createLine.append(BattleScene.XpGiven + ",");
+					BattleScene.BattleWon = false;
+				}
 				createLine.append(LoadData.party_lvl.get(i) + ",");
 				createLine.append(LoadData.party_hpIV.get(i) + ",");
 				createLine.append(LoadData.party_attackIV.get(i) + ",");
@@ -175,15 +181,15 @@ public class writeData {
 			bw = new BufferedWriter(fw);
 
 			StringBuilder makeLine = new StringBuilder();
-
+			//MainMenu.chosenTotHP, MainMenu.chosenActHP, MainMenu.chosenAttack, MainMenu.chosenDefense, MainMenu.chosenSpeed, MainMenu.chosenSpecial
 			makeLine.append(LoadData.start_id.get(LoadData.partyCounter) + ",");
 			makeLine.append(LoadData.start_name.get(MainMenu.chosenID) + ",");
-			makeLine.append(LoadData.start_ACThp.get(MainMenu.chosenID) + ",");
-			makeLine.append(LoadData.start_ACThp.get(MainMenu.chosenID) + ",");
-			makeLine.append(LoadData.start_attack.get(MainMenu.chosenID) + ",");
-			makeLine.append(LoadData.start_defense.get(MainMenu.chosenID) + ",");
-			makeLine.append(LoadData.start_speed.get(MainMenu.chosenID) + ",");
-			makeLine.append(LoadData.start_special.get(MainMenu.chosenID) + ",");
+			makeLine.append(MainMenu.chosenTotHP + ",");
+			makeLine.append(MainMenu.chosenActHP + ",");
+			makeLine.append(MainMenu.chosenAttack + ",");
+			makeLine.append(MainMenu.chosenDefense + ",");
+			makeLine.append(MainMenu.chosenSpeed + ",");
+			makeLine.append(MainMenu.chosenSpecial + ",");
 			// Sets next XP
 			makeLine.append(var1 * var1 * var1 + ",");
 			// Sets current level XP
@@ -191,11 +197,12 @@ public class writeData {
 			// Current XP
 			makeLine.append(0 + ",");
 			makeLine.append(LoadData.start_lvl.get(MainMenu.chosenID) + ",");
-			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
-			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
-			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
-			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
-			makeLine.append(p5.floor(p5.random(0, 15)) + ",");
+			//chosenHPIV, chosenAttackIV, chosenDefenseIV, chosenSpeedIV, chosenSpecialIV
+			makeLine.append(MainMenu.chosenHPIV + ",");
+			makeLine.append(MainMenu.chosenAttackIV + ",");
+			makeLine.append(MainMenu.chosenDefenseIV + ",");
+			makeLine.append(MainMenu.chosenSpeedIV + ",");
+			makeLine.append(MainMenu.chosenSpecialIV + ",");
 			makeLine.append(LoadData.start_hpEV.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_attackEV.get(MainMenu.chosenID) + ",");
 			makeLine.append(LoadData.start_defenseEV.get(MainMenu.chosenID) + ",");

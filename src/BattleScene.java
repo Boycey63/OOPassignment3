@@ -11,7 +11,7 @@ public class BattleScene {
 	public static int move_pp1, move_attPower1, move_pp2, move_attPower2, move_pp3, move_attPower3, move_pp4,
 			move_attPower4;
 	public static String move_name1, move_name2, move_name3, move_name4;
-	public static boolean resetTimer, BattleWon, BattleLost, BattleCaught;
+	public static boolean resetTimer, BattleWon, BattleLost, BattleCaught, statType;
 	public static int swtch;
 	PImage background;
 	float textX1, textX2, textY1, textY2, choicePosX, choicePosY;
@@ -19,11 +19,12 @@ public class BattleScene {
 	int movePPUsed, moveattUsed;
 	double damage;
 	public static double partyHPEV, partyAttackEV, partyDefenseEV, partySpeedEV, partySpecialEV;
+	public static int XpGiven;
 	
 	BattleScene(Pokemon _p5) {
 		p5 = _p5;
 		resetTimer = true;
-		BattleWon = BattleLost = BattleCaught = false;
+		BattleWon = BattleLost = BattleCaught = statType = false;
 		swtch = 0;
 		time = seconds = 0;
 		defaultRectangleH = 170;
@@ -48,13 +49,14 @@ public class BattleScene {
 		p5.stroke(0);
 		p5.fill(0);
 		p5.image(background, 0, 0);
-		// User Pokemon
+		// User Pokemon Info
 		p5.textSize(30);
-		p5.text(LoadData.party_name.get(0), 620, 450);
+		p5.text(LoadData.party_name.get(0), 620, 430);
 		p5.textSize(25);
-		p5.text("Lvl: " + LoadData.party_lvl.get(0), 620, 480);
-		p5.text("HP: " + LoadData.party_ACThp.get(0), 620, 510);
-		// Wild Pokemon
+		p5.text("Lvl: " + LoadData.party_lvl.get(0), 620, 460);
+		p5.text("HP: " + LoadData.party_ACThp.get(0), 620, 490);
+		p5.text("Cur XP: " + LoadData.party_CurXP.get(0), 620, 520);
+		// Wild Pokemon Info
 		p5.textSize(30);
 		p5.text(LoadData.areaP_name.get(wildPokemon), 40, 40);
 		p5.textSize(25);
@@ -186,6 +188,9 @@ public class BattleScene {
 			partyDefenseEV = calGivingEV(wildDefense, partyDefenseEV);
 			partySpeedEV = calGivingEV(wildSpeed, partySpeedEV);
 			partySpecialEV = calGivingEV(wildSpecial, partySpecialEV);
+			wildLvL = p5.floor(p5.random(3, 6));
+			wildBaseXP = (LoadData.areaP_BaseXP.get(wildPokemon));
+			XpGiven = LoadData.party_CurXP.get(0) + p5.floor((float)calEarnedXP(XpGiven, wildBaseXP, wildLvL));
 			writeData.addToParty();
 			BattleWon = false;
 			Pokemon.walkingView = true;
@@ -324,27 +329,34 @@ public class BattleScene {
 		// Randomly selects pokemon based on the possible pokemon in area
 		// Set base stats of the pokemon
 		wildPokemon = p5.floor(p5.random(0, LoadData.areaCounter));
-		// wildHPIV, wildAttackIV, wildDefenseIV, wildSpeedIV, wildSpecialIV
 		wildHPIV = p5.floor(p5.random(0, 15));
 		wildAttackIV = p5.floor(p5.random(0, 15));
 		wildDefenseIV = p5.floor(p5.random(0, 15));
 		wildSpeedIV = p5.floor(p5.random(0, 15));
 		wildSpecialIV = p5.floor(p5.random(0, 15));
+		wildHPEV = wildAttackEV = wildDefenseEV = wildSpeedEV = wildSpecialEV = 0;
 
-		wildActHP = (LoadData.areaP_ACThp.get(wildPokemon) + wildHPIV);
-		wildTotHP = wildActHP;
-		wildAttack = (LoadData.areaP_attack.get(wildPokemon) + wildAttackIV);
-		wildDefense = (LoadData.areaP_defense.get(wildPokemon) + wildDefenseIV);
-		wildSpeed = (LoadData.areaP_speed.get(wildPokemon) + wildSpeedIV);
-		wildSpecial = (LoadData.areaP_special.get(wildPokemon) + wildSpecialIV);
-		
 		wildLvL = p5.floor(p5.random(3, 6));
 		wildBaseXP = (LoadData.areaP_BaseXP.get(wildPokemon));
+		XpGiven = 0;
+		
+		wildActHP = LoadData.areaP_ACThp.get(wildPokemon);
+		statType = true;
+		wildActHP = calStats(wildActHP, wildActHP, wildHPIV, wildHPEV, wildLvL);
+		wildTotHP = wildActHP;
+		statType = false;
+		wildAttack = LoadData.areaP_attack.get(wildPokemon);
+		wildAttack = calStats(wildAttack, wildAttack, wildAttackIV, wildAttackEV, wildLvL);
+		wildDefense = LoadData.areaP_defense.get(wildPokemon);
+		wildDefense = calStats(wildDefense, wildDefense, wildDefenseIV, wildDefenseEV, wildLvL);
+		wildSpeed = LoadData.areaP_speed.get(wildPokemon);
+		wildSpeed = calStats(wildSpeed, wildSpeed, wildSpeedIV, wildSpeedEV, wildLvL);
+		wildSpecial = LoadData.areaP_special.get(wildPokemon);
+		wildSpecial = calStats(wildSpecial, wildSpecial, wildSpecialIV, wildSpecialEV, wildLvL);
 		
 		wildTOTXp = p5.floor(wildLvL * wildLvL);
 		wildXpNextLvl = p5.floor(wildLvL * wildLvL * wildLvL);
 		int var = p5.floor(p5.random(0, 9));
-		wildHPEV = wildAttackEV = wildDefenseEV = wildSpeedEV = wildSpecialEV = 0;
 		move_name1 = LoadData.move_name.get(var);
 		move_pp1 = LoadData.move_PP.get(var);
 		move_attPower1 = LoadData.move_attPower.get(var);
@@ -368,7 +380,28 @@ public class BattleScene {
 		return userVar2;
 	}
 	
-	static double calEarnedXP(int wildVar1, double userVar2){
-		return userVar2;
+	static double calEarnedXP(int EarnedXp, int baseXp, int Level){
+		EarnedXp = (baseXp * Level)/7;
+		return EarnedXp;
+	}
+	
+	//Calculates stats based on level of Pokemon
+	static int calStats(int stat,int Base, int IV, double EV, int Level){
+		int step1, step2, step3;
+		float step4;
+		step1 = Base + IV;
+		step2 = p5.floor(step1 * 2);
+		step3 = (step2 + p5.floor((float)EV)) * Level;
+		step4 = step3/100;
+		
+		//If stats isn't hp
+		if(statType == false){
+		stat = p5.floor(step4 + 5);
+		}
+		//If stat is hp
+		if(statType == true){
+		stat = p5.floor(step4 + Level + 10);
+		}
+		return stat;
 	}
 }
