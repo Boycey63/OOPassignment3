@@ -1,7 +1,7 @@
 import processing.core.*;
 
 class InGame {
-	Pokemon p5;
+	static Pokemon p5;
 	public static int characterX, characterY;
 	public static int topR, bottomL;
 	public static PImage map1;
@@ -14,6 +14,8 @@ class InGame {
 	public static String[] background = new String[20];
 	public static String[] movement = new String[20];
 	public static int tempMovement;
+	public static int seconds, time, setTime, swtch;
+	public static boolean resetTimer;
 
 	InGame(Pokemon _p5) {
 		p5 = _p5;
@@ -21,6 +23,8 @@ class InGame {
 		black = 0;
 		white = -1;
 		green = -16711936;
+		resetTimer = true;
+		time = seconds = swtch = 0;
 
 		// Initializes the image array
 		background[0] = "Pallet Town2B.png";
@@ -149,6 +153,32 @@ class InGame {
 			p5.key = 'm';
 		}
 	}
+	
+	public static void startTimer() {
+		// Resets the timer, battle option and changes the next wild pokemon
+		if (resetTimer == true) {
+			seconds = time = 0;
+			swtch = 0;
+			BattleScene.intWildPokemon();
+			// Randomly set the time till the next battle
+			setTime = p5.floor(p5.random(1, 4));
+			resetTimer = false;
+		}
+		seconds++;
+
+		// Divides the default amount of frames by 60 to find seconds
+		if (seconds == 60) {
+			seconds = seconds / 60;
+			time++;
+		}
+
+		// Once time reaches the next battle time
+		if (time == setTime) {
+			Pokemon.battleView = true;
+			Pokemon.walkingView = false;
+			resetTimer = true;
+		}
+	}
 
 	void runInGame() {
 		// Saves and exits program
@@ -168,7 +198,7 @@ class InGame {
 				|| InGame.map2.get(InGame.topR, InGame.characterY) == InGame.green
 				|| InGame.map2.get(InGame.characterX, InGame.bottomL) == InGame.green
 				|| InGame.map2.get(InGame.topR, InGame.bottomL) == InGame.green) {
-			BattleScene.startTimer();
+			startTimer();
 		}
 	}
 }

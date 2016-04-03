@@ -1,6 +1,3 @@
-
-//Set pokemon stats
-
 import processing.core.*;
 
 public class Pokemon extends PApplet {

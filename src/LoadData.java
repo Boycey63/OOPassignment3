@@ -59,7 +59,7 @@ public class LoadData {
 	public static ArrayList<String> name_move4;
 	public static ArrayList<Integer> PP_move4;
 	public static ArrayList<Integer> attPower_move4;
-	
+
 	public static ArrayList<Integer> start_id;
 	public static ArrayList<String> start_name;
 	public static ArrayList<Integer> start_TOThp;
@@ -228,7 +228,6 @@ public class LoadData {
 				}
 				// Counts how many pokemon in the party
 				partyCounter++;
-				// System.out.println(partyCounter);
 			}
 		}
 
@@ -258,7 +257,7 @@ public class LoadData {
 		String line = "";
 		String split = ",";
 		areaCounter = -1;
-		
+
 		try {
 			br = new BufferedReader(new FileReader(file));
 			areaP_id = new ArrayList<Integer>();
@@ -275,7 +274,7 @@ public class LoadData {
 			areaP_speedEV = new ArrayList<Integer>();
 			areaP_specialEV = new ArrayList<Integer>();
 			areaP_BaseXP = new ArrayList<Integer>();
-			
+
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
 
@@ -329,7 +328,7 @@ public class LoadData {
 		BufferedReader br = null;
 		String line = "";
 		String split = ",";
-		
+
 		try {
 			br = new BufferedReader(new FileReader(file));
 			start_id = new ArrayList<Integer>();
@@ -350,7 +349,7 @@ public class LoadData {
 
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
-				
+
 				// Divides each line into Tokens
 				StringTokenizer st = new StringTokenizer(line, split);
 				// System.out.println(line);

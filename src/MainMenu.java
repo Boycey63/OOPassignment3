@@ -1,15 +1,13 @@
 import processing.core.*;
 import java.io.File;
-import java.util.ArrayList;
 
 public class MainMenu {
 	Pokemon p5;
 	PImage pic;
 	boolean newGame;
 	public static int chosenID;
-	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenSpecial,
-			 chosenHPIV, chosenAttackIV, chosenDefenseIV, chosenSpeedIV, chosenSpecialIV;
-	int i;
+	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenSpecial;
+	public static int chosenHPIV, chosenAttackIV, chosenDefenseIV, chosenSpeedIV, chosenSpecialIV;
 
 	MainMenu(Pokemon _p5) {
 		p5 = _p5;
@@ -27,15 +25,14 @@ public class MainMenu {
 		p5.text("Press ENTER = saved game", 725, 70);
 		p5.text("Press TAB = new game", 725, 100);
 		File file = new File("party.csv");
-		
+
 		if (p5.key == p5.ENTER) {
 			if (file.exists()) {
 				LoadData.loadParty();
 				LoadData.loadMoves();
 				Pokemon.walkingView = true;
 				p5.key = 'm';
-			}
-			else {
+			} else {
 				p5.fill(0);
 				p5.text("No saved file, Please start new game", 725, 130);
 			}

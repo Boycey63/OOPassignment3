@@ -1,6 +1,5 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.io.BufferedWriter;
 import java.io.File;
 
@@ -34,11 +33,15 @@ public class writeData {
 				createLine.append(LoadData.party_id.get(i) + ",");
 				createLine.append(LoadData.party_name.get(i) + ",");
 
-				//10------------------------------------------------------------------------------
+				// ------------------------------------------------------------------------------
 				if (BattleScene.BattleWon == false) {
-					System.out.println("Battle not won:" + LoadData.party_xpNextLvl.get(i));
 					createLine.append(LoadData.party_TOThp.get(i) + ",");
-					createLine.append(LoadData.party_ACThp.get(i) + ",");
+					if (BattleScene.FoeTurn == true) {
+						createLine.append(BattleScene.userACThp + ",");
+					}
+					if (BattleScene.FoeTurn == false) {
+						createLine.append(LoadData.party_ACThp.get(i) + ",");
+					}
 					createLine.append(LoadData.party_attack.get(i) + ",");
 					createLine.append(LoadData.party_defense.get(i) + ",");
 					createLine.append(LoadData.party_speed.get(i) + ",");
@@ -48,9 +51,8 @@ public class writeData {
 					createLine.append(LoadData.party_CurXP.get(i) + ",");
 					createLine.append(LoadData.party_lvl.get(i) + ",");
 				}
-				
+
 				if (BattleScene.BattleWon == true && BattleScene.LeveLup == false) {
-					System.out.println("Battle won - No level up :" + BattleScene.NexTxp);
 					createLine.append(LoadData.party_TOThp.get(i) + ",");
 					createLine.append(LoadData.party_ACThp.get(i) + ",");
 					createLine.append(LoadData.party_attack.get(i) + ",");
@@ -62,10 +64,9 @@ public class writeData {
 					createLine.append(BattleScene.CuRxp + ",");
 					createLine.append(LoadData.party_lvl.get(i) + ",");
 				}
-				
-				//If LeveLup = true .... update stats + change xp
+
+				// If LeveLup = true .... update stats + change xp
 				if (BattleScene.BattleWon == true && BattleScene.LeveLup == true) {
-					System.out.println("Battle won - Level up :" + BattleScene.NexTxp);
 					createLine.append(BattleScene.userTotHP + ",");
 					createLine.append(BattleScene.userActHP + ",");
 					createLine.append(BattleScene.userAttack + ",");
@@ -78,15 +79,15 @@ public class writeData {
 					createLine.append(BattleScene.Level + ",");
 					BattleScene.LeveLup = false;
 				}
-				//5------------------------------------------------------------------------------
-				
+				// ------------------------------------------------------------------------------
+
 				createLine.append(LoadData.party_hpIV.get(i) + ",");
 				createLine.append(LoadData.party_attackIV.get(i) + ",");
 				createLine.append(LoadData.party_defenseIV.get(i) + ",");
 				createLine.append(LoadData.party_speedIV.get(i) + ",");
 				createLine.append(LoadData.party_specialIV.get(i) + ",");
-				
-				//5------------------------------------------------------------------------------
+
+				// ------------------------------------------------------------------------------
 				// If pokemon is caught
 				if (BattleScene.BattleCaught == true || BattleScene.BattleWon == false) {
 					createLine.append(LoadData.party_hpEV.get(i) + ",");
@@ -95,8 +96,8 @@ public class writeData {
 					createLine.append(LoadData.party_speedEV.get(i) + ",");
 					createLine.append(LoadData.party_specialEV.get(i) + ",");
 				}
-				
-				//If battle is won....Assigns EVs to user pokemon
+
+				// If battle is won....Assigns EVs to user pokemon
 				if (BattleScene.BattleWon == true) {
 					createLine.append(BattleScene.partyHPEV + ",");
 					createLine.append(BattleScene.partyAttackEV + ",");
@@ -105,7 +106,7 @@ public class writeData {
 					createLine.append(BattleScene.partySpecialEV + ",");
 					BattleScene.BattleWon = false;
 				}
-				//------------------------------------------------------------------------------
+				// ------------------------------------------------------------------------------
 
 				createLine.append(LoadData.party_BaseExp.get(i) + ",");
 				createLine.append(LoadData.name_move1.get(i) + ",");
@@ -168,8 +169,7 @@ public class writeData {
 					makeLine.append(BattleScene.move_pp4 + ",");
 					makeLine.append(BattleScene.move_attPower4 + "");
 
-					// System.out.println("You caught : " +
-					// LoadData.p_name.get(BattleScene.wildPokemon));
+					System.out.println("You caught : " + LoadData.areaP_name.get(BattleScene.wildPokemon));
 
 					String newLine = makeLine.toString();
 
@@ -217,9 +217,6 @@ public class writeData {
 			bw = new BufferedWriter(fw);
 
 			StringBuilder makeLine = new StringBuilder();
-			// MainMenu.chosenTotHP, MainMenu.chosenActHP,
-			// MainMenu.chosenAttack, MainMenu.chosenDefense,
-			// MainMenu.chosenSpeed, MainMenu.chosenSpecial
 			makeLine.append(LoadData.start_id.get(LoadData.partyCounter) + ",");
 			makeLine.append(LoadData.start_name.get(MainMenu.chosenID) + ",");
 			makeLine.append(MainMenu.chosenTotHP + ",");
@@ -235,8 +232,6 @@ public class writeData {
 			// Current XP
 			makeLine.append(0 + ",");
 			makeLine.append(LoadData.start_lvl.get(MainMenu.chosenID) + ",");
-			// chosenHPIV, chosenAttackIV, chosenDefenseIV, chosenSpeedIV,
-			// chosenSpecialIV
 			makeLine.append(MainMenu.chosenHPIV + ",");
 			makeLine.append(MainMenu.chosenAttackIV + ",");
 			makeLine.append(MainMenu.chosenDefenseIV + ",");
