@@ -48,20 +48,6 @@ class InGame {
 		movement[3] = "up3.png";
 	}
 
-	void displayMap() {
-		// Bottom
-		p5.image(map2, 0, 0);
-
-		// Top
-		p5.image(map1, 0, 0);
-	}
-
-	void displayCharacter() {
-		p5.image(character, characterX, characterY);
-		topR = characterX + character.width;
-		bottomL = characterY + character.height;
-	}
-
 	void keyPressed() {
 		// --------------D----------------------
 		if (p5.key == 'd' && map2.get(characterX + character.width, characterY) >= white
@@ -189,8 +175,8 @@ class InGame {
 		}
 
 		// Displays map, character and the ability to move
-		displayMap();
-		displayCharacter();
+		Graphics.displayMap();
+		Graphics.displayCharacter();
 		keyPressed();
 
 		// If character is inside green start timer

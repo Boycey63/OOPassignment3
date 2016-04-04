@@ -2,8 +2,14 @@ import processing.core.*;
 
 public class BattleScene {
 	static Pokemon p5;
-	float Rectangle1X, Rectangle1Y, defaultRectangleX, defaultRectangleY;
-	float Rectangle1W, Rectangle1H, defaultRectangleW, defaultRectangleH;
+	static float Rectangle1X;
+	static float Rectangle1Y;
+	static float defaultRectangleX;
+	static float defaultRectangleY;
+	static float Rectangle1W;
+	static float Rectangle1H;
+	static float defaultRectangleW;
+	static float defaultRectangleH;
 	public static int wildPokemon;
 	public static int wildTotHP, wildActHP, wildAttack, wildDefense, wildSpeed, wildSpecial;
 	public static int wildXpNextLvl, wildTOTXp, wildLvL, wildBaseXP;
@@ -13,16 +19,17 @@ public class BattleScene {
 	public static int move_pp3, move_attPower3, move_pp4, move_attPower4;
 	public static String move_name1, move_name2, move_name3, move_name4;
 	public static boolean BattleWon, BattleLost, BattleCaught, statType, LeveLup, UserTurn, FoeTurn;
-	float textX1, textX2, textY1, textY2, choicePosX, choicePosY;
+	static float textX1, textX2, textY1, textY2;
+	static float choicePosX, choicePosY;
 	public static double partyHPEV, partyAttackEV, partyDefenseEV, partySpeedEV, partySpecialEV;
 	public static int XpGiven, movePPUsed, moveattUsed;
 	public static int ToTxp, CuRxp, NexTxp, Level;
-	public static int userTotHP, userActHP, userAttack, userDefense, userSpeed, userSpecial;
-	public static int userACThp;
-	public static int FoeMoveAtt;
-	boolean stop , GameOver;
+	public static int userTotHP, userActHP, userAttack, userDefense, userSpeed, userSpecial, userACThp;
+	public static int FoeMoveAtt, lowWildLvl, maxWildLvl;
+	boolean stop, GameOver;
+	String move = " ";
 
-	PImage background;
+	static PImage background;
 	String moveNameUsed;
 	double damage;
 
@@ -46,100 +53,15 @@ public class BattleScene {
 		textY2 = Rectangle1Y + (Rectangle1H * 3 / 4);
 		choicePosX = textX1 - 15;
 		choicePosY = textY1 - 12;
-	}
-
-	void defaultDraw() {
-		p5.background(180);
-		p5.stroke(0);
-		p5.fill(0);
-		p5.image(background, 0, 0);
-		// User Pokemon Info
-		p5.textSize(30);
-		p5.text(LoadData.party_name.get(0), 620, 430);
-		p5.textSize(25);
-		p5.text("Lvl: " + LoadData.party_lvl.get(0), 620, 460);
-		p5.text("HP: " + LoadData.party_ACThp.get(0), 620, 490);
-		p5.text("Cur XP: " + LoadData.party_CurXP.get(0), 620, 520);
-		p5.text("Next XP: " + (LoadData.party_xpNextLvl.get(0) - LoadData.party_TOTxp.get(0)), 900, 520);
-		// Wild Pokemon Info
-		p5.textSize(30);
-		p5.text(LoadData.areaP_name.get(wildPokemon), 40, 40);
-		p5.textSize(25);
-		p5.text("Lvl: " + wildLvL, 40, 70);
-		p5.text("HP: " + wildActHP, 40, 100);
-		// Draw rectangle
-		p5.stroke(255, 255, 255);
-		p5.fill(100, 100, 100);
-		p5.rect(defaultRectangleX, defaultRectangleY, defaultRectangleW, defaultRectangleH, 20, 20, 0, 0);
+		lowWildLvl = 2;
+		maxWildLvl = 4;
 	}
 
 	void menu1() {
-		Rectangle1H = 150;
-		Rectangle1W = 600;
-		Rectangle1X = p5.width - (Rectangle1W + 10);
-		Rectangle1Y = p5.height - (Rectangle1H + 10);
-
-		// Menu rectangle
-		p5.fill(150, 150, 150);
-		p5.stroke(255, 0, 0);
-		p5.rect(Rectangle1X, Rectangle1Y, Rectangle1W, Rectangle1H, 20, 20, 20, 20);
-		p5.stroke(255, 0, 0);
-		p5.line(Rectangle1X + (Rectangle1W / 2), Rectangle1Y, Rectangle1X + (Rectangle1W / 2), p5.height - 10);
-		p5.line(Rectangle1X, Rectangle1Y + (Rectangle1H / 2), p5.width - 10, Rectangle1Y + (Rectangle1H / 2));
-		p5.text("Press enter to chose an option: ", 40, (Rectangle1Y + (Rectangle1H / 2)));
-
-		p5.textSize(20);
-		p5.fill(0);
-
-		p5.text("Fight", textX1, textY1);
-		p5.text("Catch", textX1, textY2);
-		p5.text("Pokemon", textX2, textY1);
-		p5.text("Run", textX2, textY2);
-
+		Graphics.DrawBattleMenu1();
 		keyPressed();
 
-		p5.rect(choicePosX, choicePosY, 10, 10);
-
 		// When in main battle menu, trigger these options
-		if (InGame.swtch == 0) {
-			// Option 1
-			if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY1 - 12) {
-				if (p5.keyPressed == true) {
-					InGame.swtch = 1;
-					p5.key = 'm';
-				}
-			}
-			// Option 2
-			if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY1 - 12) {
-				if (p5.keyPressed == true) {
-					partyMenu();
-					p5.key = 'm';
-				}
-			}
-			// Option 3
-			if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY2 - 12) {
-				if (p5.keyPressed == true) {
-					choicePosX = textX1 - 15;
-					choicePosY = textY1 - 12;
-					BattleCaught = true;
-					writeData.updateParty();
-					LoadData.loadParty();
-					InGame.resetTimer = true;
-					Pokemon.walkingView = true;
-					p5.key = 'm';
-				}
-			}
-			// Option 4
-			if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY2 - 12) {
-				if (p5.keyPressed == true) {
-					choicePosX = textX1 - 15;
-					choicePosY = textY1 - 12;
-					Pokemon.walkingView = true;
-					InGame.resetTimer = true;
-					p5.key = 'm';
-				}
-			}
-		}
 	}
 
 	void keyPressed() {
@@ -167,13 +89,104 @@ public class BattleScene {
 			p5.key = 'm';
 			InGame.swtch = 0;
 		}
+
+		// Option 1
+		if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY1 - 12) {
+			if (p5.keyPressed == true && InGame.swtch == 0) {
+				InGame.swtch = 1;
+				p5.key = 'm';
+				p5.keyPressed = false;
+			}
+			if (p5.keyPressed == true && InGame.swtch == 1) {
+				moveNameUsed = LoadData.name_move1.get(0);
+				moveattUsed = LoadData.attPower_move1.get(0);
+				movePPUsed = LoadData.PP_move1.get(0);
+				DamageDone();
+				choicePosX = textX1 - 15;
+				choicePosY = textY1 - 12;
+				FoeTurn = true;
+				p5.key = 'm';
+				InGame.swtch = 0;
+				UserTurn = false;
+				p5.keyPressed = false;
+			}
+		}
+		// Option 2
+		if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY1 - 12) {
+			if (p5.keyPressed == true && InGame.swtch == 0) {
+				Graphics.DrawPartyMenu();
+				p5.key = 'm';
+				p5.keyPressed = false;
+			}
+			if (p5.keyPressed == true && InGame.swtch == 1) {
+				moveNameUsed = LoadData.name_move2.get(0);
+				moveattUsed = LoadData.attPower_move2.get(0);
+				movePPUsed = LoadData.PP_move2.get(0);
+				DamageDone();
+				choicePosX = textX1 - 15;
+				choicePosY = textY1 - 12;
+				FoeTurn = true;
+				p5.key = 'm';
+				InGame.swtch = 0;
+				p5.keyPressed = false;
+			}
+		}
+		// Option 3
+		if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY2 - 12) {
+			if (p5.keyPressed == true && InGame.swtch == 0) {
+				choicePosX = textX1 - 15;
+				choicePosY = textY1 - 12;
+				BattleCaught = true;
+				writeData.updateParty();
+				LoadData.loadParty();
+				InGame.resetTimer = true;
+				Pokemon.walkingView = true;
+				p5.key = 'm';
+				p5.keyPressed = false;
+			}
+			if (p5.keyPressed == true && InGame.swtch == 1) {
+				moveNameUsed = LoadData.name_move3.get(0);
+				moveattUsed = LoadData.attPower_move3.get(0);
+				movePPUsed = LoadData.PP_move3.get(0);
+				DamageDone();
+				choicePosX = textX1 - 15;
+				choicePosY = textY1 - 12;
+				FoeTurn = true;
+				p5.key = 'm';
+				InGame.swtch = 0;
+				p5.keyPressed = false;
+			}
+		}
+		// Option 4
+		if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY2 - 12) {
+			if (p5.keyPressed == true && InGame.swtch == 0) {
+				choicePosX = textX1 - 15;
+				choicePosY = textY1 - 12;
+				Pokemon.walkingView = true;
+				InGame.resetTimer = true;
+				p5.key = 'm';
+				p5.keyPressed = false;
+			}
+			if (p5.keyPressed == true && InGame.swtch == 1) {
+				moveNameUsed = LoadData.name_move4.get(0);
+				moveattUsed = LoadData.attPower_move4.get(0);
+				movePPUsed = LoadData.PP_move4.get(0);
+				DamageDone();
+				choicePosX = textX1 - 15;
+				choicePosY = textY1 - 12;
+				FoeTurn = true;
+				p5.key = 'm';
+				InGame.swtch = 0;
+				p5.keyPressed = false;
+			}
+		}
 	}
 
 	void runBattleScene() {
 		boolean start = true;
 
 		LoadData.loadParty();
-		defaultDraw();
+		Graphics.DrawDefaultBattleMenu();
 
 		if (start == true) {
 			BattleCaught = false;
@@ -189,7 +202,12 @@ public class BattleScene {
 
 		if (FoeTurn == true && GameOver == false) {
 			UserTurn = false;
+			System.out.println(UserTurn);
 			RunFoeTurn();
+			System.out.println(UserTurn);
+			p5.text(LoadData.areaP_name.get(wildPokemon) + " used " + move, 40, (Rectangle1Y + (Rectangle1H / 2)));
+			System.out.println(FoeTurn);
+			System.out.println(UserTurn);
 		}
 	}
 
@@ -212,99 +230,18 @@ public class BattleScene {
 	}
 
 	void attackMenu() {
-		Rectangle1H = 150;
-		Rectangle1W = 600;
-		Rectangle1X = p5.width - (Rectangle1W + 10);
-		Rectangle1Y = p5.height - (Rectangle1H + 10);
-
-		// Menu rectangle
-		p5.fill(150, 150, 150);
-		p5.stroke(255, 0, 0);
-		p5.rect(Rectangle1X, Rectangle1Y, Rectangle1W, Rectangle1H, 20, 20, 20, 20);
-		p5.stroke(255, 0, 0);
-		p5.line(Rectangle1X + (Rectangle1W / 2), Rectangle1Y, Rectangle1X + (Rectangle1W / 2), p5.height - 10);
-		p5.line(Rectangle1X, Rectangle1Y + (Rectangle1H / 2), p5.width - 10, Rectangle1Y + (Rectangle1H / 2));
-
-		p5.text("Press enter to chose a move: ", 40, (Rectangle1Y + (Rectangle1H / 2)) - 20);
-		p5.text("Press backspace to return to option menu: ", 40, (Rectangle1Y + (Rectangle1H / 2)) + 20);
-
-		p5.textSize(20);
-		p5.fill(0);
-		p5.text(LoadData.name_move1.get(0), textX1, textY1);
-		p5.text(LoadData.name_move3.get(0), textX1, textY2);
-		p5.text(LoadData.name_move2.get(0), textX2, textY1);
-		p5.text(LoadData.name_move4.get(0), textX2, textY2);
+		Graphics.DrawAttackMenu();
 
 		keyPressed();
-
-		if (InGame.swtch == 1) {
-			if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY1 - 12) {
-				if (p5.keyPressed == true) {
-					moveNameUsed = LoadData.name_move1.get(0);
-					moveattUsed = LoadData.attPower_move1.get(0);
-					movePPUsed = LoadData.PP_move1.get(0);
-					DamageDone();
-					choicePosX = textX1 - 15;
-					choicePosY = textY1 - 12;
-					FoeTurn = true;
-					p5.key = 'm';
-					InGame.swtch = 0;
-					UserTurn = false;
-				}
-			}
-			// Option 2
-			if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY1 - 12) {
-				if (p5.keyPressed == true) {
-					moveNameUsed = LoadData.name_move2.get(0);
-					moveattUsed = LoadData.attPower_move2.get(0);
-					movePPUsed = LoadData.PP_move2.get(0);
-					DamageDone();
-					choicePosX = textX1 - 15;
-					choicePosY = textY1 - 12;
-					FoeTurn = true;
-					p5.key = 'm';
-					InGame.swtch = 0;
-				}
-			}
-			// Option 3
-			if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY2 - 12) {
-				if (p5.keyPressed == true) {
-					moveNameUsed = LoadData.name_move3.get(0);
-					moveattUsed = LoadData.attPower_move3.get(0);
-					movePPUsed = LoadData.PP_move3.get(0);
-					DamageDone();
-					choicePosX = textX1 - 15;
-					choicePosY = textY1 - 12;
-					FoeTurn = true;
-					p5.key = 'm';
-					InGame.swtch = 0;
-				}
-			}
-			// Option 4
-			if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY2 - 12) {
-				if (p5.keyPressed == true) {
-					moveNameUsed = LoadData.name_move4.get(0);
-					moveattUsed = LoadData.attPower_move4.get(0);
-					movePPUsed = LoadData.PP_move4.get(0);
-					DamageDone();
-					choicePosX = textX1 - 15;
-					choicePosY = textY1 - 12;
-					FoeTurn = true;
-					p5.key = 'm';
-					InGame.swtch = 0;
-				}
-			}
-		}
-		p5.rect(choicePosX, choicePosY, 10, 10);
 	}
 
 	void runUserTurn() {
 		UserTurn = true;
 		FoeTurn = false;
-		if (InGame.swtch == 0) {
+		if (InGame.swtch == 0 && FoeTurn == false) {
 			menu1();
 		}
-		if (InGame.swtch == 1) {
+		if (InGame.swtch == 1 && FoeTurn == false) {
 			attackMenu();
 		}
 
@@ -322,7 +259,7 @@ public class BattleScene {
 			Level = LoadData.party_lvl.get(0);
 
 			addEVsXP();
-			
+
 			// When current xp reaches next level xp level up
 			if (NexTxp <= (ToTxp + CuRxp)) {
 				PokeLevelUP();
@@ -339,7 +276,6 @@ public class BattleScene {
 		FoeTurn = true;
 		UserTurn = false;
 		int var = p5.floor(p5.random(1, 4));
-		String move = " ";
 
 		if (var == 1) {
 			move = move_name1;
@@ -362,11 +298,6 @@ public class BattleScene {
 			DamageDone();
 			writeData.updateParty();
 			stop = true;
-		}
-
-		p5.text(LoadData.areaP_name.get(wildPokemon) + " used " + move, 40, (Rectangle1Y + (Rectangle1H / 2)));
-		if (p5.keyPressed == true && p5.key == p5.ENTER) {
-			UserTurn = true;
 		}
 	}
 
@@ -391,10 +322,6 @@ public class BattleScene {
 		}
 	}
 
-	void partyMenu() {
-
-	}
-
 	static void intWildPokemon() {
 		// Randomly selects pokemon based on the possible pokemon in area
 		// Set base stats of the pokemon
@@ -406,7 +333,7 @@ public class BattleScene {
 		wildSpecialIV = p5.floor(p5.random(0, 15));
 		wildHPEV = wildAttackEV = wildDefenseEV = wildSpeedEV = wildSpecialEV = 0;
 
-		wildLvL = p5.floor(p5.random(1, 2));
+		wildLvL = p5.floor(p5.random(lowWildLvl, maxWildLvl));
 		wildBaseXP = (LoadData.areaP_BaseXP.get(wildPokemon));
 		XpGiven = 0;
 
@@ -497,6 +424,9 @@ public class BattleScene {
 				LoadData.party_speedEV.get(0), Level);
 		userSpecial = calStats(userSpecial, LoadData.start_special.get(MainMenu.chosenID),
 				LoadData.party_specialIV.get(0), LoadData.party_specialEV.get(0), Level);
+
+		lowWildLvl++;
+		maxWildLvl++;
 		writeData.updateParty();
 	}
 }
