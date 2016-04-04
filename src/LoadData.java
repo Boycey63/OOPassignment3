@@ -256,7 +256,7 @@ public class LoadData {
 		BufferedReader br = null;
 		String line = "";
 		String split = ",";
-		areaCounter = -1;
+		areaCounter = 0;
 
 		try {
 			br = new BufferedReader(new FileReader(file));

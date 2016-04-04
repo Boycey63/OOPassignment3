@@ -13,7 +13,7 @@ public class writeData {
 		partySize = 6;
 	}
 
-	public static void addToParty() {
+	public static void updateParty() {
 		BufferedWriter bw = null;
 
 		try {
@@ -88,8 +88,7 @@ public class writeData {
 				createLine.append(LoadData.party_specialIV.get(i) + ",");
 
 				// ------------------------------------------------------------------------------
-				// If pokemon is caught
-				if (BattleScene.BattleCaught == true || BattleScene.BattleWon == false) {
+				if (BattleScene.BattleWon == false) {
 					createLine.append(LoadData.party_hpEV.get(i) + ",");
 					createLine.append(LoadData.party_attackEV.get(i) + ",");
 					createLine.append(LoadData.party_defenseEV.get(i) + ",");

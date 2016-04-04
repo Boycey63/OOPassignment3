@@ -2,7 +2,7 @@ import processing.core.*;
 import java.io.File;
 
 public class MainMenu {
-	Pokemon p5;
+	static Pokemon p5;
 	PImage pic;
 	boolean newGame;
 	public static int chosenID;
@@ -63,7 +63,7 @@ public class MainMenu {
 		}
 	}
 
-	void resetLocation() {
+	static void resetLocation() {
 		InGame.location = 2;
 		InGame.characterX = 304;
 		InGame.characterY = 413;
@@ -118,8 +118,10 @@ public class MainMenu {
 		chosenSpeedIV = (p5.floor(p5.random(0, 15)));
 		chosenSpecialIV = (p5.floor(p5.random(0, 15)));
 		chosenActHP = (LoadData.start_ACThp.get(chosenID));
+		BattleScene.statType = true;
 		chosenActHP = BattleScene.calStats(chosenActHP, chosenActHP, chosenHPIV, 0, 5);
 		chosenTotHP = chosenActHP;
+		BattleScene.statType = false;
 		chosenAttack = (LoadData.start_attack.get(chosenID));
 		chosenAttack = BattleScene.calStats(chosenAttack, chosenAttack, chosenAttackIV, 0, 5);
 		chosenDefense = (LoadData.start_defense.get(chosenID));

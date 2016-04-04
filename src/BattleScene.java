@@ -20,7 +20,7 @@ public class BattleScene {
 	public static int userTotHP, userActHP, userAttack, userDefense, userSpeed, userSpecial;
 	public static int userACThp;
 	public static int FoeMoveAtt;
-	boolean stop;
+	boolean stop , GameOver;
 
 	PImage background;
 	String moveNameUsed;
@@ -28,7 +28,7 @@ public class BattleScene {
 
 	BattleScene(Pokemon _p5) {
 		p5 = _p5;
-		BattleWon = BattleLost = BattleCaught = statType = LeveLup = FoeTurn = false;
+		BattleWon = BattleLost = BattleCaught = statType = LeveLup = FoeTurn = GameOver = false;
 		UserTurn = true;
 		stop = false;
 		defaultRectangleH = 170;
@@ -122,7 +122,7 @@ public class BattleScene {
 					choicePosX = textX1 - 15;
 					choicePosY = textY1 - 12;
 					BattleCaught = true;
-					writeData.addToParty();
+					writeData.updateParty();
 					LoadData.loadParty();
 					InGame.resetTimer = true;
 					Pokemon.walkingView = true;
@@ -176,16 +176,18 @@ public class BattleScene {
 		defaultDraw();
 
 		if (start == true) {
+			BattleCaught = false;
+			GameOver = false;
 			UserTurn = true;
 			start = false;
 		}
 
-		if (UserTurn == true) {
+		if (UserTurn == true && GameOver == false) {
 			FoeTurn = false;
 			runUserTurn();
 		}
 
-		if (FoeTurn == true) {
+		if (FoeTurn == true && GameOver == false) {
 			UserTurn = false;
 			RunFoeTurn();
 		}
@@ -206,7 +208,7 @@ public class BattleScene {
 
 		XpGiven = p5.floor((float) calEarnedXP(XpGiven, wildBaseXP, wildLvL));
 		CuRxp = CuRxp + XpGiven;
-		writeData.addToParty();
+		writeData.updateParty();
 	}
 
 	void attackMenu() {
@@ -307,6 +309,7 @@ public class BattleScene {
 		}
 
 		if (wildActHP <= 0) {
+			GameOver = true;
 			userTotHP = LoadData.party_TOThp.get(0);
 			userActHP = LoadData.party_ACThp.get(0);
 			userAttack = LoadData.party_attack.get(0);
@@ -319,7 +322,7 @@ public class BattleScene {
 			Level = LoadData.party_lvl.get(0);
 
 			addEVsXP();
-
+			
 			// When current xp reaches next level xp level up
 			if (NexTxp <= (ToTxp + CuRxp)) {
 				PokeLevelUP();
@@ -357,7 +360,7 @@ public class BattleScene {
 
 		if (stop == false) {
 			DamageDone();
-			writeData.addToParty();
+			writeData.updateParty();
 			stop = true;
 		}
 
@@ -371,14 +374,11 @@ public class BattleScene {
 		// damage = (((2xLEVEL+10)/250) x (ATTACK/DEFENSE) x BASE + 2) x
 		// Modifier
 		// Base is the base power of the attack move
-		System.out.println("Foeturn = " + FoeTurn);
 		if (FoeTurn == true) {
 			float part1 = ((2 * wildLvL) + 10);
 			float part2 = wildAttack;
 			damage = (((part1 / 250) * (part2 / LoadData.party_defense.get(0))) * FoeMoveAtt) + 2;
-			System.out.println("Foe attacked");
 			userACThp = LoadData.party_ACThp.get(0) - (int) (damage);
-			System.out.println(userACThp);
 			damage = 0;
 		}
 
@@ -406,7 +406,7 @@ public class BattleScene {
 		wildSpecialIV = p5.floor(p5.random(0, 15));
 		wildHPEV = wildAttackEV = wildDefenseEV = wildSpeedEV = wildSpecialEV = 0;
 
-		wildLvL = p5.floor(p5.random(3, 6));
+		wildLvL = p5.floor(p5.random(1, 2));
 		wildBaseXP = (LoadData.areaP_BaseXP.get(wildPokemon));
 		XpGiven = 0;
 
@@ -497,6 +497,6 @@ public class BattleScene {
 				LoadData.party_speedEV.get(0), Level);
 		userSpecial = calStats(userSpecial, LoadData.start_special.get(MainMenu.chosenID),
 				LoadData.party_specialIV.get(0), LoadData.party_specialEV.get(0), Level);
-		writeData.addToParty();
+		writeData.updateParty();
 	}
 }
