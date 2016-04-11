@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -89,7 +90,7 @@ public class LoadData {
 	public static int areaCounter;
 
 	public static void loadMoves() {
-		file = "Moves.csv";
+		file = "LoadData" + File.separator + "Moves.csv";
 		BufferedReader br = null;
 		String line;
 		String split = ",";
@@ -138,7 +139,7 @@ public class LoadData {
 	}
 
 	public static void loadParty() {
-		file = "Party.csv";
+		file = "LoadData" + File.separator + "Party.csv";
 		BufferedReader br = null;
 		String line;
 		String split = ",";
@@ -252,7 +253,7 @@ public class LoadData {
 	}
 
 	public static void loadPokeArea() {
-		file = "Area1.csv";
+		file = "LoadData" + File.separator + "Area1.csv";
 		BufferedReader br = null;
 		String line = "";
 		String split = ",";
@@ -324,7 +325,7 @@ public class LoadData {
 	}
 
 	public static void loadStartPokemon() {
-		file = "Starters.csv";
+		file = "LoadData" + File.separator + "Starters.csv";
 		BufferedReader br = null;
 		String line = "";
 		String split = ",";
@@ -395,7 +396,7 @@ public class LoadData {
 	}
 
 	void loadSaveGame() {
-		file = "SavedGame.csv";
+		file = "LoadData" + File.separator + "SavedGame.csv";
 		BufferedReader br = null;
 		String line;
 		String split = ",";

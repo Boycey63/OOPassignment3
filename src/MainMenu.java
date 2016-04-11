@@ -24,7 +24,7 @@ public class MainMenu {
 		p5.textSize(20);
 		p5.text("Press ENTER = saved game", 725, 70);
 		p5.text("Press TAB = new game", 725, 100);
-		File file = new File("party.csv");
+		File file = new File("LoadData" + File.separator + "party.csv");
 
 		if (p5.key == p5.ENTER) {
 			if (file.exists()) {
@@ -71,7 +71,9 @@ public class MainMenu {
 		InGame.map2 = p5.loadImage(InGame.background[InGame.location]);
 		InGame.map1 = p5.loadImage(InGame.background[InGame.location + 1]);
 		InGame.character = p5.loadImage(InGame.movement[InGame.tempMovement]);
-		writeData.saveGame();
+		if (BattleScene.GameOver == false) {
+			writeData.saveGame();
+		}
 	}
 
 	void keyPressed() {

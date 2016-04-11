@@ -148,6 +148,7 @@ class InGame {
 			BattleScene.intWildPokemon();
 			// Randomly set the time till the next battle
 			setTime = p5.floor(p5.random(1, 4));
+			BattleScene.stop1 = false;
 			resetTimer = false;
 		}
 		seconds++;

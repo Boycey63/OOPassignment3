@@ -17,7 +17,7 @@ public class writeData {
 		BufferedWriter bw = null;
 
 		try {
-			File file = new File("Party.csv");
+			File file = new File("LoadData" + File.separator + "Party.csv");
 
 			// Checks if file exists and if not creates the file
 			if (!file.exists()) {
@@ -37,7 +37,11 @@ public class writeData {
 				if (BattleScene.BattleWon == false) {
 					createLine.append(LoadData.party_TOThp.get(i) + ",");
 					if (BattleScene.FoeTurn == true) {
-						createLine.append(BattleScene.userACThp + ",");
+						if (BattleScene.GameOver == true) {
+							createLine.append(LoadData.party_TOThp.get(i) + ",");
+						} else {
+							createLine.append(BattleScene.userACThp + ",");
+						}
 					}
 					if (BattleScene.FoeTurn == false) {
 						createLine.append(LoadData.party_ACThp.get(i) + ",");
@@ -199,7 +203,7 @@ public class writeData {
 		BufferedWriter bw = null;
 
 		try {
-			File file = new File("Party.csv");
+			File file = new File("LoadData" + File.separator + "Party.csv");
 
 			// Checks if file exists and if not creates the file
 			if (!file.exists()) {
@@ -294,7 +298,7 @@ public class writeData {
 		BufferedWriter bw = null;
 
 		try {
-			File file = new File("SavedGame.csv");
+			File file = new File("LoadData" + File.separator + "SavedGame.csv");
 
 			// Checks if file exists and if not creates the file
 			if (!file.exists()) {
