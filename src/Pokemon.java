@@ -8,7 +8,8 @@ public class Pokemon extends PApplet {
 	writeData writedata;
 	MainMenu mainMenu;
 	Graphics graphics;
-
+	BasePokemon basepokemon;
+	
 	public static boolean walkingView, battleView, mainmenu;
 	public static boolean timerStart;
 
@@ -31,6 +32,7 @@ public class Pokemon extends PApplet {
 		battlescene = new BattleScene(this);
 		mainMenu = new MainMenu(this);
 		graphics = new Graphics(this);
+		basepokemon = new BasePokemon(this);
 		loadData.loadPokeArea();
 		loadData.loadSaveGame();
 

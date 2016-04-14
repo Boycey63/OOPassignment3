@@ -10,34 +10,19 @@ public class BattleScene {
 	static float Rectangle1H;
 	static float defaultRectangleW;
 	static float defaultRectangleH;
-	public static int wildPokemon;
-	public static int wildTotHP, wildActHP, wildAttack, wildDefense, wildSpeed, wildSpecial;
-	public static int wildXpNextLvl, wildTOTXp, wildLvL, wildBaseXP;
-	public static int wildHPIV, wildAttackIV, wildDefenseIV, wildSpeedIV, wildSpecialIV;
-	public static int wildHPEV, wildAttackEV, wildDefenseEV, wildSpeedEV, wildSpecialEV;
-	public static int move_pp1, move_attPower1, move_pp2, move_attPower2;
-	public static int move_pp3, move_attPower3, move_pp4, move_attPower4;
-	public static String move_name1, move_name2, move_name3, move_name4;
-	public static boolean BattleWon, BattleLost, BattleCaught, statType, LeveLup, UserTurn, FoeTurn;
+	public static boolean BattleWon, BattleLost, BattleCaught, LeveLup, UserTurn, FoeTurn;
 	static float textX1, textX2, textY1, textY2;
 	static float choicePosX, choicePosY;
-	public static double partyHPEV, partyAttackEV, partyDefenseEV, partySpeedEV, partySpecialEV;
-	public static int XpGiven, movePPUsed, moveattUsed;
-	public static int ToTxp, CuRxp, NexTxp, Level;
-	public static int userTotHP, userActHP, userAttack, userDefense, userSpeed, userSpecial, userACThp;
-	public static int FoeMoveAtt, lowWildLvl, maxWildLvl;
 	static boolean stop1;
 	static boolean GameOver;
-	static boolean intialize = true;
-	String move = " ";
+	static boolean intialize;
 
 	static PImage background;
-	String moveNameUsed;
 	double damage;
 
 	BattleScene(Pokemon _p5) {
 		p5 = _p5;
-		BattleWon = BattleLost = BattleCaught = statType = LeveLup = FoeTurn = GameOver = false;
+		BattleWon = BattleLost = BattleCaught = LeveLup = FoeTurn = GameOver = false;
 		UserTurn = true;
 		intialize = true;
 		stop1 = false;
@@ -56,8 +41,6 @@ public class BattleScene {
 		textY2 = Rectangle1Y + (Rectangle1H * 3 / 4);
 		choicePosX = textX1 - 15;
 		choicePosY = textY1 - 12;
-		lowWildLvl = 2;
-		maxWildLvl = 4;
 	}
 
 	void runBattleScene() {
@@ -66,7 +49,7 @@ public class BattleScene {
 		intialize = true;
 
 		if (intialize == true) {
-			userACThp = 10000000;
+			BasePokemon.userACThp = 10000000;
 			BattleCaught = false;
 			GameOver = false;
 			UserTurn = true;
@@ -81,7 +64,8 @@ public class BattleScene {
 		if (FoeTurn == true && GameOver == false) {
 			UserTurn = false;
 			RunFoeTurn();
-			p5.text(LoadData.areaP_name.get(wildPokemon) + " used " + move, 40, (Rectangle1Y + (Rectangle1H / 2)));
+			p5.text(LoadData.areaP_name.get(BasePokemon.wildID) + " used " + BasePokemon.WildMove, 40,
+					(Rectangle1Y + (Rectangle1H / 2)));
 		}
 	}
 
@@ -102,18 +86,16 @@ public class BattleScene {
 
 		// View Party option
 		if (InGame.swtch == 2 && FoeTurn == false) {
-			Graphics.DrawPartyMenu();
+			// Start here...need to draw main battle menu
 			Graphics.DrawBattleMenu1();
+			Graphics.DrawPartyMenu();
 			keyPressed();
 		}
 
 		// When foe attack display what move they used
 		if (InGame.swtch == 3 && FoeTurn == false) {
 			Graphics.DrawBattleMenu1();
-			p5.text("The wild " + LoadData.areaP_name.get(BattleScene.wildPokemon) + " used " + move, 40,
-					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 20);
-			p5.text("Press backspace to return to take your turn: ", 40,
-					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 20);
+			Graphics.BattleResponse();
 
 			if (p5.keyPressed == true && p5.key == p5.BACKSPACE) {
 				InGame.swtch = 0;
@@ -123,9 +105,7 @@ public class BattleScene {
 		// If you lose.. display message to leave
 		if (InGame.swtch == 4 && FoeTurn == false) {
 			Graphics.DrawBattleMenu1();
-			p5.text("You have lost the battle", 40, (BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 20);
-			p5.text("Press backspace to leave battle field and run to the hospital ", 40,
-					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 20);
+			Graphics.BattleResponse();
 
 			if (p5.keyPressed == true && p5.key == p5.BACKSPACE) {
 				InGame.swtch = 0;
@@ -137,25 +117,16 @@ public class BattleScene {
 			}
 		}
 
-		if (wildActHP <= 0 && stop1 == false) {
-			userTotHP = LoadData.party_TOThp.get(0);
-			userActHP = LoadData.party_ACThp.get(0);
-			userAttack = LoadData.party_attack.get(0);
-			userDefense = LoadData.party_defense.get(0);
-			userSpeed = LoadData.party_speed.get(0);
-			userSpecial = LoadData.party_special.get(0);
-			NexTxp = LoadData.party_xpNextLvl.get(0);
-			ToTxp = LoadData.party_TOTxp.get(0);
-			CuRxp = LoadData.party_CurXP.get(0);
-			Level = LoadData.party_lvl.get(0);
-			addEVsXP();
+		if (BasePokemon.wildActHP <= 0 && stop1 == false) {
+			BasePokemon.LoadUserStats();
+			BasePokemon.addEvXp();
 
 			// When current xp reaches next level xp level up
-			if (NexTxp <= (ToTxp + CuRxp)) {
+			if (BasePokemon.NexTxp <= (BasePokemon.ToTxp + BasePokemon.CuRxp)) {
 				PokeLevelUP();
 				stop1 = true;
 			}
-			wildActHP = 0;
+			BasePokemon.wildActHP = 0;
 			InGame.swtch = 5;
 			stop1 = true;
 			GameOver = true;
@@ -164,13 +135,7 @@ public class BattleScene {
 		// If you win
 		if (InGame.swtch == 5 && FoeTurn == false) {
 			Graphics.DrawBattleMenu1();
-
-			p5.text("You beat the wild " + LoadData.areaP_name.get(wildPokemon), 40,
-					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 30);
-			p5.text("Your " + LoadData.party_name.get(0) + " gained " + XpGiven + " xp", 40,
-					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
-			p5.text("Press backspace to leave battle field", 40,
-					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 30);
+			Graphics.BattleResponse();
 
 			if (p5.keyPressed == true && p5.key == p5.BACKSPACE) {
 				UserTurn = false;
@@ -185,31 +150,14 @@ public class BattleScene {
 		stop1 = false;
 		FoeTurn = true;
 		UserTurn = false;
-		int var = p5.floor(p5.random(1, 4));
-
-		if (var == 1) {
-			move = move_name1;
-			FoeMoveAtt = move_attPower1;
-		}
-		if (var == 2) {
-			move = move_name2;
-			FoeMoveAtt = move_attPower2;
-		}
-		if (var == 3) {
-			move = move_name3;
-			FoeMoveAtt = move_attPower3;
-		}
-		if (var == 4) {
-			move = move_name4;
-			FoeMoveAtt = move_attPower4;
-		}
+		BasePokemon.SetWildMoves();
 
 		if (stop1 == false) {
 			InGame.swtch = 10;
 			DamageDone();
 			writeData.updateParty();
 			InGame.swtch = 3;
-			if (userACThp <= 0) {
+			if (BasePokemon.userACThp <= 0) {
 				GameOver = true;
 				InGame.swtch = 4;
 				stop1 = true;
@@ -219,23 +167,43 @@ public class BattleScene {
 
 	void keyPressed() {
 		if (p5.key == 'w') {
-			choicePosY = textY1 - 12;
-			p5.key = 'm';
+			if (InGame.swtch != 6) {
+				choicePosY = textY1 - 12;
+				p5.key = 'm';
+			}
+			if (InGame.swtch == 6) {
+
+			}
 		}
 
 		if (p5.key == 's') {
-			choicePosY = textY2 - 12;
-			p5.key = 'm';
+			if (InGame.swtch != 6) {
+				choicePosY = textY2 - 12;
+				p5.key = 'm';
+			}
+			if (InGame.swtch == 6) {
+
+			}
 		}
 
 		if (p5.key == 'a') {
-			choicePosX = textX1 - 15;
-			p5.key = 'm';
+			if (InGame.swtch != 6) {
+				choicePosX = textX1 - 15;
+				p5.key = 'm';
+			}
+			if (InGame.swtch == 6) {
+
+			}
 		}
 
 		if (p5.key == 'd') {
-			choicePosX = textX2 - 15;
-			p5.key = 'm';
+			if (InGame.swtch != 6) {
+				choicePosX = textX2 - 15;
+				p5.key = 'm';
+			}
+			if (InGame.swtch == 6) {
+
+			}
 		}
 
 		if (p5.key == p5.BACKSPACE) {
@@ -251,9 +219,9 @@ public class BattleScene {
 				p5.keyPressed = false;
 			}
 			if (p5.keyPressed == true && InGame.swtch == 1) {
-				moveNameUsed = LoadData.name_move1.get(0);
-				moveattUsed = LoadData.attPower_move1.get(0);
-				movePPUsed = LoadData.PP_move1.get(0);
+				BasePokemon.moveNameUsed = LoadData.name_move1.get(0);
+				BasePokemon.moveattUsed = LoadData.attPower_move1.get(0);
+				BasePokemon.movePPUsed = LoadData.PP_move1.get(0);
 				DamageDone();
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
@@ -262,9 +230,6 @@ public class BattleScene {
 				InGame.swtch = 0;
 				UserTurn = false;
 				p5.keyPressed = false;
-			}
-			if (p5.keyPressed == true && InGame.swtch == 2) {
-
 			}
 		}
 		// Option 2
@@ -276,9 +241,9 @@ public class BattleScene {
 				p5.keyPressed = false;
 			}
 			if (p5.keyPressed == true && InGame.swtch == 1) {
-				moveNameUsed = LoadData.name_move2.get(0);
-				moveattUsed = LoadData.attPower_move2.get(0);
-				movePPUsed = LoadData.PP_move2.get(0);
+				BasePokemon.moveNameUsed = LoadData.name_move2.get(0);
+				BasePokemon.moveattUsed = LoadData.attPower_move2.get(0);
+				BasePokemon.movePPUsed = LoadData.PP_move2.get(0);
 				DamageDone();
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
@@ -286,10 +251,6 @@ public class BattleScene {
 				p5.key = 'm';
 				InGame.swtch = 0;
 				p5.keyPressed = false;
-			}
-
-			if (p5.keyPressed == true && InGame.swtch == 2) {
-
 			}
 		}
 		// Option 3
@@ -306,9 +267,9 @@ public class BattleScene {
 				p5.keyPressed = false;
 			}
 			if (p5.keyPressed == true && InGame.swtch == 1) {
-				moveNameUsed = LoadData.name_move3.get(0);
-				moveattUsed = LoadData.attPower_move3.get(0);
-				movePPUsed = LoadData.PP_move3.get(0);
+				BasePokemon.moveNameUsed = LoadData.name_move3.get(0);
+				BasePokemon.moveattUsed = LoadData.attPower_move3.get(0);
+				BasePokemon.movePPUsed = LoadData.PP_move3.get(0);
 				DamageDone();
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
@@ -316,9 +277,6 @@ public class BattleScene {
 				p5.key = 'm';
 				InGame.swtch = 0;
 				p5.keyPressed = false;
-			}
-			if (p5.keyPressed == true && InGame.swtch == 2) {
-
 			}
 		}
 		// Option 4
@@ -332,9 +290,9 @@ public class BattleScene {
 				p5.keyPressed = false;
 			}
 			if (p5.keyPressed == true && InGame.swtch == 1) {
-				moveNameUsed = LoadData.name_move4.get(0);
-				moveattUsed = LoadData.attPower_move4.get(0);
-				movePPUsed = LoadData.PP_move4.get(0);
+				BasePokemon.moveNameUsed = LoadData.name_move4.get(0);
+				BasePokemon.moveattUsed = LoadData.attPower_move4.get(0);
+				BasePokemon.movePPUsed = LoadData.PP_move4.get(0);
 				DamageDone();
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
@@ -343,28 +301,46 @@ public class BattleScene {
 				InGame.swtch = 0;
 				p5.keyPressed = false;
 			}
-			if (p5.keyPressed == true && InGame.swtch == 2) {
+		}
 
+		// Switch pokemon
+		if (InGame.swtch == 6 && p5.keyPressed == true && p5.key == p5.ENTER) {
+			// Pokemon 1 slot
+			if (BattleScene.choicePosX == Graphics.rectPosX1 && BattleScene.choicePosY == Graphics.rectPosY1) {
+				int slot = 0;
+				BasePokemon.selectSwapPoke(slot);
+			}
+
+			// Pokemon 2 slot
+			if (BattleScene.choicePosX == Graphics.rectPosX2 && BattleScene.choicePosY == Graphics.rectPosY1) {
+				int slot = 1;
+				BasePokemon.selectSwapPoke(slot);
+			}
+
+			// Pokemon 3 slot
+			if (BattleScene.choicePosX == Graphics.rectPosX1 && BattleScene.choicePosY == Graphics.rectPosY2) {
+				int slot = 2;
+				BasePokemon.selectSwapPoke(slot);
+			}
+
+			// Pokemon 4 slot
+			if (BattleScene.choicePosX == Graphics.rectPosX2 && BattleScene.choicePosY == Graphics.rectPosY2) {
+				int slot = 3;
+				BasePokemon.selectSwapPoke(slot);
+			}
+
+			// Pokemon 5 slot
+			if (BattleScene.choicePosX == Graphics.rectPosX1 && BattleScene.choicePosY == Graphics.rectPosY3) {
+				int slot = 4;
+				BasePokemon.selectSwapPoke(slot);
+			}
+
+			// Pokemon 6 slot
+			if (BattleScene.choicePosX == Graphics.rectPosX2 && BattleScene.choicePosY == Graphics.rectPosY3) {
+				int slot = 5;
+				BasePokemon.selectSwapPoke(slot);
 			}
 		}
-	}
-
-	void addEVsXP() {
-		BattleWon = true;
-		partyHPEV = LoadData.party_hpEV.get(0);
-		partyAttackEV = LoadData.party_attackEV.get(0);
-		partyDefenseEV = LoadData.party_defenseEV.get(0);
-		partySpeedEV = LoadData.party_speedEV.get(0);
-		partySpecialEV = LoadData.party_specialEV.get(0);
-		partyHPEV = calGivingEV(wildTotHP, partyHPEV);
-		partyAttackEV = calGivingEV(wildAttack, partyAttackEV);
-		partyDefenseEV = calGivingEV(wildDefense, partyDefenseEV);
-		partySpeedEV = calGivingEV(wildSpeed, partySpeedEV);
-		partySpecialEV = calGivingEV(wildSpecial, partySpecialEV);
-
-		XpGiven = p5.floor((float) calEarnedXP(XpGiven, wildBaseXP, wildLvL));
-		CuRxp = CuRxp + XpGiven;
-		writeData.updateParty();
 	}
 
 	void DamageDone() {
@@ -372,88 +348,20 @@ public class BattleScene {
 		// Modifier
 		// Base is the base power of the attack move
 		if (FoeTurn == true) {
-			float part1 = ((2 * wildLvL) + 10);
-			float part2 = wildAttack;
-			damage = (((part1 / 250) * (part2 / LoadData.party_defense.get(0))) * FoeMoveAtt) + 2;
-			userACThp = LoadData.party_ACThp.get(0) - (int) (damage);
+			float part1 = ((2 * BasePokemon.wildLvL) + 10);
+			float part2 = BasePokemon.wildAttack;
+			damage = (((part1 / 250) * (part2 / LoadData.party_defense.get(0))) * BasePokemon.FoeMoveAtt) + 2;
+			BasePokemon.userACThp = LoadData.party_ACThp.get(0) - (int) (damage);
 			damage = 0;
 		}
 
 		if (UserTurn == true) {
 			float part1 = ((2 * LoadData.party_lvl.get(0)) + 10);
 			float part2 = LoadData.party_attack.get(0);
-			damage = (((part1 / 250) * (part2 / wildDefense)) * moveattUsed) + 2;
-			wildActHP = wildActHP - (int) (damage);
+			damage = (((part1 / 250) * (part2 / BasePokemon.wildDefense)) * BasePokemon.moveattUsed) + 2;
+			BasePokemon.wildActHP = BasePokemon.wildActHP - (int) (damage);
 			damage = 0;
 		}
-	}
-
-	static void intWildPokemon() {
-		// Randomly selects pokemon based on the possible pokemon in area
-		// Set base stats of the pokemon
-		wildPokemon = p5.floor(p5.random(0, LoadData.areaCounter));
-		wildHPIV = p5.floor(p5.random(0, 15));
-		wildAttackIV = p5.floor(p5.random(0, 15));
-		wildDefenseIV = p5.floor(p5.random(0, 15));
-		wildSpeedIV = p5.floor(p5.random(0, 15));
-		wildSpecialIV = p5.floor(p5.random(0, 15));
-		wildHPEV = wildAttackEV = wildDefenseEV = wildSpeedEV = wildSpecialEV = 0;
-
-		wildLvL = p5.floor(p5.random(lowWildLvl, maxWildLvl));
-		wildBaseXP = (LoadData.areaP_BaseXP.get(wildPokemon));
-		XpGiven = 0;
-
-		wildActHP = LoadData.areaP_ACThp.get(wildPokemon);
-		statType = true;
-		wildActHP = calStats(wildActHP, wildActHP, wildHPIV, wildHPEV, wildLvL);
-		wildTotHP = wildActHP;
-		statType = false;
-		wildAttack = LoadData.areaP_attack.get(wildPokemon);
-		wildAttack = calStats(wildAttack, wildAttack, wildAttackIV, wildAttackEV, wildLvL);
-		wildDefense = LoadData.areaP_defense.get(wildPokemon);
-		wildDefense = calStats(wildDefense, wildDefense, wildDefenseIV, wildDefenseEV, wildLvL);
-		wildSpeed = LoadData.areaP_speed.get(wildPokemon);
-		wildSpeed = calStats(wildSpeed, wildSpeed, wildSpeedIV, wildSpeedEV, wildLvL);
-		wildSpecial = LoadData.areaP_special.get(wildPokemon);
-		wildSpecial = calStats(wildSpecial, wildSpecial, wildSpecialIV, wildSpecialEV, wildLvL);
-
-		wildTOTXp = p5.floor(wildLvL * wildLvL);
-		wildXpNextLvl = p5.floor(wildLvL * wildLvL * wildLvL);
-		int tempvar1 = 10;
-		int tempvar2 = 10;
-		int tempvar3 = 10;
-		int var = p5.floor(p5.random(0, 9));
-		tempvar1 = var;
-		move_name1 = LoadData.move_name.get(var);
-		move_pp1 = LoadData.move_PP.get(var);
-		move_attPower1 = LoadData.move_attPower.get(var);
-		var = p5.floor(p5.random(0, 9));
-
-		while (var == tempvar1 || var == tempvar2 || var == tempvar3) {
-			var = p5.floor(p5.random(0, 9));
-		}
-
-		move_name2 = LoadData.move_name.get(var);
-		move_pp2 = LoadData.move_PP.get(var);
-		move_attPower2 = LoadData.move_attPower.get(var);
-		var = p5.floor(p5.random(0, 9));
-
-		while (var == tempvar1 || var == tempvar2 || var == tempvar3) {
-			var = p5.floor(p5.random(0, 9));
-		}
-
-		move_name3 = LoadData.move_name.get(var);
-		move_pp3 = LoadData.move_PP.get(var);
-		move_attPower3 = LoadData.move_attPower.get(var);
-		var = p5.floor(p5.random(0, 9));
-
-		while (var == tempvar1 || var == tempvar2 || var == tempvar3) {
-			var = p5.floor(p5.random(0, 9));
-		}
-
-		move_name4 = LoadData.move_name.get(var);
-		move_pp4 = LoadData.move_PP.get(var);
-		move_attPower4 = LoadData.move_attPower.get(var);
 	}
 
 	static double calGivingEV(int wildVar1, double userVar2) {
@@ -466,52 +374,39 @@ public class BattleScene {
 		return EarnedXp;
 	}
 
-	// Calculates stats based on level of Pokemon
-	static int calStats(int stat, int Base, int IV, double EV, int Level) {
-		int step1, step2, step3;
-		float step4;
-		step1 = Base + IV;
-		step2 = p5.floor(step1 * 2);
-		step3 = (step2 + p5.floor((float) EV)) * Level;
-		step4 = step3 / 100;
-
-		// If stats isn't hp
-		if (statType == false) {
-			stat = p5.floor(step4 + 5);
-		}
-		// If stat is hp
-		if (statType == true) {
-			stat = p5.floor(step4 + Level + 10);
-		}
-		return stat;
-	}
-
 	static void PokeLevelUP() {
 		BattleWon = LeveLup = true;
-		Level = Level + 1;
+		BasePokemon.Level = BasePokemon.Level + 1;
 		// Get difference and sets current as difference
-		CuRxp = ((ToTxp + CuRxp) - NexTxp);
-		NexTxp = Level * Level * Level;
-		ToTxp = Level * Level;
+		BasePokemon.CuRxp = ((BasePokemon.ToTxp + BasePokemon.CuRxp) - BasePokemon.NexTxp);
+		BasePokemon.NexTxp = BasePokemon.Level * BasePokemon.Level * BasePokemon.Level;
+		BasePokemon.ToTxp = BasePokemon.Level * BasePokemon.Level;
 
+		// Changes needed when switching pokemon
+		// Need to pokedex stats
 		LoadData.loadStartPokemon();
 
-		statType = true;
-		userActHP = calStats(userTotHP, userTotHP, LoadData.party_hpIV.get(MainMenu.chosenID),
-				LoadData.party_hpEV.get(0), Level);
-		statType = false;
-		userTotHP = userActHP;
-		userAttack = calStats(userAttack, LoadData.start_attack.get(MainMenu.chosenID), LoadData.party_attackIV.get(0),
-				LoadData.party_attackEV.get(0), Level);
-		userDefense = calStats(userDefense, LoadData.start_defense.get(MainMenu.chosenID),
-				LoadData.party_defenseIV.get(0), LoadData.party_defenseEV.get(0), Level);
-		userSpeed = calStats(userSpeed, LoadData.start_speed.get(MainMenu.chosenID), LoadData.party_speedIV.get(0),
-				LoadData.party_speedEV.get(0), Level);
-		userSpecial = calStats(userSpecial, LoadData.start_special.get(MainMenu.chosenID),
-				LoadData.party_specialIV.get(0), LoadData.party_specialEV.get(0), Level);
+		BasePokemon.statType = true;
+		BasePokemon.userActHP = BasePokemon.calStats(BasePokemon.userTotHP, BasePokemon.userTotHP,
+				LoadData.party_hpIV.get(BasePokemon.chosenID), LoadData.party_hpEV.get(0), BasePokemon.Level);
+		BasePokemon.statType = false;
+		BasePokemon.userTotHP = BasePokemon.userActHP;
+		BasePokemon.userAttack = BasePokemon.calStats(BasePokemon.userAttack,
+				LoadData.start_attack.get(BasePokemon.chosenID), LoadData.party_attackIV.get(0),
+				LoadData.party_attackEV.get(0), BasePokemon.Level);
+		BasePokemon.userDefense = BasePokemon.calStats(BasePokemon.userDefense,
+				LoadData.start_defense.get(BasePokemon.chosenID), LoadData.party_defenseIV.get(0),
+				LoadData.party_defenseEV.get(0), BasePokemon.Level);
+		BasePokemon.userSpeed = BasePokemon.calStats(BasePokemon.userSpeed,
+				LoadData.start_speed.get(BasePokemon.chosenID), LoadData.party_speedIV.get(0),
+				LoadData.party_speedEV.get(0), BasePokemon.Level);
+		BasePokemon.userSpecial = BasePokemon.calStats(BasePokemon.userSpecial,
+				LoadData.start_special.get(BasePokemon.chosenID), LoadData.party_specialIV.get(0),
+				LoadData.party_specialEV.get(0), BasePokemon.Level);
 
-		lowWildLvl++;
-		maxWildLvl++;
+		// Once average levels are calcuated....fix this
+		BasePokemon.lowWildLvl++;
+		BasePokemon.maxWildLvl++;
 		writeData.updateParty();
 	}
 }

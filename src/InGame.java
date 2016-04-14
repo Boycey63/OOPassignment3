@@ -145,7 +145,7 @@ class InGame {
 		if (resetTimer == true) {
 			seconds = time = 0;
 			swtch = 0;
-			BattleScene.intWildPokemon();
+			BasePokemon.intWildPokemon();
 			// Randomly set the time till the next battle
 			setTime = p5.floor(p5.random(1, 4));
 			BattleScene.stop1 = false;
