@@ -18,7 +18,7 @@ public class BattleScene {
 	static boolean intialize;
 
 	static PImage background;
-	double damage;
+	static double damage;
 
 	BattleScene(Pokemon _p5) {
 		p5 = _p5;
@@ -87,8 +87,8 @@ public class BattleScene {
 		// View Party option
 		if (InGame.swtch == 2 && FoeTurn == false) {
 			// Start here...need to draw main battle menu
-			Graphics.DrawBattleMenu1();
 			Graphics.DrawPartyMenu();
+			Graphics.DrawBattleMenu1();
 			keyPressed();
 		}
 
@@ -141,8 +141,21 @@ public class BattleScene {
 				UserTurn = false;
 				stop1 = false;
 				Pokemon.walkingView = true;
-				p5.key = 'm';
+
 			}
+		}
+
+		// If in party menu and option change is choose
+		if (InGame.swtch == 6 && FoeTurn == false) {
+			if (stop1 == false) {
+				BattleScene.choicePosX = Graphics.rectPosX1;
+				BattleScene.choicePosY = Graphics.rectPosY1 + 50;
+				stop1 = true;
+			}
+			p5.background(255, 0, 0);
+			Graphics.DrawPartyMenu();
+			Graphics.DrawBattleMenu1();
+			keyPressed();
 		}
 	}
 
@@ -165,60 +178,101 @@ public class BattleScene {
 		}
 	}
 
-	void keyPressed() {
-		if (p5.key == 'w') {
+	static void keyPressed() {
+		if (p5.keyPressed == true && p5.key == 'w') {
 			if (InGame.swtch != 6) {
 				choicePosY = textY1 - 12;
-				p5.key = 'm';
-			}
-			if (InGame.swtch == 6) {
 
 			}
+
+			if (InGame.swtch == 6) {
+				if (choicePosY == (Graphics.rectPosY1 + 50)) {
+					choicePosY = (Graphics.rectPosY1 + 50);
+				}
+
+				else if (choicePosY == (Graphics.rectPosY2 + 50)) {
+					choicePosY = (Graphics.rectPosY1 + 50);
+				}
+
+				else if (choicePosY == (Graphics.rectPosY3 + 50)) {
+					choicePosY = (Graphics.rectPosY2 + 50);
+				}
+			}
+			p5.keyPressed = false;
 		}
 
-		if (p5.key == 's') {
+		else if (p5.keyPressed == true && p5.key == 's') {
 			if (InGame.swtch != 6) {
 				choicePosY = textY2 - 12;
-				p5.key = 'm';
 			}
-			if (InGame.swtch == 6) {
 
+			if (InGame.swtch == 6) {
+				if (choicePosY == (Graphics.rectPosY1 + 50)) {
+					choicePosY = (Graphics.rectPosY2 + 50);
+				}
+
+				else if (choicePosY == (Graphics.rectPosY2 + 50)) {
+					choicePosY = (Graphics.rectPosY3 + 50);
+				}
+
+				else if (choicePosY == (Graphics.rectPosY3 + 50)) {
+					choicePosY = (Graphics.rectPosY3 + 50);
+				}
 			}
+			p5.keyPressed = false;
 		}
 
-		if (p5.key == 'a') {
+		else if (p5.keyPressed == true && p5.key == 'a') {
 			if (InGame.swtch != 6) {
 				choicePosX = textX1 - 15;
-				p5.key = 'm';
+
 			}
 			if (InGame.swtch == 6) {
+				if (choicePosX == Graphics.rectPosX1) {
+					choicePosX = Graphics.rectPosX1;
+				}
 
+				else if (choicePosX == Graphics.rectPosX2) {
+					choicePosX = Graphics.rectPosX1;
+				}
 			}
+			p5.keyPressed = false;
 		}
 
-		if (p5.key == 'd') {
+		else if (p5.keyPressed == true && p5.key == 'd') {
 			if (InGame.swtch != 6) {
 				choicePosX = textX2 - 15;
-				p5.key = 'm';
+
 			}
 			if (InGame.swtch == 6) {
+				if (choicePosX == Graphics.rectPosX1) {
+					choicePosX = Graphics.rectPosX2;
+				}
 
+				else if (choicePosX == Graphics.rectPosX2) {
+					choicePosX = Graphics.rectPosX2;
+				}
 			}
+			p5.keyPressed = false;
 		}
 
-		if (p5.key == p5.BACKSPACE) {
-			p5.key = 'm';
+		else if (p5.key == p5.BACKSPACE) {
+			if (InGame.swtch == 6) {
+				stop1 = false;
+				InGame.swtch = 2;
+			}
+
+			if(InGame.swtch != 6){
 			InGame.swtch = 0;
+			}
 		}
 
 		// Option 1
-		if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY1 - 12) {
+		else if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY1 - 12) {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
 				InGame.swtch = 1;
-				p5.key = 'm';
 				p5.keyPressed = false;
-			}
-			if (p5.keyPressed == true && InGame.swtch == 1) {
+			} else if (p5.keyPressed == true && InGame.swtch == 1) {
 				BasePokemon.moveNameUsed = LoadData.name_move1.get(0);
 				BasePokemon.moveattUsed = LoadData.attPower_move1.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move1.get(0);
@@ -226,21 +280,25 @@ public class BattleScene {
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
 				FoeTurn = true;
-				p5.key = 'm';
 				InGame.swtch = 0;
 				UserTurn = false;
 				p5.keyPressed = false;
 			}
+
+			else if (p5.keyPressed == true && InGame.swtch == 2) {
+				InGame.swtch = 6;
+				p5.keyPressed = false;
+			}
 		}
 		// Option 2
-		if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY1 - 12) {
+		else if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY1 - 12) {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
 				InGame.swtch = 2;
 				Graphics.DrawPartyMenu();
-				p5.key = 'm';
 				p5.keyPressed = false;
 			}
-			if (p5.keyPressed == true && InGame.swtch == 1) {
+
+			else if (p5.keyPressed == true && InGame.swtch == 1) {
 				BasePokemon.moveNameUsed = LoadData.name_move2.get(0);
 				BasePokemon.moveattUsed = LoadData.attPower_move2.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move2.get(0);
@@ -248,13 +306,12 @@ public class BattleScene {
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
 				FoeTurn = true;
-				p5.key = 'm';
 				InGame.swtch = 0;
 				p5.keyPressed = false;
 			}
 		}
 		// Option 3
-		if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY2 - 12) {
+		else if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY2 - 12) {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
@@ -263,10 +320,10 @@ public class BattleScene {
 				LoadData.loadParty();
 				InGame.resetTimer = true;
 				Pokemon.walkingView = true;
-				p5.key = 'm';
 				p5.keyPressed = false;
 			}
-			if (p5.keyPressed == true && InGame.swtch == 1) {
+
+			else if (p5.keyPressed == true && InGame.swtch == 1) {
 				BasePokemon.moveNameUsed = LoadData.name_move3.get(0);
 				BasePokemon.moveattUsed = LoadData.attPower_move3.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move3.get(0);
@@ -274,22 +331,19 @@ public class BattleScene {
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
 				FoeTurn = true;
-				p5.key = 'm';
 				InGame.swtch = 0;
 				p5.keyPressed = false;
 			}
 		}
 		// Option 4
-		if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY2 - 12) {
+		else if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY2 - 12) {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
 				Pokemon.walkingView = true;
 				InGame.resetTimer = true;
-				p5.key = 'm';
 				p5.keyPressed = false;
-			}
-			if (p5.keyPressed == true && InGame.swtch == 1) {
+			} else if (p5.keyPressed == true && InGame.swtch == 1) {
 				BasePokemon.moveNameUsed = LoadData.name_move4.get(0);
 				BasePokemon.moveattUsed = LoadData.attPower_move4.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move4.get(0);
@@ -297,53 +351,101 @@ public class BattleScene {
 				choicePosX = textX1 - 15;
 				choicePosY = textY1 - 12;
 				FoeTurn = true;
-				p5.key = 'm';
 				InGame.swtch = 0;
 				p5.keyPressed = false;
 			}
 		}
 
 		// Switch pokemon
-		if (InGame.swtch == 6 && p5.keyPressed == true && p5.key == p5.ENTER) {
+		else if (InGame.swtch == 6 && p5.keyPressed == true && p5.key == p5.ENTER) {
 			// Pokemon 1 slot
-			if (BattleScene.choicePosX == Graphics.rectPosX1 && BattleScene.choicePosY == Graphics.rectPosY1) {
+			if (BattleScene.choicePosX == Graphics.rectPosX1 && BattleScene.choicePosY == (Graphics.rectPosY1 + 50)) {
+				BasePokemon.choiceCounter++;
 				int slot = 0;
+				
+				if (BasePokemon.choiceCounter == 1) {
+					BasePokemon.arrayID1 = slot;
+				} else if (BasePokemon.choiceCounter == 2) {
+					BasePokemon.arrayID2 = slot;
+				}
+				
 				BasePokemon.selectSwapPoke(slot);
+				p5.keyPressed = false;
 			}
 
 			// Pokemon 2 slot
-			if (BattleScene.choicePosX == Graphics.rectPosX2 && BattleScene.choicePosY == Graphics.rectPosY1) {
+			else if (BattleScene.choicePosX == Graphics.rectPosX2
+					&& BattleScene.choicePosY == (Graphics.rectPosY1 + 50)) {
+				BasePokemon.choiceCounter++;
 				int slot = 1;
-				BasePokemon.selectSwapPoke(slot);
+				if (BasePokemon.choiceCounter == 1) {
+					BasePokemon.arrayID1 = slot;
+				} else if (BasePokemon.choiceCounter == 2) {
+					BasePokemon.arrayID2 = slot;
+				}
+				BasePokemon.selectSwapPoke(slot);	
+				p5.keyPressed = false;
 			}
 
 			// Pokemon 3 slot
-			if (BattleScene.choicePosX == Graphics.rectPosX1 && BattleScene.choicePosY == Graphics.rectPosY2) {
+			else if (BattleScene.choicePosX == Graphics.rectPosX1
+					&& BattleScene.choicePosY == (Graphics.rectPosY2 + 50)) {
+				BasePokemon.choiceCounter++;
 				int slot = 2;
+				if (BasePokemon.choiceCounter == 1) {
+					BasePokemon.arrayID1 = slot;
+				} else if (BasePokemon.choiceCounter == 2) {
+					BasePokemon.arrayID2 = slot;
+				}
 				BasePokemon.selectSwapPoke(slot);
+				p5.keyPressed = false;
 			}
 
 			// Pokemon 4 slot
-			if (BattleScene.choicePosX == Graphics.rectPosX2 && BattleScene.choicePosY == Graphics.rectPosY2) {
+			else if (BattleScene.choicePosX == Graphics.rectPosX2
+					&& BattleScene.choicePosY == (Graphics.rectPosY2 + 50)) {
+				BasePokemon.choiceCounter++;
 				int slot = 3;
+				if (BasePokemon.choiceCounter == 1) {
+					BasePokemon.arrayID1 = slot;
+				} else if (BasePokemon.choiceCounter == 2) {
+					BasePokemon.arrayID2 = slot;
+				}
 				BasePokemon.selectSwapPoke(slot);
+				p5.keyPressed = false;
 			}
 
 			// Pokemon 5 slot
-			if (BattleScene.choicePosX == Graphics.rectPosX1 && BattleScene.choicePosY == Graphics.rectPosY3) {
+			else if (BattleScene.choicePosX == Graphics.rectPosX1
+					&& BattleScene.choicePosY == (Graphics.rectPosY3 + 50)) {
+				BasePokemon.choiceCounter++;
 				int slot = 4;
+				if (BasePokemon.choiceCounter == 1) {
+					BasePokemon.arrayID1 = slot;
+				} else if (BasePokemon.choiceCounter == 2) {
+					BasePokemon.arrayID2 = slot;
+				}
 				BasePokemon.selectSwapPoke(slot);
+				p5.keyPressed = false;
 			}
 
 			// Pokemon 6 slot
-			if (BattleScene.choicePosX == Graphics.rectPosX2 && BattleScene.choicePosY == Graphics.rectPosY3) {
+			else if (BattleScene.choicePosX == Graphics.rectPosX2
+					&& BattleScene.choicePosY == (Graphics.rectPosY3 + 50)) {
+				BasePokemon.choiceCounter++;
 				int slot = 5;
+				if (BasePokemon.choiceCounter == 1) {
+					BasePokemon.arrayID1 = slot;
+				} else if (BasePokemon.choiceCounter == 2) {
+					BasePokemon.arrayID2 = slot;
+				}
 				BasePokemon.selectSwapPoke(slot);
+				p5.keyPressed = false;
 			}
 		}
 	}
 
-	void DamageDone() {
+	static void DamageDone() {
 		// damage = (((2xLEVEL+10)/250) x (ATTACK/DEFENSE) x BASE + 2) x
 		// Modifier
 		// Base is the base power of the attack move

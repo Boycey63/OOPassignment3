@@ -10,6 +10,7 @@ public class BasePokemon {
 	public static String move_name1, move_name2, move_name3, move_name4;
 	public static int FoeMoveAtt, lowWildLvl, maxWildLvl;
 	static String WildMove = " ";
+	
 	//User Pokemon Stats + info
 	public static double partyHPEV, partyAttackEV, partyDefenseEV, partySpeedEV, partySpecialEV;
 	public static int userTotHP, userActHP, userAttack, userDefense, userSpeed, userSpecial, userACThp;
@@ -17,10 +18,12 @@ public class BasePokemon {
 	public static int XpGiven, movePPUsed, moveattUsed;
 	static String moveNameUsed;
 	static boolean statType;
+	
 	//Starter pokemon Stats + info
 	public static int chosenID;
 	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenSpecial;
 	public static int chosenHPIV, chosenAttackIV, chosenDefenseIV, chosenSpeedIV, chosenSpecialIV;
+	
 	//Selected pokemon
 	public static int tempPoke1, tempPoke2;
 	public static int arrayID1, arrayID2;
@@ -56,16 +59,15 @@ public class BasePokemon {
 		ToTxp = LoadData.party_TOTxp.get(0);
 		CuRxp = LoadData.party_CurXP.get(0);
 		Level = LoadData.party_lvl.get(0);
-	}
+	}	
 	
 	//When run... sets which pokemon are going to be swapped in the array
 	static void selectSwapPoke(int slot){
-		BasePokemon.choiceCounter++;
 		if(BasePokemon.choiceCounter == 1){
-			BasePokemon.tempPoke1 = BasePokemon.PartyPos[slot];
+			tempPoke1 = PartyPos[slot];
 		}
 		if(BasePokemon.choiceCounter == 2){
-			BasePokemon.tempPoke2 = BasePokemon.PartyPos[slot];
+			tempPoke2 = PartyPos[slot];
 			switchParty();
 			BasePokemon.choiceCounter = 0;
 		}
@@ -75,6 +77,8 @@ public class BasePokemon {
 	static void switchParty(){
 		PartyPos[arrayID1] = tempPoke2;
 		PartyPos[arrayID2] = tempPoke1;
+			System.out.println(PartyPos[arrayID1]);
+			System.out.println(PartyPos[arrayID2]);
 		choiceCounter = 0;
 	}
 	
