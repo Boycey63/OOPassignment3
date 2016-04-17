@@ -36,12 +36,12 @@ public class Graphics {
 			if (InGame.swtch != 4) {
 				// User Pokemon Info
 				p5.textSize(30);
-				p5.text(LoadData.party_name.get(0), 620, 430);
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[0]), 620, 430);
 				p5.textSize(25);
-				p5.text("Lvl: " + LoadData.party_lvl.get(0), 620, 460);
-				p5.text("HP: " + LoadData.party_ACThp.get(0), 620, 490);
-				p5.text("Cur XP: " + LoadData.party_CurXP.get(0), 620, 520);
-				p5.text("Next XP: " + (LoadData.party_xpNextLvl.get(0) - LoadData.party_TOTxp.get(0)), 900, 520);
+				p5.text("Lvl: " + LoadData.party_lvl.get(BasePokemon.PartyPos[0]), 620, 460);
+				p5.text("HP: " + LoadData.party_ACThp.get(BasePokemon.PartyPos[0]), 620, 490);
+				p5.text("Cur XP: " + LoadData.party_CurXP.get(BasePokemon.PartyPos[0]), 620, 520);
+				p5.text("Next XP: " + (LoadData.party_xpNextLvl.get(BasePokemon.PartyPos[0]) - LoadData.party_TOTxp.get(BasePokemon.PartyPos[0])), 900, 520);
 				// Wild Pokemon Info
 				p5.textSize(30);
 				p5.text(LoadData.areaP_name.get(BasePokemon.wildID), 40, 40);
@@ -50,14 +50,15 @@ public class Graphics {
 				p5.text("HP: " + BasePokemon.wildActHP, 40, 100);
 			}
 		}
-		if(InGame.swtch == 2 || InGame.swtch == 6){
-			p5.background(255, 0 ,0); 
-		}
 		// Draw rectangle
 		p5.stroke(255, 255, 255);
 		p5.fill(100, 100, 100);
 		p5.rect(BattleScene.defaultRectangleX, BattleScene.defaultRectangleY, BattleScene.defaultRectangleW,
 				BattleScene.defaultRectangleH, 20, 20, 0, 0);
+		
+		if(InGame.swtch == 2 || InGame.swtch == 6){
+			p5.background(255, 0 ,0); 
+		}
 	}
 
 	// battleMenu1 will be drawn if user hasn't selected a starting choice
@@ -70,13 +71,15 @@ public class Graphics {
 		// Menu rectangle
 		p5.fill(150, 150, 150);
 		p5.stroke(255, 0, 0);
+		if (InGame.swtch != 3 && InGame.swtch != 5 && InGame.swtch != 6) {
+		p5.stroke(255, 0, 0);
 		p5.rect(BattleScene.Rectangle1X, BattleScene.Rectangle1Y, BattleScene.Rectangle1W, BattleScene.Rectangle1H, 20,
 				20, 20, 20);
-		p5.stroke(255, 0, 0);
 		p5.line(BattleScene.Rectangle1X + (BattleScene.Rectangle1W / 2), BattleScene.Rectangle1Y,
 				BattleScene.Rectangle1X + (BattleScene.Rectangle1W / 2), p5.height - 10);
 		p5.line(BattleScene.Rectangle1X, BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2), p5.width - 10,
 				BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2));
+		}
 		p5.fill(0);
 
 		if (InGame.swtch != 3 && InGame.swtch != 5 && InGame.swtch != 6) {
@@ -104,10 +107,10 @@ public class Graphics {
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 20);
 			p5.textSize(20);
 			p5.fill(0);
-			p5.text(LoadData.name_move1.get(0), BattleScene.textX1, BattleScene.textY1);
-			p5.text(LoadData.name_move3.get(0), BattleScene.textX1, BattleScene.textY2);
-			p5.text(LoadData.name_move2.get(0), BattleScene.textX2, BattleScene.textY1);
-			p5.text(LoadData.name_move4.get(0), BattleScene.textX2, BattleScene.textY2);
+			p5.text(LoadData.name_move1.get(BasePokemon.PartyPos[0]), BattleScene.textX1, BattleScene.textY1);
+			p5.text(LoadData.name_move3.get(BasePokemon.PartyPos[0]), BattleScene.textX1, BattleScene.textY2);
+			p5.text(LoadData.name_move2.get(BasePokemon.PartyPos[0]), BattleScene.textX2, BattleScene.textY1);
+			p5.text(LoadData.name_move4.get(BasePokemon.PartyPos[0]), BattleScene.textX2, BattleScene.textY2);
 		}
 		
 		if (InGame.swtch == 2) {
@@ -150,6 +153,16 @@ public class Graphics {
 		p5.text(BasePokemon.PartyPos[3], rectPosX2 + 20, rectPosY2 + 20);
 		p5.text(BasePokemon.PartyPos[4], rectPosX1 + 20, rectPosY3 + 20);
 		p5.text(BasePokemon.PartyPos[5], rectPosX2 + 20, rectPosY3 + 20);
+		
+		p5.textSize(20);
+		if(InGame.swtch == 6){
+			p5.text("1) Press enter to pick first select a pokemon", 40,
+					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 40);
+			p5.text("2) Press enter again to pick second select a pokemon", 40,
+					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
+			p5.text("3) Press backspace to return to main menu", 40,
+					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 40);
+		}
 	}
 
 	static void BattleResponse() {
@@ -169,10 +182,15 @@ public class Graphics {
 		if (InGame.swtch == 5) {
 			p5.text("You beat the wild " + LoadData.areaP_name.get(BasePokemon.wildID), 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 30);
-			p5.text("Your " + LoadData.party_name.get(0) + " gained " + BasePokemon.XpGiven + " xp", 40,
+			p5.text("Your " + LoadData.party_name.get(BasePokemon.PartyPos[0]) + " gained " + BasePokemon.XpGiven + " xp", 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
 			p5.text("Press backspace to leave battle field", 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 30);
 		}
+	}
+	
+	static void resetSquare(){
+		BattleScene.choicePosX = BattleScene.textX1 - 15;
+		BattleScene.choicePosY = BattleScene.textY1 - 12;
 	}
 }

@@ -37,10 +37,16 @@ public class writeData {
 				if (BattleScene.BattleWon == false) {
 					createLine.append(LoadData.party_TOThp.get(i) + ",");
 					if (BattleScene.FoeTurn == true) {
+						//If you lose reset the Acthp as Tothp
 						if (BattleScene.GameOver == true) {
 							createLine.append(LoadData.party_TOThp.get(i) + ",");
 						} else {
+							if (i == BasePokemon.PartyPos[0]) {
 							createLine.append(BasePokemon.userACThp + ",");
+							}
+							if (i != BasePokemon.PartyPos[0]) {
+								createLine.append(LoadData.party_ACThp.get(i) + ",");
+							}
 						}
 					}
 					if (BattleScene.FoeTurn == false) {
@@ -57,16 +63,31 @@ public class writeData {
 				}
 
 				if (BattleScene.BattleWon == true && BattleScene.LeveLup == false) {
-					createLine.append(LoadData.party_TOThp.get(i) + ",");
-					createLine.append(LoadData.party_ACThp.get(i) + ",");
-					createLine.append(LoadData.party_attack.get(i) + ",");
-					createLine.append(LoadData.party_defense.get(i) + ",");
-					createLine.append(LoadData.party_speed.get(i) + ",");
-					createLine.append(LoadData.party_special.get(i) + ",");
-					createLine.append(LoadData.party_xpNextLvl.get(i) + ",");
-					createLine.append(LoadData.party_TOTxp.get(i) + ",");
-					createLine.append(BasePokemon.CuRxp + ",");
-					createLine.append(LoadData.party_lvl.get(i) + ",");
+					if (i == BasePokemon.PartyPos[0]) {
+						createLine.append(LoadData.party_TOThp.get(BasePokemon.PartyPos[0]) + ",");
+						createLine.append(LoadData.party_ACThp.get(BasePokemon.PartyPos[0]) + ",");
+						createLine.append(LoadData.party_attack.get(BasePokemon.PartyPos[0]) + ",");
+						createLine.append(LoadData.party_defense.get(BasePokemon.PartyPos[0]) + ",");
+						createLine.append(LoadData.party_speed.get(BasePokemon.PartyPos[0]) + ",");
+						createLine.append(LoadData.party_special.get(BasePokemon.PartyPos[0]) + ",");
+						createLine.append(LoadData.party_xpNextLvl.get(BasePokemon.PartyPos[0]) + ",");
+						createLine.append(LoadData.party_TOTxp.get(BasePokemon.PartyPos[0]) + ",");
+						createLine.append(BasePokemon.CuRxp + ",");
+						createLine.append(LoadData.party_lvl.get(BasePokemon.PartyPos[0]) + ",");
+					}
+					
+					else if (i != BasePokemon.PartyPos[0]){
+						createLine.append(LoadData.party_TOThp.get(i) + ",");
+						createLine.append(LoadData.party_ACThp.get(i) + ",");
+						createLine.append(LoadData.party_attack.get(i) + ",");
+						createLine.append(LoadData.party_defense.get(i) + ",");
+						createLine.append(LoadData.party_speed.get(i) + ",");
+						createLine.append(LoadData.party_special.get(i) + ",");
+						createLine.append(LoadData.party_xpNextLvl.get(i) + ",");
+						createLine.append(LoadData.party_TOTxp.get(i) + ",");
+						createLine.append(LoadData.party_CurXP.get(i) + ",");
+						createLine.append(LoadData.party_lvl.get(i) + ",");
+					}
 				}
 
 				// If LeveLup = true .... update stats + change xp
@@ -101,13 +122,26 @@ public class writeData {
 				}
 
 				// If battle is won....Assigns EVs to user pokemon
-				if (BattleScene.BattleWon == true) {
-					createLine.append(BasePokemon.partyHPEV + ",");
-					createLine.append(BasePokemon.partyAttackEV + ",");
-					createLine.append(BasePokemon.partyDefenseEV + ",");
-					createLine.append(BasePokemon.partySpeedEV + ",");
-					createLine.append(BasePokemon.partySpecialEV + ",");
-					BattleScene.BattleWon = false;
+				if (BattleScene.BattleWon == true && BattleScene.LeveLup == false) {
+					if (i == BasePokemon.PartyPos[0]) {
+						createLine.append(BasePokemon.partyHPEV + ",");
+						createLine.append(BasePokemon.partyAttackEV + ",");
+						createLine.append(BasePokemon.partyDefenseEV + ",");
+						createLine.append(BasePokemon.partySpeedEV + ",");
+						createLine.append(BasePokemon.partySpecialEV + ",");
+					}
+
+					else if (i != BasePokemon.PartyPos[0]) {
+						createLine.append(LoadData.party_hpEV.get(i) + ",");
+						createLine.append(LoadData.party_attackEV.get(i) + ",");
+						createLine.append(LoadData.party_defenseEV.get(i) + ",");
+						createLine.append(LoadData.party_speedEV.get(i) + ",");
+						createLine.append(LoadData.party_specialEV.get(i) + ",");
+					}
+
+					if (i == LoadData.partyCounter) {
+						BattleScene.BattleWon = false;
+					}
 				}
 				// ------------------------------------------------------------------------------
 
@@ -135,7 +169,7 @@ public class writeData {
 				if (LoadData.partyCounter < partySize) {
 					StringBuilder makeLine = new StringBuilder();
 
-					makeLine.append(LoadData.areaP_id.get(LoadData.partyCounter) + ",");
+					makeLine.append(LoadData.areaP_id.get(BasePokemon.wildID) + ",");
 					makeLine.append(LoadData.areaP_name.get(BasePokemon.wildID) + ",");
 					makeLine.append(BasePokemon.wildTotHP + ",");
 					makeLine.append(BasePokemon.wildActHP + ",");
@@ -153,7 +187,9 @@ public class writeData {
 					makeLine.append(BasePokemon.wildDefenseIV + ",");
 					makeLine.append(BasePokemon.wildSpeedIV + ",");
 					makeLine.append(BasePokemon.wildSpecialIV + ",");
+					System.out.println("Check 1");
 					makeLine.append(BasePokemon.wildHPEV + ",");
+					System.out.println("Check 2");
 					makeLine.append(BasePokemon.wildAttackEV + ",");
 					makeLine.append(BasePokemon.wildDefenseEV + ",");
 					makeLine.append(BasePokemon.wildSpeedEV + ",");
@@ -220,7 +256,7 @@ public class writeData {
 			bw = new BufferedWriter(fw);
 
 			StringBuilder makeLine = new StringBuilder();
-			makeLine.append(LoadData.start_id.get(LoadData.partyCounter) + ",");
+			makeLine.append(LoadData.start_id.get(BasePokemon.chosenID) + ",");
 			makeLine.append(LoadData.start_name.get(BasePokemon.chosenID) + ",");
 			makeLine.append(BasePokemon.chosenTotHP + ",");
 			makeLine.append(BasePokemon.chosenActHP + ",");

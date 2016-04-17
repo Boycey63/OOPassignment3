@@ -24,6 +24,7 @@ public class MainMenu {
 
 		if (p5.key == p5.ENTER) {
 			if (file.exists()) {
+				LoadData.loadPokeDex();
 				LoadData.loadParty();
 				LoadData.loadMoves();
 				Pokemon.walkingView = true;
@@ -77,6 +78,7 @@ public class MainMenu {
 			if (p5.key == '1') {
 				deleteFile();
 				resetLocation();
+				LoadData.loadPokeDex();
 				BasePokemon.chosenID = 0;
 				BasePokemon.intFirstPoke();
 				writeData.newParty();
@@ -88,6 +90,7 @@ public class MainMenu {
 			if (p5.key == '2') {
 				deleteFile();
 				resetLocation();
+				LoadData.loadPokeDex();
 				BasePokemon.chosenID = 1;
 				BasePokemon.intFirstPoke();
 				writeData.newParty();
@@ -99,6 +102,7 @@ public class MainMenu {
 			if (p5.key == '3') {
 				deleteFile();
 				resetLocation();
+				LoadData.loadPokeDex();
 				BasePokemon.chosenID = 2;
 				BasePokemon.intFirstPoke();
 				writeData.newParty();

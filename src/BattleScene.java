@@ -15,14 +15,14 @@ public class BattleScene {
 	static float choicePosX, choicePosY;
 	static boolean stop1;
 	static boolean GameOver;
-	static boolean intialize;
+	static boolean intialize, UserXPadd;
 
 	static PImage background;
 	static double damage;
 
 	BattleScene(Pokemon _p5) {
 		p5 = _p5;
-		BattleWon = BattleLost = BattleCaught = LeveLup = FoeTurn = GameOver = false;
+		UserXPadd = BattleWon = BattleLost = BattleCaught = LeveLup = FoeTurn = GameOver = false;
 		UserTurn = true;
 		intialize = true;
 		stop1 = false;
@@ -53,6 +53,8 @@ public class BattleScene {
 			BattleCaught = false;
 			GameOver = false;
 			UserTurn = true;
+			FoeTurn = false;
+			BattleWon = BattleLost = false;
 			intialize = false;
 		}
 
@@ -96,28 +98,18 @@ public class BattleScene {
 		if (InGame.swtch == 3 && FoeTurn == false) {
 			Graphics.DrawBattleMenu1();
 			Graphics.BattleResponse();
-
-			if (p5.keyPressed == true && p5.key == p5.BACKSPACE) {
-				InGame.swtch = 0;
-			}
+			keyPressed();
 		}
 
 		// If you lose.. display message to leave
 		if (InGame.swtch == 4 && FoeTurn == false) {
 			Graphics.DrawBattleMenu1();
 			Graphics.BattleResponse();
-
-			if (p5.keyPressed == true && p5.key == p5.BACKSPACE) {
-				InGame.swtch = 0;
-				FoeTurn = true;
-				GameOver = true;
-				writeData.updateParty();
-				MainMenu.resetLocation();
-				Pokemon.walkingView = true;
-			}
+			keyPressed();
 		}
 
 		if (BasePokemon.wildActHP <= 0 && stop1 == false) {
+			FoeTurn = false;
 			BasePokemon.LoadUserStats();
 			BasePokemon.addEvXp();
 
@@ -136,13 +128,7 @@ public class BattleScene {
 		if (InGame.swtch == 5 && FoeTurn == false) {
 			Graphics.DrawBattleMenu1();
 			Graphics.BattleResponse();
-
-			if (p5.keyPressed == true && p5.key == p5.BACKSPACE) {
-				UserTurn = false;
-				stop1 = false;
-				Pokemon.walkingView = true;
-
-			}
+			keyPressed();
 		}
 
 		// If in party menu and option change is choose
@@ -257,14 +243,33 @@ public class BattleScene {
 		}
 
 		else if (p5.key == p5.BACKSPACE) {
-			if (InGame.swtch == 6) {
+			if (InGame.swtch == 1 || InGame.swtch == 3 || InGame.swtch == 2) {
+				Graphics.resetSquare();
+				InGame.swtch = 0;
+			}
+
+			else if (InGame.swtch == 4) {
+				InGame.swtch = 0;
+				FoeTurn = true;
+				GameOver = true;
+				writeData.updateParty();
+				MainMenu.resetLocation();
+				Pokemon.walkingView = true;
+			}
+
+			else if (InGame.swtch == 5) {
+				UserTurn = false;
+				stop1 = false;
+				Pokemon.walkingView = true;
+			}
+
+			else if (InGame.swtch == 6) {
+				Graphics.resetSquare();
 				stop1 = false;
 				InGame.swtch = 2;
 			}
-
-			if(InGame.swtch != 6){
-			InGame.swtch = 0;
-			}
+			p5.key = 'm';
+			p5.keyPressed = false;
 		}
 
 		// Option 1
@@ -277,8 +282,7 @@ public class BattleScene {
 				BasePokemon.moveattUsed = LoadData.attPower_move1.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move1.get(0);
 				DamageDone();
-				choicePosX = textX1 - 15;
-				choicePosY = textY1 - 12;
+				Graphics.resetSquare();
 				FoeTurn = true;
 				InGame.swtch = 0;
 				UserTurn = false;
@@ -287,6 +291,7 @@ public class BattleScene {
 
 			else if (p5.keyPressed == true && InGame.swtch == 2) {
 				InGame.swtch = 6;
+				Graphics.resetSquare();
 				p5.keyPressed = false;
 			}
 		}
@@ -294,6 +299,7 @@ public class BattleScene {
 		else if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY1 - 12) {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
 				InGame.swtch = 2;
+				Graphics.resetSquare();
 				Graphics.DrawPartyMenu();
 				p5.keyPressed = false;
 			}
@@ -303,8 +309,7 @@ public class BattleScene {
 				BasePokemon.moveattUsed = LoadData.attPower_move2.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move2.get(0);
 				DamageDone();
-				choicePosX = textX1 - 15;
-				choicePosY = textY1 - 12;
+				Graphics.resetSquare();
 				FoeTurn = true;
 				InGame.swtch = 0;
 				p5.keyPressed = false;
@@ -313,8 +318,7 @@ public class BattleScene {
 		// Option 3
 		else if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY2 - 12) {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
-				choicePosX = textX1 - 15;
-				choicePosY = textY1 - 12;
+				Graphics.resetSquare();
 				BattleCaught = true;
 				writeData.updateParty();
 				LoadData.loadParty();
@@ -328,8 +332,7 @@ public class BattleScene {
 				BasePokemon.moveattUsed = LoadData.attPower_move3.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move3.get(0);
 				DamageDone();
-				choicePosX = textX1 - 15;
-				choicePosY = textY1 - 12;
+				Graphics.resetSquare();
 				FoeTurn = true;
 				InGame.swtch = 0;
 				p5.keyPressed = false;
@@ -338,8 +341,7 @@ public class BattleScene {
 		// Option 4
 		else if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY2 - 12) {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
-				choicePosX = textX1 - 15;
-				choicePosY = textY1 - 12;
+				Graphics.resetSquare();
 				Pokemon.walkingView = true;
 				InGame.resetTimer = true;
 				p5.keyPressed = false;
@@ -348,8 +350,7 @@ public class BattleScene {
 				BasePokemon.moveattUsed = LoadData.attPower_move4.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move4.get(0);
 				DamageDone();
-				choicePosX = textX1 - 15;
-				choicePosY = textY1 - 12;
+				Graphics.resetSquare();
 				FoeTurn = true;
 				InGame.swtch = 0;
 				p5.keyPressed = false;
@@ -362,13 +363,13 @@ public class BattleScene {
 			if (BattleScene.choicePosX == Graphics.rectPosX1 && BattleScene.choicePosY == (Graphics.rectPosY1 + 50)) {
 				BasePokemon.choiceCounter++;
 				int slot = 0;
-				
+
 				if (BasePokemon.choiceCounter == 1) {
 					BasePokemon.arrayID1 = slot;
 				} else if (BasePokemon.choiceCounter == 2) {
 					BasePokemon.arrayID2 = slot;
 				}
-				
+
 				BasePokemon.selectSwapPoke(slot);
 				p5.keyPressed = false;
 			}
@@ -383,7 +384,7 @@ public class BattleScene {
 				} else if (BasePokemon.choiceCounter == 2) {
 					BasePokemon.arrayID2 = slot;
 				}
-				BasePokemon.selectSwapPoke(slot);	
+				BasePokemon.selectSwapPoke(slot);
 				p5.keyPressed = false;
 			}
 
@@ -452,14 +453,15 @@ public class BattleScene {
 		if (FoeTurn == true) {
 			float part1 = ((2 * BasePokemon.wildLvL) + 10);
 			float part2 = BasePokemon.wildAttack;
-			damage = (((part1 / 250) * (part2 / LoadData.party_defense.get(0))) * BasePokemon.FoeMoveAtt) + 2;
-			BasePokemon.userACThp = LoadData.party_ACThp.get(0) - (int) (damage);
+			damage = (((part1 / 250) * (part2 / LoadData.party_defense.get(BasePokemon.PartyPos[0])))
+					* BasePokemon.FoeMoveAtt) + 2;
+			BasePokemon.userACThp = LoadData.party_ACThp.get(BasePokemon.PartyPos[0]) - (int) (damage);
 			damage = 0;
 		}
 
 		if (UserTurn == true) {
-			float part1 = ((2 * LoadData.party_lvl.get(0)) + 10);
-			float part2 = LoadData.party_attack.get(0);
+			float part1 = ((2 * LoadData.party_lvl.get(BasePokemon.PartyPos[0])) + 10);
+			float part2 = LoadData.party_attack.get(BasePokemon.PartyPos[0]);
 			damage = (((part1 / 250) * (part2 / BasePokemon.wildDefense)) * BasePokemon.moveattUsed) + 2;
 			BasePokemon.wildActHP = BasePokemon.wildActHP - (int) (damage);
 			damage = 0;
@@ -483,28 +485,32 @@ public class BattleScene {
 		BasePokemon.CuRxp = ((BasePokemon.ToTxp + BasePokemon.CuRxp) - BasePokemon.NexTxp);
 		BasePokemon.NexTxp = BasePokemon.Level * BasePokemon.Level * BasePokemon.Level;
 		BasePokemon.ToTxp = BasePokemon.Level * BasePokemon.Level;
-
+		
 		// Changes needed when switching pokemon
 		// Need to pokedex stats
-		LoadData.loadStartPokemon();
 
 		BasePokemon.statType = true;
-		BasePokemon.userActHP = BasePokemon.calStats(BasePokemon.userTotHP, BasePokemon.userTotHP,
-				LoadData.party_hpIV.get(BasePokemon.chosenID), LoadData.party_hpEV.get(0), BasePokemon.Level);
+		BasePokemon.userTotHP = BasePokemon.calStats(LoadData.Dex_TOThp.get(LoadData.party_id.get(BasePokemon.PartyPos[0])),
+				LoadData.party_hpIV.get(BasePokemon.PartyPos[0]), LoadData.party_hpEV.get(BasePokemon.PartyPos[0]),
+				BasePokemon.Level);
 		BasePokemon.statType = false;
-		BasePokemon.userTotHP = BasePokemon.userActHP;
-		BasePokemon.userAttack = BasePokemon.calStats(BasePokemon.userAttack,
-				LoadData.start_attack.get(BasePokemon.chosenID), LoadData.party_attackIV.get(0),
-				LoadData.party_attackEV.get(0), BasePokemon.Level);
-		BasePokemon.userDefense = BasePokemon.calStats(BasePokemon.userDefense,
-				LoadData.start_defense.get(BasePokemon.chosenID), LoadData.party_defenseIV.get(0),
-				LoadData.party_defenseEV.get(0), BasePokemon.Level);
-		BasePokemon.userSpeed = BasePokemon.calStats(BasePokemon.userSpeed,
-				LoadData.start_speed.get(BasePokemon.chosenID), LoadData.party_speedIV.get(0),
-				LoadData.party_speedEV.get(0), BasePokemon.Level);
-		BasePokemon.userSpecial = BasePokemon.calStats(BasePokemon.userSpecial,
-				LoadData.start_special.get(BasePokemon.chosenID), LoadData.party_specialIV.get(0),
-				LoadData.party_specialEV.get(0), BasePokemon.Level);
+		BasePokemon.userActHP = BasePokemon.userTotHP;
+		
+		BasePokemon.userAttack = BasePokemon.calStats(LoadData.Dex_attack.get(LoadData.party_id.get(BasePokemon.PartyPos[0])),
+				LoadData.party_attackIV.get(BasePokemon.PartyPos[0]),
+				LoadData.party_attackEV.get(BasePokemon.PartyPos[0]), BasePokemon.Level);
+		
+		BasePokemon.userDefense = BasePokemon.calStats(LoadData.Dex_defense.get(LoadData.party_id.get(BasePokemon.PartyPos[0])),
+				LoadData.party_defenseIV.get(BasePokemon.PartyPos[0]),
+				LoadData.party_defenseEV.get(BasePokemon.PartyPos[0]), BasePokemon.Level);
+		
+		BasePokemon.userSpeed = BasePokemon.calStats(LoadData.Dex_speed.get(LoadData.party_id.get(BasePokemon.PartyPos[0])),
+				LoadData.party_speedIV.get(BasePokemon.PartyPos[0]),
+				LoadData.party_speedEV.get(BasePokemon.PartyPos[0]), BasePokemon.Level);
+		
+		BasePokemon.userSpecial = BasePokemon.calStats(LoadData.Dex_special.get(LoadData.party_id.get(BasePokemon.PartyPos[0])),
+				LoadData.party_specialIV.get(BasePokemon.PartyPos[0]),
+				LoadData.party_specialEV.get(BasePokemon.PartyPos[0]), BasePokemon.Level);
 
 		// Once average levels are calcuated....fix this
 		BasePokemon.lowWildLvl++;

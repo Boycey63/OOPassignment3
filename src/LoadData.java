@@ -76,6 +76,15 @@ public class LoadData {
 	public static ArrayList<Integer> start_speedEV;
 	public static ArrayList<Integer> start_specialEV;
 	public static ArrayList<Integer> start_BaseXP;
+	
+	public static ArrayList<Integer> Dex_id;
+	public static ArrayList<String> Dex_name;
+	public static ArrayList<Integer> Dex_TOThp;
+	public static ArrayList<Integer> Dex_attack;
+	public static ArrayList<Integer> Dex_defense;
+	public static ArrayList<Integer> Dex_speed;
+	public static ArrayList<Integer> Dex_special;
+	public static ArrayList<Integer> Dex_BaseXP;
 
 	public static ArrayList<String> move_name;
 	public static ArrayList<Integer> move_PP;
@@ -281,7 +290,6 @@ public class LoadData {
 
 				// Divides each line into Tokens
 				StringTokenizer st = new StringTokenizer(line, split);
-				// System.out.println(line);
 				// Converts string values and stores into arraylists
 				while (st.hasMoreTokens()) {
 					areaP_id.add(Integer.parseInt(st.nextToken()));
@@ -353,7 +361,6 @@ public class LoadData {
 
 				// Divides each line into Tokens
 				StringTokenizer st = new StringTokenizer(line, split);
-				// System.out.println(line);
 				// Converts string values and stores into arraylists
 				while (st.hasMoreTokens()) {
 					start_id.add(Integer.parseInt(st.nextToken()));
@@ -371,6 +378,61 @@ public class LoadData {
 					start_speedEV.add(Integer.parseInt(st.nextToken()));
 					start_specialEV.add(Integer.parseInt(st.nextToken()));
 					start_BaseXP.add(Integer.parseInt(st.nextToken()));
+				}
+			}
+		}
+
+		// If the above doesn't work, show an error
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// Once complete if the bufferedreader is not empty close it
+		finally {
+			if (br != null) {
+				try {
+					br.close();
+				}
+				// else throw an exception
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static void loadPokeDex() {
+		file = "LoadData" + File.separator + "Pokedex.csv";
+		BufferedReader br = null;
+		String line = "";
+		String split = ",";
+
+		try {
+			br = new BufferedReader(new FileReader(file));
+			Dex_id = new ArrayList<Integer>();
+			Dex_name = new ArrayList<String>();
+			Dex_TOThp = new ArrayList<Integer>();
+			Dex_attack = new ArrayList<Integer>();
+			Dex_defense = new ArrayList<Integer>();
+			Dex_speed = new ArrayList<Integer>();
+			Dex_special = new ArrayList<Integer>();
+			Dex_BaseXP = new ArrayList<Integer>();
+
+			// Checks if string is empty
+			while ((line = br.readLine()) != null) {
+				// Divides each line into Tokens
+				StringTokenizer st = new StringTokenizer(line, split);
+				// Converts string values and stores into arraylists
+				while (st.hasMoreTokens()) {
+					Dex_id.add(Integer.parseInt(st.nextToken()));
+					Dex_name.add(st.nextToken());
+					Dex_TOThp.add(Integer.parseInt(st.nextToken()));
+					Dex_attack.add(Integer.parseInt(st.nextToken()));
+					Dex_defense.add(Integer.parseInt(st.nextToken()));
+					Dex_speed.add(Integer.parseInt(st.nextToken()));
+					Dex_special.add(Integer.parseInt(st.nextToken()));
+					Dex_BaseXP.add(Integer.parseInt(st.nextToken()));
 				}
 			}
 		}
