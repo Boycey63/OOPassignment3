@@ -187,9 +187,7 @@ public class writeData {
 					makeLine.append(BasePokemon.wildDefenseIV + ",");
 					makeLine.append(BasePokemon.wildSpeedIV + ",");
 					makeLine.append(BasePokemon.wildSpecialIV + ",");
-					System.out.println("Check 1");
 					makeLine.append(BasePokemon.wildHPEV + ",");
-					System.out.println("Check 2");
 					makeLine.append(BasePokemon.wildAttackEV + ",");
 					makeLine.append(BasePokemon.wildDefenseEV + ",");
 					makeLine.append(BasePokemon.wildSpeedEV + ",");
@@ -207,8 +205,6 @@ public class writeData {
 					makeLine.append(BasePokemon.move_name4 + ",");
 					makeLine.append(BasePokemon.move_pp4 + ",");
 					makeLine.append(BasePokemon.move_attPower4 + "");
-
-					System.out.println("You caught : " + LoadData.areaP_name.get(BasePokemon.wildID));
 
 					String newLine = makeLine.toString();
 

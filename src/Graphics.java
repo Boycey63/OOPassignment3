@@ -5,9 +5,18 @@ public class Graphics {
 	static Pokemon p5;
 	static float rectPosX1, rectPosX2;
 	static float rectPosY1, rectPosY2, rectPosY3;
+	static float height;
+	static float width;
+	static float textHeight1, textHeight2, rectHeight;
 
 	Graphics(Pokemon _p5) {
 		p5 = _p5;
+		rectHeight = 0;
+		height = 100;
+		width = p5.width - 300;
+		textHeight1 = 150;
+		textHeight2 = 200;
+		rectHeight = textHeight1;
 	}
 
 	// Drawings for walk mode
@@ -41,7 +50,8 @@ public class Graphics {
 				p5.text("Lvl: " + LoadData.party_lvl.get(BasePokemon.PartyPos[0]), 620, 460);
 				p5.text("HP: " + LoadData.party_ACThp.get(BasePokemon.PartyPos[0]), 620, 490);
 				p5.text("Cur XP: " + LoadData.party_CurXP.get(BasePokemon.PartyPos[0]), 620, 520);
-				p5.text("Next XP: " + (LoadData.party_xpNextLvl.get(BasePokemon.PartyPos[0]) - LoadData.party_TOTxp.get(BasePokemon.PartyPos[0])), 900, 520);
+				p5.text("Next XP: " + (LoadData.party_xpNextLvl.get(BasePokemon.PartyPos[0])
+						- LoadData.party_TOTxp.get(BasePokemon.PartyPos[0])), 900, 520);
 				// Wild Pokemon Info
 				p5.textSize(30);
 				p5.text(LoadData.areaP_name.get(BasePokemon.wildID), 40, 40);
@@ -51,48 +61,61 @@ public class Graphics {
 			}
 		}
 		// Draw rectangle
-		p5.stroke(255, 255, 255);
+		p5.stroke(0);
 		p5.fill(100, 100, 100);
 		p5.rect(BattleScene.defaultRectangleX, BattleScene.defaultRectangleY, BattleScene.defaultRectangleW,
 				BattleScene.defaultRectangleH, 20, 20, 0, 0);
-		
-		if(InGame.swtch == 2 || InGame.swtch == 6){
-			p5.background(255, 0 ,0); 
+
+		if (InGame.swtch == 2 || InGame.swtch == 6) {
+			p5.background(255, 0, 0);
 		}
 	}
 
 	// battleMenu1 will be drawn if user hasn't selected a starting choice
 	static void DrawBattleMenu1() {
+		p5.textSize(20);
+		p5.stroke(0);
 		BattleScene.Rectangle1H = 150;
 		BattleScene.Rectangle1W = 600;
 		BattleScene.Rectangle1X = p5.width - (BattleScene.Rectangle1W + 10);
 		BattleScene.Rectangle1Y = p5.height - (BattleScene.Rectangle1H + 10);
 
 		// Menu rectangle
-		p5.fill(150, 150, 150);
-		p5.stroke(255, 0, 0);
+		p5.fill(150);
+		p5.stroke(0);
 		if (InGame.swtch != 3 && InGame.swtch != 5 && InGame.swtch != 6) {
-		p5.stroke(255, 0, 0);
-		p5.rect(BattleScene.Rectangle1X, BattleScene.Rectangle1Y, BattleScene.Rectangle1W, BattleScene.Rectangle1H, 20,
-				20, 20, 20);
-		p5.line(BattleScene.Rectangle1X + (BattleScene.Rectangle1W / 2), BattleScene.Rectangle1Y,
-				BattleScene.Rectangle1X + (BattleScene.Rectangle1W / 2), p5.height - 10);
-		p5.line(BattleScene.Rectangle1X, BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2), p5.width - 10,
-				BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2));
+			p5.rect(BattleScene.Rectangle1X, BattleScene.Rectangle1Y, BattleScene.Rectangle1W, BattleScene.Rectangle1H,
+					20, 20, 20, 20);
+			p5.line(BattleScene.Rectangle1X + (BattleScene.Rectangle1W / 2), BattleScene.Rectangle1Y,
+					BattleScene.Rectangle1X + (BattleScene.Rectangle1W / 2), p5.height - 10);
+			p5.line(BattleScene.Rectangle1X, BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2), p5.width - 10,
+					BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2));
 		}
-		p5.fill(0);
 
 		if (InGame.swtch != 3 && InGame.swtch != 5 && InGame.swtch != 6) {
-			p5.rect(BattleScene.choicePosX, BattleScene.choicePosY, 10, 10);
+			p5.fill(0);
+			p5.rect(BattleScene.choicePosX, BattleScene.choicePosY, 10, 10, 10, 10, 10, 10);
 		}
-		
+
 		if (InGame.swtch == 6) {
-			p5.rect(BattleScene.choicePosX + 30, BattleScene.choicePosY - 5, 10, 10);
+			p5.fill(0);
+			p5.rect(BattleScene.choicePosX + 30, BattleScene.choicePosY - 5, 10, 10, 10, 10, 10, 10);
 		}
 
 		if (InGame.swtch == 0) {
-			p5.text("Press enter to chose an option: ", 40, (BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
 			p5.textSize(20);
+			p5.fill(255);
+			if (BattleScene.partyFull == false) {
+				p5.text("Press enter to chose an option: ", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
+			}
+
+			if (BattleScene.partyFull == true) {
+				p5.text("Your party is too full!!!", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2) + 20));
+				p5.text("Press enter to chose an option: ", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 20);
+			}
 			p5.fill(0);
 			p5.text("Fight", BattleScene.textX1, BattleScene.textY1);
 			p5.text("Catch", BattleScene.textX1, BattleScene.textY2);
@@ -101,33 +124,63 @@ public class Graphics {
 		}
 
 		if (InGame.swtch == 1) {
+			p5.textSize(20);
+			p5.fill(255);
 			p5.text("Press enter to chose a move: ", 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 20);
 			p5.text("Press backspace to return to option menu: ", 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 20);
-			p5.textSize(20);
 			p5.fill(0);
 			p5.text(LoadData.name_move1.get(BasePokemon.PartyPos[0]), BattleScene.textX1, BattleScene.textY1);
 			p5.text(LoadData.name_move3.get(BasePokemon.PartyPos[0]), BattleScene.textX1, BattleScene.textY2);
 			p5.text(LoadData.name_move2.get(BasePokemon.PartyPos[0]), BattleScene.textX2, BattleScene.textY1);
 			p5.text(LoadData.name_move4.get(BasePokemon.PartyPos[0]), BattleScene.textX2, BattleScene.textY2);
 		}
-		
-		if (InGame.swtch == 2) {
+
+		if (InGame.swtch == 2 || InGame.partyMenu == true) {
+			p5.textSize(20);
+			p5.fill(255);
 			p5.text("Press enter to chose a option: ", 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 20);
-			p5.text("Press backspace to return to battle menu: ", 40,
-					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 20);
-			p5.textSize(20);
+			if (InGame.partyMenu == false) {
+				p5.text("Press backspace to return to battle menu: ", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 20);
+			}
+			if (InGame.partyMenu == true) {
+				p5.text("Press backspace to return to previous menu: ", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 20);
+			}
 			p5.fill(0);
 			p5.text("Change", BattleScene.textX1, BattleScene.textY1);
 			p5.text("Op 2", BattleScene.textX1, BattleScene.textY2);
 			p5.text("Op 3", BattleScene.textX2, BattleScene.textY1);
 			p5.text("Op 4", BattleScene.textX2, BattleScene.textY2);
 		}
+
+		if (InGame.swtch == 7) {
+			if (BattleScene.BattleCaught == true) {
+				p5.textSize(20);
+				p5.fill(255);
+				p5.text("The wild " + LoadData.areaP_name.get(BasePokemon.wildID) + " was caught", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 40);
+				p5.text("and added to you party!", 40, (BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
+				p5.text("Press backspace to leave battle field", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 40);
+			} else {
+				p5.textSize(20);
+				p5.fill(255);
+				p5.text("The wild  " + LoadData.areaP_name.get(BasePokemon.wildID) + " broke free", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 40);
+				p5.text("Try weaken it and try catch again", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
+				p5.text("Press backspace to keep battling", 40,
+						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 40);
+			}
+		}
 	}
 
 	static void DrawPartyMenu() {
+		p5.stroke(0);
 		int sideRect = 20;
 		BattleScene.Rectangle1H = 170;
 		rectPosX1 = p5.width / 8 - 20;
@@ -137,9 +190,20 @@ public class Graphics {
 		rectPosY3 = (p5.height - BattleScene.defaultRectangleH) / 10 - 5 + 340;
 
 		p5.background(255, 0, 0);
-		DrawDefaultBattleMenu();
-		
+
+		if (InGame.partyMenu == false) {
+			DrawDefaultBattleMenu();
+		}
+
 		p5.fill(100, 100, 100);
+		p5.rect(BattleScene.defaultRectangleX, BattleScene.defaultRectangleY, BattleScene.defaultRectangleW,
+				BattleScene.defaultRectangleH, 20, 20, 0, 0);
+
+		if (InGame.partyMenu == true) {
+			InGame.swtch = 100;
+			DrawBattleMenu1();
+		}
+
 		p5.rect(rectPosX1, rectPosY1, 400, 100, sideRect, sideRect, sideRect, sideRect);
 		p5.rect(rectPosX1, rectPosY2, 400, 100, sideRect, sideRect, sideRect, sideRect);
 		p5.rect(rectPosX1, rectPosY3, 400, 100, sideRect, sideRect, sideRect, sideRect);
@@ -153,9 +217,9 @@ public class Graphics {
 		p5.text(BasePokemon.PartyPos[3], rectPosX2 + 20, rectPosY2 + 20);
 		p5.text(BasePokemon.PartyPos[4], rectPosX1 + 20, rectPosY3 + 20);
 		p5.text(BasePokemon.PartyPos[5], rectPosX2 + 20, rectPosY3 + 20);
-		
+
 		p5.textSize(20);
-		if(InGame.swtch == 6){
+		if (InGame.swtch == 6) {
 			p5.text("1) Press enter to pick first select a pokemon", 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 40);
 			p5.text("2) Press enter again to pick second select a pokemon", 40,
@@ -166,6 +230,8 @@ public class Graphics {
 	}
 
 	static void BattleResponse() {
+		p5.stroke(0);
+		p5.fill(255);
 		if (InGame.swtch == 3) {
 			p5.text("The wild " + LoadData.areaP_name.get(BasePokemon.wildID) + " used " + BasePokemon.WildMove, 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 20);
@@ -182,15 +248,28 @@ public class Graphics {
 		if (InGame.swtch == 5) {
 			p5.text("You beat the wild " + LoadData.areaP_name.get(BasePokemon.wildID), 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 30);
-			p5.text("Your " + LoadData.party_name.get(BasePokemon.PartyPos[0]) + " gained " + BasePokemon.XpGiven + " xp", 40,
-					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
+			p5.text("Your " + LoadData.party_name.get(BasePokemon.PartyPos[0]) + " gained " + BasePokemon.XpGiven
+					+ " xp", 40, (BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
 			p5.text("Press backspace to leave battle field", 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 30);
 		}
 	}
-	
-	static void resetSquare(){
+
+	static void resetSquare() {
 		BattleScene.choicePosX = BattleScene.textX1 - 15;
 		BattleScene.choicePosY = BattleScene.textY1 - 12;
+	}
+
+	static void InGameMenu() {
+		p5.fill(150);
+		p5.rect(width, height, 300, 400);
+
+		p5.textSize(30);
+		p5.fill(0);
+		p5.text("Party", width + 50, textHeight1);
+		p5.text("Save", width + 50, textHeight2);
+
+		p5.fill(0);
+		p5.rect(width + 30, rectHeight - 15, 10, 10, 10, 10, 10, 10);
 	}
 }
