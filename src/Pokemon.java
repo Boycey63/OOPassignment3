@@ -34,7 +34,6 @@ public class Pokemon extends PApplet {
 		graphics = new Graphics(this);
 		basepokemon = new BasePokemon(this);
 		loadData.loadPokeArea();
-		loadData.loadSaveGame();
 
 		// Set saved background image
 		InGame.map2 = loadImage(InGame.background[InGame.location]);
@@ -43,7 +42,7 @@ public class Pokemon extends PApplet {
 	}
 
 	public void draw() {
-
+			
 		if (walkingView == true) {
 			battleView = mainmenu = false;
 			ingame.runInGame();

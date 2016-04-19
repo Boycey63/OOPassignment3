@@ -457,7 +457,7 @@ public class LoadData {
 		}
 	}
 
-	void loadSaveGame() {
+	static void loadSaveGame() {
 		file = "LoadData" + File.separator + "SavedGame.csv";
 		BufferedReader br = null;
 		String line;
@@ -476,6 +476,9 @@ public class LoadData {
 					InGame.characterX = (Integer.parseInt(st.nextToken()));
 					InGame.characterY = (Integer.parseInt(st.nextToken()));
 					InGame.tempMovement = (Integer.parseInt(st.nextToken()));
+					for(int i = 0; i <  LoadData.partyCounter; i++) {
+						BasePokemon.PartyPos[i] = (Integer.parseInt(st.nextToken()));
+					}
 				}
 			}
 		}
@@ -486,6 +489,7 @@ public class LoadData {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}
 
 		finally {

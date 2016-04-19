@@ -37,12 +37,12 @@ public class writeData {
 				if (BattleScene.BattleWon == false) {
 					createLine.append(LoadData.party_TOThp.get(i) + ",");
 					if (BattleScene.FoeTurn == true) {
-						//If you lose reset the Acthp as Tothp
+						// If you lose reset the Acthp as Tothp
 						if (BattleScene.GameOver == true) {
 							createLine.append(LoadData.party_TOThp.get(i) + ",");
 						} else {
 							if (i == BasePokemon.PartyPos[0]) {
-							createLine.append(BasePokemon.userACThp + ",");
+								createLine.append(BasePokemon.userACThp + ",");
 							}
 							if (i != BasePokemon.PartyPos[0]) {
 								createLine.append(LoadData.party_ACThp.get(i) + ",");
@@ -75,8 +75,8 @@ public class writeData {
 						createLine.append(BasePokemon.CuRxp + ",");
 						createLine.append(LoadData.party_lvl.get(BasePokemon.PartyPos[0]) + ",");
 					}
-					
-					else if (i != BasePokemon.PartyPos[0]){
+
+					else if (i != BasePokemon.PartyPos[0]) {
 						createLine.append(LoadData.party_TOThp.get(i) + ",");
 						createLine.append(LoadData.party_ACThp.get(i) + ",");
 						createLine.append(LoadData.party_attack.get(i) + ",");
@@ -344,7 +344,20 @@ public class writeData {
 			makeLine.append(InGame.location + ",");
 			makeLine.append(InGame.characterX + ",");
 			makeLine.append(InGame.characterY + ",");
-			makeLine.append(InGame.tempMovement);
+			makeLine.append(InGame.tempMovement + ",");
+			
+			System.out.println("PartyCounter = " + LoadData.partyCounter);
+			for (int i = 0; i < LoadData.partyCounter; i++) {
+				if (LoadData.partyCounter > 1 && i != (LoadData.partyCounter - 1)) {
+					System.out.println("FUCK");
+					makeLine.append(BasePokemon.PartyPos[i] + ",");
+				}
+				
+				if (i == (LoadData.partyCounter - 1)){
+					System.out.println("NOOOOOOOOOOO");
+					makeLine.append(BasePokemon.PartyPos[i] + "");
+				}
+			}
 
 			String newLine = makeLine.toString();
 

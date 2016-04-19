@@ -46,17 +46,18 @@ public class BattleScene {
 	void runBattleScene() {
 		LoadData.loadParty();
 		if (intialize == true) {
-			BasePokemon.userACThp = 10000000;
-			GameOver = false;
-			UserTurn = true;
-			FoeTurn = false;
-			BattleWon = BattleLost = false;
-			if (LoadData.partyCounter >= writeData.partySize) {
-				partyFull = true;
-			}
 			Graphics.resetSquare();
 			intialize = false;
 		}
+		BasePokemon.userACThp = 10000000;
+		GameOver = false;
+		UserTurn = true;
+		FoeTurn = false;
+		BattleWon = BattleLost = false;
+		if (LoadData.partyCounter >= writeData.partySize) {
+			partyFull = true;
+		}
+		intialize = false;
 		Graphics.DrawDefaultBattleMenu();
 
 		if (UserTurn == true && GameOver == false) {

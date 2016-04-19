@@ -21,11 +21,13 @@ public class MainMenu {
 		p5.text("Press ENTER = saved game", 725, 70);
 		p5.text("Press TAB = new game", 725, 100);
 		File file = new File("LoadData" + File.separator + "party.csv");
-
+		LoadData.loadParty();
+		//System.out.println(LoadData.partyCounter);
 		if (p5.key == p5.ENTER) {
 			if (file.exists()) {
 				LoadData.loadPokeDex();
 				LoadData.loadParty();
+				LoadData.loadSaveGame();
 				LoadData.loadMoves();
 				Pokemon.walkingView = true;
 				p5.key = 'm';

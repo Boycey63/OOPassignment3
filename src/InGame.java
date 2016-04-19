@@ -10,7 +10,8 @@ class InGame {
 	int radius, step;
 	public static int location;
 	int black, white;
-	public static int green;
+	public static int green, blue;
+	float tempX, tempY;
 	public static String[] background = new String[20];
 	public static String[] movement = new String[20];
 	public static int tempMovement;
@@ -21,8 +22,10 @@ class InGame {
 		p5 = _p5;
 		step = 7;
 		black = 0;
+		tempX = tempY = 0;
 		white = -1;
 		green = -16711936;
+		blue = -16776961;
 		resetTimer = true;
 		menu = partyMenu = selectPokemon = excute = false;
 		time = seconds = swtch = 0;
@@ -38,9 +41,6 @@ class InGame {
 		background[7] = "part2F.png";
 		background[8] = "part3B.png";
 		background[9] = "part3F.png";
-		background[10] = ".png";
-		background[11] = ".png";
-		background[12] = ".png";
 
 		// Initializes movement array
 		movement[0] = "down1.png";
@@ -50,42 +50,51 @@ class InGame {
 	}
 
 	void keyPressed() {
+		// System.out.println(map2.get(characterX + character.width,
+		// characterY));
+
 		// --------------D----------------------
 		if (menu == false && selectPokemon == false && partyMenu == false) {
-			if (p5.key == 'd' && map2.get(characterX + character.width, characterY) >= white
-					&& map2.get(characterX + character.width, characterY + character.height) >= white) {
+			if (p5.key == 'd' && ((map2.get(characterX + character.width, characterY) == white
+					|| map2.get(characterX + character.width, characterY + character.height) == white)
+					|| (map2.get(characterX + character.width, characterY) == blue
+							|| map2.get(characterX + character.width, characterY + character.height) == blue))) {
 				characterX = characterX + step;
 				tempMovement = 2;
 				character = p5.loadImage(movement[2]);
 				p5.key = 'm';
 			}
 
-			if (p5.key == 'd' && map2.get(characterX + character.width, characterY) >= green
-					&& map2.get(characterX + character.width, characterY + character.height) >= green) {
+			if (p5.key == 'd' && map2.get(characterX + character.width, characterY) == green
+					&& map2.get(characterX + character.width, characterY + character.height) == green) {
 				characterX = characterX + step;
 				tempMovement = 2;
 				character = p5.loadImage(movement[2]);
 				p5.key = 'm';
 			}
 			// --------------A----------------------
-			if (p5.key == 'a' && map2.get(characterX, characterY) >= white
-					&& map2.get(characterX, characterY + character.height) >= white) {
+			if (p5.key == 'a' && ((map2.get(characterX, characterY) == white
+					|| map2.get(characterX, characterY + character.height) == white)
+					|| (map2.get(characterX, characterY) == blue
+							|| map2.get(characterX, characterY + character.height) == blue))) {
 				characterX = characterX - step;
 				tempMovement = 1;
 				character = p5.loadImage(movement[1]);
 				p5.key = 'm';
 			}
 
-			if (p5.key == 'a' && map2.get(characterX, characterY) >= green
-					&& map2.get(characterX, characterY + character.height) >= green) {
+			if (p5.key == 'a' && map2.get(characterX, characterY) == green
+					&& map2.get(characterX, characterY + character.height) == green) {
 				characterX = characterX - step;
 				tempMovement = 1;
 				character = p5.loadImage(movement[1]);
 				p5.key = 'm';
 			}
 			// --------------W----------------------
-			if (p5.key == 'w' && map2.get(characterX, characterY) >= white
-					&& map2.get(characterX + character.width, characterY) >= white) {
+			if (p5.key == 'w' && ((map2.get(characterX, characterY) == white
+					|| map2.get(characterX + character.width, characterY) == white)
+					|| (map2.get(characterX, characterY) == blue
+							|| map2.get(characterX + character.width, characterY) == blue))) {
 				if (characterY <= 0) {
 					location = location + 2;
 					map2 = p5.loadImage(background[location]);
@@ -98,8 +107,8 @@ class InGame {
 				p5.key = 'm';
 			}
 
-			else if (p5.key == 'w' && map2.get(characterX, characterY) >= green
-					&& map2.get(characterX + character.width, characterY) >= green) {
+			else if (p5.key == 'w' && map2.get(characterX, characterY) == green
+					&& map2.get(characterX + character.width, characterY) == green) {
 				if (characterY <= 0) {
 					location = location + 2;
 					map2 = p5.loadImage(background[location]);
@@ -127,8 +136,8 @@ class InGame {
 				p5.key = 'm';
 			}
 
-			else if (p5.key == 's' && map2.get(characterX, characterY + character.height) >= green
-					&& map2.get(characterX + character.width, characterY + character.height) >= green) {
+			else if (p5.key == 's' && map2.get(characterX, characterY + character.height) == green
+					&& map2.get(characterX + character.width, characterY + character.height) == green) {
 				if (characterY + character.height >= p5.height) {
 					location = location - 2;
 					map2 = p5.loadImage(background[location]);
@@ -139,6 +148,15 @@ class InGame {
 				tempMovement = 0;
 				character = p5.loadImage(movement[0]);
 				p5.key = 'm';
+			}
+
+			if (p5.keyPressed == true && p5.key == p5.ENTER && (map2.get(characterX, characterY) == blue
+					|| map2.get(characterX + character.width, characterY) == blue)) {
+				BattleScene.GameOver = true;
+				writeData.updateParty();
+				BattleScene.GameOver = false;
+				System.out.println("Your Pokemon were healed");
+				p5.keyPressed = false;
 			}
 		}
 
@@ -156,7 +174,7 @@ class InGame {
 				if (menu == true) {
 					Graphics.rectHeight = Graphics.textHeight1;
 				}
-				
+
 				if (partyMenu == true) {
 					if (BattleScene.choicePosY == Graphics.rectPosY2 + 45) {
 						BattleScene.choicePosY = Graphics.rectPosY1 + 45;
@@ -245,11 +263,13 @@ class InGame {
 				System.out.println("Game Saved");
 				p5.exit();
 			}
-			
+
 			if (partyMenu == true && p5.keyPressed == true && p5.key == p5.ENTER) {
-				//Graphics.textX1, Graphics.textX2, Graphics.textY1, Graphics.textY2, Graphics.textY3
+				// Graphics.textX1, Graphics.textX2, Graphics.textY1,
+				// Graphics.textY2, Graphics.textY3
 				// Pokemon 1 slot
-				if (BattleScene.choicePosX == (Graphics.textX1 - 20) && BattleScene.choicePosY == (Graphics.textY1 - 15)) {
+				if (BattleScene.choicePosX == (Graphics.textX1 - 20)
+						&& BattleScene.choicePosY == (Graphics.textY1 - 15)) {
 					BasePokemon.choiceCounter++;
 					int slot = 0;
 
@@ -264,7 +284,7 @@ class InGame {
 					BasePokemon.selectSwapPoke(slot);
 					p5.keyPressed = false;
 				}
-				
+
 				// Pokemon 2 slot
 				else if (BattleScene.choicePosX == Graphics.textX2 - 20
 						&& BattleScene.choicePosY == (Graphics.textY1 - 15)) {
@@ -272,8 +292,8 @@ class InGame {
 					int slot = 1;
 					if (BasePokemon.choiceCounter == 1) {
 						BasePokemon.arrayID1 = slot;
-					} 
-					
+					}
+
 					else if (BasePokemon.choiceCounter == 2) {
 						BasePokemon.arrayID2 = slot;
 					}
@@ -297,7 +317,7 @@ class InGame {
 
 				// Pokemon 4 slot
 				else if (BattleScene.choicePosX == Graphics.textX2 - 20
-						&& BattleScene.choicePosY == (Graphics.textY2 -15)) {
+						&& BattleScene.choicePosY == (Graphics.textY2 - 15)) {
 					BasePokemon.choiceCounter++;
 					int slot = 3;
 					if (BasePokemon.choiceCounter == 1) {
