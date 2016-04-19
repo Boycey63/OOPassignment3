@@ -15,7 +15,7 @@ class InGame {
 	public static String[] movement = new String[20];
 	public static int tempMovement;
 	public static int seconds, time, setTime, swtch;
-	public static boolean resetTimer, menu, partyMenu;
+	public static boolean resetTimer, menu, partyMenu, selectPokemon, excute;
 
 	InGame(Pokemon _p5) {
 		p5 = _p5;
@@ -24,7 +24,7 @@ class InGame {
 		white = -1;
 		green = -16711936;
 		resetTimer = true;
-		menu = partyMenu = false;
+		menu = partyMenu = selectPokemon = excute = false;
 		time = seconds = swtch = 0;
 
 		// Initializes the image array
@@ -51,7 +51,7 @@ class InGame {
 
 	void keyPressed() {
 		// --------------D----------------------
-		if (menu == false) {
+		if (menu == false && selectPokemon == false && partyMenu == false) {
 			if (p5.key == 'd' && map2.get(characterX + character.width, characterY) >= white
 					&& map2.get(characterX + character.width, characterY + character.height) >= white) {
 				characterX = characterX + step;
@@ -140,68 +140,227 @@ class InGame {
 				character = p5.loadImage(movement[0]);
 				p5.key = 'm';
 			}
-
-			// Draw menu
-			if (p5.keyPressed == true && p5.key == p5.BACKSPACE) {
-				System.out.println("Hello");
-				menu = true;
-				p5.keyPressed = false;
-			}
 		}
 
-		if (menu == true) {
+		// Switch menu to true
+		if (p5.keyPressed == true && p5.key == p5.BACKSPACE && menu == false) {
+			menu = true;
+			partyMenu = false;
+			selectPokemon = false;
+			p5.keyPressed = false;
+		}
+
+		if (menu == true || selectPokemon == true || partyMenu == true) {
+			// Menu up function
 			if (p5.keyPressed == true && p5.key == 'w') {
-				Graphics.rectHeight = Graphics.textHeight1;
+				if (menu == true) {
+					Graphics.rectHeight = Graphics.textHeight1;
+				}
+				
+				if (partyMenu == true) {
+					if (BattleScene.choicePosY == Graphics.rectPosY2 + 45) {
+						BattleScene.choicePosY = Graphics.rectPosY1 + 45;
+					}
+
+					else if (BattleScene.choicePosY == Graphics.rectPosY3 + 45) {
+						BattleScene.choicePosY = Graphics.rectPosY2 + 45;
+					}
+				}
 				p5.keyPressed = false;
 			}
 
+			// Menu down function
 			if (p5.keyPressed == true && p5.key == 's') {
-				Graphics.rectHeight = Graphics.textHeight2;
+				if (menu == true) {
+					Graphics.rectHeight = Graphics.textHeight2;
+				}
+
+				if (partyMenu == true) {
+					if (BattleScene.choicePosY == Graphics.rectPosY1 + 45) {
+						BattleScene.choicePosY = Graphics.rectPosY2 + 45;
+					}
+
+					else if (BattleScene.choicePosY == Graphics.rectPosY2 + 45) {
+						BattleScene.choicePosY = Graphics.rectPosY3 + 45;
+					}
+				}
 				p5.keyPressed = false;
 			}
 
+			// Menu Left function
+			if (p5.keyPressed == true && p5.key == 'a' && partyMenu == true) {
+				if (partyMenu == true) {
+					if (BattleScene.choicePosX == (Graphics.textX2 - 20)) {
+						BattleScene.choicePosX = Graphics.textX1 - 20;
+					}
+				}
+				p5.keyPressed = false;
+			}
+
+			// Menu right function
+			if (p5.keyPressed == true && p5.key == 'd' && partyMenu == true) {
+				if (BattleScene.choicePosX == (Graphics.textX1 - 20)) {
+					BattleScene.choicePosX = Graphics.textX2 - 20;
+				}
+				p5.keyPressed = false;
+			}
+
+			// If backspace is pressed...
 			if (p5.keyPressed == true && p5.key == p5.BACKSPACE) {
-				if (partyMenu == false) {
+				// If party menu = true .... go back to main menu
+				if (partyMenu == true) {
+					Graphics.resetSquare();
+					menu = true;
+					excute = false;
+					p5.keyPressed = false;
+				}
+
+				// If main menu = true .. go back to walking
+				if (menu == true) {
 					menu = false;
 					p5.keyPressed = false;
 				}
-				
-				if(partyMenu == true) {
-					partyMenu = false;
+
+				// If selectPokemon = true .. go back to party menu
+				if (selectPokemon == true) {
+					partyMenu = true;
 					p5.keyPressed = false;
 				}
 			}
 
-			if (p5.keyPressed == true && p5.key == p5.ENTER && Graphics.rectHeight == Graphics.textHeight1) {
+			// If in menu and shape is same height as text + enter button pushed
+			// ... set partyMenu = true
+			if (p5.keyPressed == true && p5.key == p5.ENTER && Graphics.rectHeight == Graphics.textHeight1
+					&& menu == true) {
 				partyMenu = true;
+				excute = false;
 				p5.keyPressed = false;
 			}
 
-			if (p5.keyPressed == true && p5.key == p5.ENTER && Graphics.rectHeight == Graphics.textHeight2) {
+			// If in menu and shape is same height as text + enter button pushed
+			// ... save game
+			if (p5.keyPressed == true && p5.key == p5.ENTER && Graphics.rectHeight == Graphics.textHeight2
+					&& menu == true) {
 				writeData.saveGame();
 				System.out.println("Game Saved");
 				p5.exit();
 			}
+			
+			if (partyMenu == true && p5.keyPressed == true && p5.key == p5.ENTER) {
+				//Graphics.textX1, Graphics.textX2, Graphics.textY1, Graphics.textY2, Graphics.textY3
+				// Pokemon 1 slot
+				if (BattleScene.choicePosX == (Graphics.textX1 - 20) && BattleScene.choicePosY == (Graphics.textY1 - 15)) {
+					BasePokemon.choiceCounter++;
+					int slot = 0;
+
+					if (BasePokemon.choiceCounter == 1) {
+						BasePokemon.arrayID1 = slot;
+					}
+
+					else if (BasePokemon.choiceCounter == 2) {
+						BasePokemon.arrayID2 = slot;
+					}
+
+					BasePokemon.selectSwapPoke(slot);
+					p5.keyPressed = false;
+				}
+				
+				// Pokemon 2 slot
+				else if (BattleScene.choicePosX == Graphics.textX2 - 20
+						&& BattleScene.choicePosY == (Graphics.textY1 - 15)) {
+					BasePokemon.choiceCounter++;
+					int slot = 1;
+					if (BasePokemon.choiceCounter == 1) {
+						BasePokemon.arrayID1 = slot;
+					} 
+					
+					else if (BasePokemon.choiceCounter == 2) {
+						BasePokemon.arrayID2 = slot;
+					}
+					BasePokemon.selectSwapPoke(slot);
+					p5.keyPressed = false;
+				}
+
+				// Pokemon 3 slot
+				else if (BattleScene.choicePosX == Graphics.textX1 - 20
+						&& BattleScene.choicePosY == (Graphics.textY2 - 15)) {
+					BasePokemon.choiceCounter++;
+					int slot = 2;
+					if (BasePokemon.choiceCounter == 1) {
+						BasePokemon.arrayID1 = slot;
+					} else if (BasePokemon.choiceCounter == 2) {
+						BasePokemon.arrayID2 = slot;
+					}
+					BasePokemon.selectSwapPoke(slot);
+					p5.keyPressed = false;
+				}
+
+				// Pokemon 4 slot
+				else if (BattleScene.choicePosX == Graphics.textX2 - 20
+						&& BattleScene.choicePosY == (Graphics.textY2 -15)) {
+					BasePokemon.choiceCounter++;
+					int slot = 3;
+					if (BasePokemon.choiceCounter == 1) {
+						BasePokemon.arrayID1 = slot;
+					} else if (BasePokemon.choiceCounter == 2) {
+						BasePokemon.arrayID2 = slot;
+					}
+					BasePokemon.selectSwapPoke(slot);
+					p5.keyPressed = false;
+				}
+
+				// Pokemon 5 slot
+				else if (BattleScene.choicePosX == Graphics.textX1 - 20
+						&& BattleScene.choicePosY == (Graphics.textY3 - 15)) {
+					BasePokemon.choiceCounter++;
+					int slot = 4;
+					if (BasePokemon.choiceCounter == 1) {
+						BasePokemon.arrayID1 = slot;
+					} else if (BasePokemon.choiceCounter == 2) {
+						BasePokemon.arrayID2 = slot;
+					}
+					BasePokemon.selectSwapPoke(slot);
+					p5.keyPressed = false;
+				}
+
+				// Pokemon 6 slot
+				else if (BattleScene.choicePosX == Graphics.textX2 - 20
+						&& BattleScene.choicePosY == (Graphics.textY3 - 15)) {
+					BasePokemon.choiceCounter++;
+					int slot = 5;
+					if (BasePokemon.choiceCounter == 1) {
+						BasePokemon.arrayID1 = slot;
+					} else if (BasePokemon.choiceCounter == 2) {
+						BasePokemon.arrayID2 = slot;
+					}
+					BasePokemon.selectSwapPoke(slot);
+					p5.keyPressed = false;
+				}
+			}
 		}
 	}
-	
+
 	void runInGame() {
-		// Displays map, character and the ability to move
+		// If main menu = false ... walking view
 		if (menu == false) {
 			Graphics.displayMap();
 			Graphics.displayCharacter();
 			keyPressed();
 		}
 
+		// If main menu = true ... draw main menu
 		if (menu == true) {
-			if (partyMenu == false) {
-				Graphics.InGameMenu();
-				keyPressed();
-			}
-			if (partyMenu == true){
-				Graphics.DrawPartyMenu();
-				BattleScene.keyPressed();
-			}
+			partyMenu = false;
+			selectPokemon = false;
+			Graphics.InGameMenu();
+			keyPressed();
+		}
+
+		// If partyMenu = true ... draw party sketch
+		if (partyMenu == true) {
+			menu = false;
+			Graphics.DrawWalkingPartyMenu();
+			keyPressed();
 		}
 
 		// If character is inside green start timer
@@ -212,6 +371,7 @@ class InGame {
 			startTimer();
 		}
 	}
+
 	public static void startTimer() {
 		// Resets the timer, battle option and changes the next wild pokemon
 		if (resetTimer == true) {
@@ -221,6 +381,7 @@ class InGame {
 			// Randomly set the time till the next battle
 			setTime = p5.floor(p5.random(1, 4));
 			BattleScene.stop1 = false;
+			BattleScene.intialize = true;
 			resetTimer = false;
 		}
 		seconds++;

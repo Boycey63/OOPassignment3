@@ -42,23 +42,22 @@ public class BattleScene {
 		choicePosX = textX1 - 15;
 		choicePosY = textY1 - 12;
 	}
-
+	
 	void runBattleScene() {
 		LoadData.loadParty();
-		Graphics.DrawDefaultBattleMenu();
-		intialize = true;
-
 		if (intialize == true) {
 			BasePokemon.userACThp = 10000000;
 			GameOver = false;
 			UserTurn = true;
 			FoeTurn = false;
 			BattleWon = BattleLost = false;
-			intialize = false;
-			if(LoadData.partyCounter >= writeData.partySize){
+			if (LoadData.partyCounter >= writeData.partySize) {
 				partyFull = true;
 			}
+			Graphics.resetSquare();
+			intialize = false;
 		}
+		Graphics.DrawDefaultBattleMenu();
 
 		if (UserTurn == true && GameOver == false) {
 			FoeTurn = false;
@@ -71,7 +70,7 @@ public class BattleScene {
 		}
 	}
 
-	void runUserTurn() {
+	static void runUserTurn() {
 		UserTurn = true;
 		FoeTurn = false;
 		if (InGame.swtch == 0 && FoeTurn == false) {
@@ -89,7 +88,7 @@ public class BattleScene {
 		// View Party option
 		if (InGame.swtch == 2 && FoeTurn == false) {
 			// Start here...need to draw main battle menu
-			Graphics.DrawPartyMenu();
+			Graphics.DrawBattlePartyMenu();
 			Graphics.DrawBattleMenu1();
 			keyPressed();
 		}
@@ -144,7 +143,7 @@ public class BattleScene {
 				stop1 = true;
 			}
 			p5.background(255, 0, 0);
-			Graphics.DrawPartyMenu();
+			Graphics.DrawBattlePartyMenu();
 			Graphics.DrawBattleMenu1();
 			keyPressed();
 		}
@@ -161,12 +160,11 @@ public class BattleScene {
 				Graphics.DrawBattleMenu1();
 				keyPressed();
 			}
-			
-			if(GameOver == true){
+
+			if (GameOver == true) {
 				partyFull = false;
 			}
 		}
-
 	}
 
 	static void RunFoeTurn() {
@@ -195,7 +193,7 @@ public class BattleScene {
 
 			}
 
-			if (InGame.swtch == 6) {
+			if (InGame.swtch == 6 || InGame.partyMenu == true) {
 				if (choicePosY == (Graphics.rectPosY1 + 50)) {
 					choicePosY = (Graphics.rectPosY1 + 50);
 				}
@@ -211,7 +209,7 @@ public class BattleScene {
 			p5.keyPressed = false;
 		}
 
-		else if (p5.keyPressed == true && p5.key == 's') {
+		if (p5.keyPressed == true && p5.key == 's') {
 			if (InGame.swtch != 6) {
 				choicePosY = textY2 - 12;
 			}
@@ -232,7 +230,7 @@ public class BattleScene {
 			p5.keyPressed = false;
 		}
 
-		else if (p5.keyPressed == true && p5.key == 'a') {
+		if (p5.keyPressed == true && p5.key == 'a') {
 			if (InGame.swtch != 6) {
 				choicePosX = textX1 - 15;
 
@@ -249,12 +247,12 @@ public class BattleScene {
 			p5.keyPressed = false;
 		}
 
-		else if (p5.keyPressed == true && p5.key == 'd') {
-			if (InGame.swtch != 6) {
+		if (p5.keyPressed == true && p5.key == 'd') {
+			if (InGame.swtch != 6 || InGame.partyMenu == true) {
 				choicePosX = textX2 - 15;
 
 			}
-			if (InGame.swtch == 6) {
+			if (InGame.swtch == 6 || InGame.partyMenu == true) {
 				if (choicePosX == Graphics.rectPosX1) {
 					choicePosX = Graphics.rectPosX2;
 				}
@@ -268,7 +266,7 @@ public class BattleScene {
 
 		else if (p5.key == p5.BACKSPACE) {
 			if (InGame.swtch == 1 || InGame.swtch == 3 || InGame.swtch == 2) {
-				if(InGame.swtch == 3){
+				if (InGame.swtch == 3) {
 					stop1 = true;
 				}
 				Graphics.resetSquare();
@@ -316,13 +314,8 @@ public class BattleScene {
 					Graphics.resetSquare();
 					RunFoeTurn();
 				}
+
 				p5.key = 'm';
-				p5.keyPressed = false;
-			}
-			else if (InGame.partyMenu == true){
-				InGame.partyMenu = false;
-				Graphics.displayMap();
-				Graphics.displayCharacter();
 				p5.keyPressed = false;
 			}
 		}
@@ -332,7 +325,9 @@ public class BattleScene {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
 				InGame.swtch = 1;
 				p5.keyPressed = false;
-			} else if (p5.keyPressed == true && InGame.swtch == 1) {
+			}
+
+			else if (p5.keyPressed == true && InGame.swtch == 1) {
 				BasePokemon.moveNameUsed = LoadData.name_move1.get(0);
 				BasePokemon.moveattUsed = LoadData.attPower_move1.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move1.get(0);
@@ -341,10 +336,11 @@ public class BattleScene {
 				FoeTurn = true;
 				InGame.swtch = 0;
 				UserTurn = false;
+				stop1 = false;
 				p5.keyPressed = false;
 			}
 
-			else if (p5.keyPressed == true && InGame.swtch == 2) {
+			else if ((InGame.swtch == 2 || InGame.partyMenu == true) && p5.keyPressed == true) {
 				InGame.swtch = 6;
 				Graphics.resetSquare();
 				p5.keyPressed = false;
@@ -355,7 +351,7 @@ public class BattleScene {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
 				InGame.swtch = 2;
 				Graphics.resetSquare();
-				Graphics.DrawPartyMenu();
+				Graphics.DrawBattlePartyMenu();
 				p5.keyPressed = false;
 			}
 
@@ -366,6 +362,7 @@ public class BattleScene {
 				DamageDone();
 				Graphics.resetSquare();
 				FoeTurn = true;
+				stop1 = false;
 				InGame.swtch = 0;
 				p5.keyPressed = false;
 			}
@@ -374,12 +371,12 @@ public class BattleScene {
 		else if (p5.key == p5.ENTER && choicePosX == textX1 - 15 && choicePosY == textY2 - 12) {
 			if (p5.keyPressed == true && InGame.swtch == 0) {
 				Graphics.resetSquare();
-				if(LoadData.partyCounter < writeData.partySize){
+				if (LoadData.partyCounter < writeData.partySize) {
 					checkCaught();
 					InGame.swtch = 7;
 					p5.keyPressed = false;
 				}
-				if(LoadData.partyCounter >= writeData.partySize){
+				if (LoadData.partyCounter >= writeData.partySize) {
 					InGame.swtch = 0;
 					p5.keyPressed = false;
 				}
@@ -392,24 +389,29 @@ public class BattleScene {
 				DamageDone();
 				Graphics.resetSquare();
 				FoeTurn = true;
+				stop1 = false;
 				InGame.swtch = 0;
 				p5.keyPressed = false;
 			}
 		}
 		// Option 4
 		else if (p5.key == p5.ENTER && choicePosX == textX2 - 15 && choicePosY == textY2 - 12) {
+
 			if (p5.keyPressed == true && InGame.swtch == 0) {
 				Graphics.resetSquare();
 				Pokemon.walkingView = true;
 				InGame.resetTimer = true;
 				p5.keyPressed = false;
-			} else if (p5.keyPressed == true && InGame.swtch == 1) {
+			}
+
+			else if (p5.keyPressed == true && InGame.swtch == 1) {
 				BasePokemon.moveNameUsed = LoadData.name_move4.get(0);
 				BasePokemon.moveattUsed = LoadData.attPower_move4.get(0);
 				BasePokemon.movePPUsed = LoadData.PP_move4.get(0);
 				DamageDone();
 				Graphics.resetSquare();
 				FoeTurn = true;
+				stop1 = false;
 				InGame.swtch = 0;
 				p5.keyPressed = false;
 			}
@@ -424,7 +426,9 @@ public class BattleScene {
 
 				if (BasePokemon.choiceCounter == 1) {
 					BasePokemon.arrayID1 = slot;
-				} else if (BasePokemon.choiceCounter == 2) {
+				}
+
+				else if (BasePokemon.choiceCounter == 2) {
 					BasePokemon.arrayID2 = slot;
 				}
 

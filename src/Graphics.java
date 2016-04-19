@@ -8,6 +8,7 @@ public class Graphics {
 	static float height;
 	static float width;
 	static float textHeight1, textHeight2, rectHeight;
+	static float textX1, textX2, textY1, textY2, textY3;
 
 	Graphics(Pokemon _p5) {
 		p5 = _p5;
@@ -102,7 +103,7 @@ public class Graphics {
 			p5.rect(BattleScene.choicePosX + 30, BattleScene.choicePosY - 5, 10, 10, 10, 10, 10, 10);
 		}
 
-		if (InGame.swtch == 0) {
+		if (InGame.swtch == 0 && InGame.partyMenu == false) {
 			p5.textSize(20);
 			p5.fill(255);
 			if (BattleScene.partyFull == false) {
@@ -166,7 +167,9 @@ public class Graphics {
 				p5.text("and added to you party!", 40, (BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
 				p5.text("Press backspace to leave battle field", 40,
 						(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 40);
-			} else {
+			}
+
+			else {
 				p5.textSize(20);
 				p5.fill(255);
 				p5.text("The wild  " + LoadData.areaP_name.get(BasePokemon.wildID) + " broke free", 40,
@@ -179,7 +182,7 @@ public class Graphics {
 		}
 	}
 
-	static void DrawPartyMenu() {
+	static void DrawBattlePartyMenu() {
 		p5.stroke(0);
 		int sideRect = 20;
 		BattleScene.Rectangle1H = 170;
@@ -191,19 +194,13 @@ public class Graphics {
 
 		p5.background(255, 0, 0);
 
-		if (InGame.partyMenu == false) {
-			DrawDefaultBattleMenu();
-		}
+		DrawDefaultBattleMenu();
 
 		p5.fill(100, 100, 100);
 		p5.rect(BattleScene.defaultRectangleX, BattleScene.defaultRectangleY, BattleScene.defaultRectangleW,
 				BattleScene.defaultRectangleH, 20, 20, 0, 0);
 
-		if (InGame.partyMenu == true) {
-			InGame.swtch = 100;
-			DrawBattleMenu1();
-		}
-
+		p5.fill(0, 0, 255);
 		p5.rect(rectPosX1, rectPosY1, 400, 100, sideRect, sideRect, sideRect, sideRect);
 		p5.rect(rectPosX1, rectPosY2, 400, 100, sideRect, sideRect, sideRect, sideRect);
 		p5.rect(rectPosX1, rectPosY3, 400, 100, sideRect, sideRect, sideRect, sideRect);
@@ -211,12 +208,27 @@ public class Graphics {
 		p5.rect(rectPosX2, rectPosY2, 400, 100, sideRect, sideRect, sideRect, sideRect);
 		p5.rect(rectPosX2, rectPosY3, 400, 100, sideRect, sideRect, sideRect, sideRect);
 		p5.fill(255);
-		p5.text(BasePokemon.PartyPos[0], rectPosX1 + 20, rectPosY1 + 20);
-		p5.text(BasePokemon.PartyPos[1], rectPosX2 + 20, rectPosY1 + 20);
-		p5.text(BasePokemon.PartyPos[2], rectPosX1 + 20, rectPosY2 + 20);
-		p5.text(BasePokemon.PartyPos[3], rectPosX2 + 20, rectPosY2 + 20);
-		p5.text(BasePokemon.PartyPos[4], rectPosX1 + 20, rectPosY3 + 20);
-		p5.text(BasePokemon.PartyPos[5], rectPosX2 + 20, rectPosY3 + 20);
+
+		for (int i = 0; i < LoadData.partyCounter; i++) {
+			if (i == 0) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), rectPosX1 + 20, rectPosY1 + 20);
+			}
+			if (i == 1) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), rectPosX2 + 20, rectPosY1 + 20);
+			}
+			if (i == 2) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), rectPosX1 + 20, rectPosY2 + 20);
+			}
+			if (i == 3) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), rectPosX2 + 20, rectPosY2 + 20);
+			}
+			if (i == 4) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), rectPosX1 + 20, rectPosY3 + 20);
+			}
+			if (i == 5) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), rectPosX2 + 20, rectPosY3 + 20);
+			}
+		}
 
 		p5.textSize(20);
 		if (InGame.swtch == 6) {
@@ -227,6 +239,73 @@ public class Graphics {
 			p5.text("3) Press backspace to return to main menu", 40,
 					(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 40);
 		}
+	}
+
+	static void DrawWalkingPartyMenu() {
+		p5.stroke(0);
+		int sideRect = 20;
+		BattleScene.Rectangle1H = 170;
+		rectPosX1 = p5.width / 8 - 20;
+		rectPosX2 = p5.width / 8 + 520;
+		rectPosY1 = (p5.height - BattleScene.defaultRectangleH) / 10 - 5;
+		rectPosY2 = (p5.height - BattleScene.defaultRectangleH) / 10 - 5 + 170;
+		rectPosY3 = (p5.height - BattleScene.defaultRectangleH) / 10 - 5 + 340;
+		p5.fill(100, 100, 100);
+		p5.rect(BattleScene.defaultRectangleX, BattleScene.defaultRectangleY, BattleScene.defaultRectangleW,
+				BattleScene.defaultRectangleH, 20, 20, 0, 0);
+		p5.rect(100, 20, 1000, 510);
+
+		textX1 = rectPosX1 + 60;
+		textX2 = rectPosX2 + 60;
+		textY1 = rectPosY1 + 60;
+		textY2 = rectPosY2 + 60;
+		textY3 = rectPosY3 + 60;
+		p5.fill(0, 0, 255);
+		p5.rect(rectPosX1, rectPosY1, 400, 100, sideRect, sideRect, sideRect, sideRect);
+		p5.rect(rectPosX1, rectPosY2, 400, 100, sideRect, sideRect, sideRect, sideRect);
+		p5.rect(rectPosX1, rectPosY3, 400, 100, sideRect, sideRect, sideRect, sideRect);
+		p5.rect(rectPosX2, rectPosY1, 400, 100, sideRect, sideRect, sideRect, sideRect);
+		p5.rect(rectPosX2, rectPosY2, 400, 100, sideRect, sideRect, sideRect, sideRect);
+		p5.rect(rectPosX2, rectPosY3, 400, 100, sideRect, sideRect, sideRect, sideRect);
+		p5.fill(255);
+
+		p5.textSize(32);
+		LoadData.loadParty();
+		for (int i = 0; i < LoadData.partyCounter; i++) {
+			if (i == 0) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), textX1, textY1);
+			}
+			if (i == 1) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), textX2, textY1);
+			}
+			if (i == 2) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), textX1, textY2);
+			}
+			if (i == 3) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), textX2, textY2);
+			}
+			if (i == 4) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), textX1, textY3);
+			}
+			if (i == 5) {
+				p5.text(LoadData.party_name.get(BasePokemon.PartyPos[i]), textX2, textY3);
+			}
+		}
+
+		p5.textSize(20);
+		p5.text("1) Press enter to pick first select a pokemon", 400,
+				(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) - 40);
+		p5.text("2) Press enter again to pick second select a pokemon", 400,
+				(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)));
+		p5.text("3) Press backspace to return to main menu", 400,
+				(BattleScene.Rectangle1Y + (BattleScene.Rectangle1H / 2)) + 40);
+
+		p5.fill(255, 0, 0);
+		if (InGame.excute == false) {
+			Graphics.resetSquare();
+			InGame.excute = true;
+		}
+		p5.rect(BattleScene.choicePosX, BattleScene.choicePosY, 10, 10, 10, 10, 10, 10);
 	}
 
 	static void BattleResponse() {
@@ -256,8 +335,16 @@ public class Graphics {
 	}
 
 	static void resetSquare() {
-		BattleScene.choicePosX = BattleScene.textX1 - 15;
-		BattleScene.choicePosY = BattleScene.textY1 - 12;
+		if (Pokemon.walkingView == true) {
+			BattleScene.choicePosX = textX1 - 20;
+			BattleScene.choicePosY = textY1 - 15;
+		} 
+		
+		else if (BattleScene.stop1 == false) {
+			System.out.println("Done");
+			BattleScene.choicePosX = BattleScene.textX1 - 15;
+			BattleScene.choicePosY = BattleScene.textY1 - 12;
+		}
 	}
 
 	static void InGameMenu() {

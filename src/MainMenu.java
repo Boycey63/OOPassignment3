@@ -29,7 +29,9 @@ public class MainMenu {
 				LoadData.loadMoves();
 				Pokemon.walkingView = true;
 				p5.key = 'm';
-			} else {
+			} 
+			
+			else {
 				p5.fill(0);
 				p5.text("No saved file, Please start new game", 725, 130);
 			}

@@ -68,11 +68,12 @@ public class BasePokemon {
 		if (BasePokemon.choiceCounter == 2) {
 			tempPoke2 = PartyPos[slot];
 			switchParty();
-			System.out.println(LoadData.party_name.get(PartyPos[0]));
 			choiceCounter = 0;
-			Graphics.resetSquare();
-			InGame.swtch = 0;
-			BattleScene.FoeTurn = true;
+			if (Pokemon.battleView == true) {
+				Graphics.resetSquare();
+				InGame.swtch = 0;
+				BattleScene.FoeTurn = true;
+			}
 		}
 	}
 
