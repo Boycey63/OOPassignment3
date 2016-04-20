@@ -1,3 +1,5 @@
+import processing.core.PImage;
+
 public class BasePokemon {
 	static Pokemon p5;
 	// Wild Pokemon Stats + info
@@ -10,7 +12,8 @@ public class BasePokemon {
 	public static String move_name1, move_name2, move_name3, move_name4;
 	public static int FoeMoveAtt, lowWildLvl, maxWildLvl;
 	static String WildMove = " ";
-
+	public static String foeImagetemp;
+	
 	// User Pokemon Stats + info
 	public static double partyHPEV, partyAttackEV, partyDefenseEV, partySpeedEV, partySpecialEV;
 	public static int userTotHP, userActHP, userAttack, userDefense, userSpeed, userSpecial, userACThp;
@@ -18,7 +21,8 @@ public class BasePokemon {
 	public static int XpGiven, movePPUsed, moveattUsed;
 	static String moveNameUsed;
 	static boolean statType;
-
+	public static String userImagetemp;
+	
 	// Starter pokemon Stats + info
 	public static int chosenID;
 	public static int chosenTotHP, chosenActHP, chosenAttack, chosenDefense, chosenSpeed, chosenSpecial;
@@ -58,6 +62,7 @@ public class BasePokemon {
 		ToTxp = LoadData.party_TOTxp.get(BasePokemon.PartyPos[0]);
 		CuRxp = LoadData.party_CurXP.get(BasePokemon.PartyPos[0]);
 		Level = LoadData.party_lvl.get(BasePokemon.PartyPos[0]);
+		userImagetemp = LoadData.party_pic.get(BasePokemon.PartyPos[0]);
 	}
 
 	// When run... sets which pokemon are going to be swapped in the array
@@ -81,6 +86,7 @@ public class BasePokemon {
 	static void switchParty() {
 		PartyPos[arrayID1] = tempPoke2;
 		PartyPos[arrayID2] = tempPoke1;
+		BasePokemon.LoadUserStats();
 	}
 
 	// When run adds EVs + XP to current pokemon
@@ -155,6 +161,8 @@ public class BasePokemon {
 			move_pp4 = LoadData.move_PP.get(var);
 			move_attPower4 = LoadData.move_attPower.get(var);
 		}
+		
+		foeImagetemp = LoadData.areaP_pic2.get(wildID);
 	}
 
 	// When run... selects a random move for foe to use

@@ -396,11 +396,6 @@ class InGame {
 	}
 
 	void runInGame() {
-		//System.out.println("location = " + InGame.location);
-
-		//for (int i = 0; i < LoadData.partyCounter; i++) {
-			//System.out.println("Position " + i + " = " + BasePokemon.PartyPos[i]);
-		//}
 		// If main menu = false ... walking view
 		if (menu == false) {
 			Graphics.displayMap();

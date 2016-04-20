@@ -19,7 +19,6 @@ public class MainMenu {
 		LoadData.loadMoves();
 		LoadData.loadParty();
 		
-		//System.out.println(LoadData.partyCounter);
 		if (p5.key == p5.ENTER) {
 			if (file.exists()) {
 				LoadData.loadPokeDex();

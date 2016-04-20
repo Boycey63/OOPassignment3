@@ -157,7 +157,9 @@ public class writeData {
 				createLine.append(LoadData.attPower_move3.get(i) + ",");
 				createLine.append(LoadData.name_move4.get(i) + ",");
 				createLine.append(LoadData.PP_move4.get(i) + ",");
-				createLine.append(LoadData.attPower_move4.get(i) + "");
+				createLine.append(LoadData.attPower_move4.get(i) + ",");
+				createLine.append(LoadData.party_pic.get(i) + ",");
+				createLine.append(LoadData.party_pic2.get(i) + "");
 
 				String finishedLine = createLine.toString();
 				bw.write(finishedLine);
@@ -204,7 +206,9 @@ public class writeData {
 					makeLine.append(BasePokemon.move_attPower3 + ",");
 					makeLine.append(BasePokemon.move_name4 + ",");
 					makeLine.append(BasePokemon.move_pp4 + ",");
-					makeLine.append(BasePokemon.move_attPower4 + "");
+					makeLine.append(BasePokemon.move_attPower4 + ",");
+					makeLine.append(LoadData.areaP_pic.get(BasePokemon.wildID) + ",");
+					makeLine.append(BasePokemon.foeImagetemp + "");
 
 					String newLine = makeLine.toString();
 
@@ -293,11 +297,7 @@ public class writeData {
 				}
 				makeLine.append(LoadData.move_name.get(var2) + ",");
 				makeLine.append(LoadData.move_PP.get(var2) + ",");
-				if (i != 3) {
-					makeLine.append(LoadData.move_attPower.get(var2) + ",");
-				} else {
-					makeLine.append(LoadData.move_attPower.get(var2) + "");
-				}
+				makeLine.append(LoadData.move_attPower.get(var2) + ",");
 				// Stores the previous moves given
 				if (i == 0) {
 					tempvar1 = var2;
@@ -309,7 +309,8 @@ public class writeData {
 					tempvar3 = var2;
 				}
 			}
-
+			makeLine.append(LoadData.start_pic.get(BasePokemon.chosenID) + ",");
+			makeLine.append(LoadData.start_pic2.get(BasePokemon.chosenID) + "");
 			String newLine = makeLine.toString();
 
 			bw.write(newLine);

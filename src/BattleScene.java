@@ -46,6 +46,7 @@ public class BattleScene {
 	void runBattleScene() {
 		LoadData.loadParty();
 		if (intialize == true) {
+			BasePokemon.LoadUserStats();
 			Graphics.resetSquare();
 			intialize = false;
 		}
@@ -106,7 +107,7 @@ public class BattleScene {
 			}
 			keyPressed();
 		}
-		System.out.println(stop1);
+
 		// If you lose.. display message to leave
 		if (InGame.swtch == 4 && FoeTurn == false) {
 			stop1 = false;

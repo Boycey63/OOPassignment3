@@ -24,6 +24,7 @@ public class LoadData {
 	public static ArrayList<Integer> areaP_speedEV;
 	public static ArrayList<Integer> areaP_specialEV;
 	public static ArrayList<Integer> areaP_BaseXP;
+	public static ArrayList<String> areaP_pic, areaP_pic2;
 
 	public static ArrayList<Integer> party_id;
 	public static ArrayList<String> party_name;
@@ -60,7 +61,9 @@ public class LoadData {
 	public static ArrayList<String> name_move4;
 	public static ArrayList<Integer> PP_move4;
 	public static ArrayList<Integer> attPower_move4;
-
+	public static ArrayList<String> party_pic, party_pic2;
+	
+	
 	public static ArrayList<Integer> start_id;
 	public static ArrayList<String> start_name;
 	public static ArrayList<Integer> start_TOThp;
@@ -76,6 +79,8 @@ public class LoadData {
 	public static ArrayList<Integer> start_speedEV;
 	public static ArrayList<Integer> start_specialEV;
 	public static ArrayList<Integer> start_BaseXP;
+	public static ArrayList<String> start_pic;
+	public static ArrayList<String> start_pic2;
 	
 	public static ArrayList<Integer> Dex_id;
 	public static ArrayList<String> Dex_name;
@@ -192,6 +197,8 @@ public class LoadData {
 			name_move4 = new ArrayList<String>();
 			PP_move4 = new ArrayList<Integer>();
 			attPower_move4 = new ArrayList<Integer>();
+			party_pic = new ArrayList<String>();
+			party_pic2 = new ArrayList<String>();
 
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
@@ -235,6 +242,8 @@ public class LoadData {
 					name_move4.add(str.nextToken());
 					PP_move4.add(Integer.parseInt(str.nextToken()));
 					attPower_move4.add(Integer.parseInt(str.nextToken()));
+					party_pic.add(str.nextToken());
+					party_pic2.add(str.nextToken());
 				}
 				// Counts how many pokemon in the party
 				partyCounter++;
@@ -284,6 +293,8 @@ public class LoadData {
 			areaP_speedEV = new ArrayList<Integer>();
 			areaP_specialEV = new ArrayList<Integer>();
 			areaP_BaseXP = new ArrayList<Integer>();
+			areaP_pic = new ArrayList<String>();
+			areaP_pic2 = new ArrayList<String>();
 
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
@@ -306,6 +317,8 @@ public class LoadData {
 					areaP_speedEV.add(Integer.parseInt(st.nextToken()));
 					areaP_specialEV.add(Integer.parseInt(st.nextToken()));
 					areaP_BaseXP.add(Integer.parseInt(st.nextToken()));
+					areaP_pic.add(st.nextToken());
+					areaP_pic2.add(st.nextToken());
 				}
 				// Counts how many pokemon in area
 				areaCounter++;
@@ -355,6 +368,8 @@ public class LoadData {
 			start_speedEV = new ArrayList<Integer>();
 			start_specialEV = new ArrayList<Integer>();
 			start_BaseXP = new ArrayList<Integer>();
+			start_pic = new ArrayList<String>();
+			start_pic2 = new ArrayList<String>();
 
 			// Checks if string is empty
 			while ((line = br.readLine()) != null) {
@@ -378,6 +393,8 @@ public class LoadData {
 					start_speedEV.add(Integer.parseInt(st.nextToken()));
 					start_specialEV.add(Integer.parseInt(st.nextToken()));
 					start_BaseXP.add(Integer.parseInt(st.nextToken()));
+					start_pic.add(st.nextToken());
+					start_pic2.add(st.nextToken());
 				}
 			}
 		}

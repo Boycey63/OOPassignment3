@@ -1,3 +1,5 @@
+import processing.core.PImage;
+
 //Make the low lvl of wild pokemon as average of party pokemon
 
 public class Graphics {
@@ -9,6 +11,11 @@ public class Graphics {
 	static float width;
 	static float textHeight1, textHeight2, rectHeight;
 	static float textX1, textX2, textY1, textY2, textY3;
+	public static PImage userImage, foeImage;
+	static float foeImagePosX;
+	static float foeImagePosY;
+	static float userImagePosX;
+	static float userImagePosY;
 
 	Graphics(Pokemon _p5) {
 		p5 = _p5;	
@@ -28,6 +35,10 @@ public class Graphics {
 		textY1 = rectPosY1 + 60;
 		textY2 = rectPosY2 + 60;
 		textY3 = rectPosY3 + 60;
+		foeImagePosX = 750;
+		foeImagePosY = 60;
+		userImagePosX = 150; 
+		userImagePosY = 320;
 	}
 
 	// Drawings for walk mode
@@ -63,12 +74,15 @@ public class Graphics {
 				p5.text("Cur XP: " + LoadData.party_CurXP.get(BasePokemon.PartyPos[0]), 620, 520);
 				p5.text("Next XP: " + (LoadData.party_xpNextLvl.get(BasePokemon.PartyPos[0])
 						- LoadData.party_TOTxp.get(BasePokemon.PartyPos[0])), 900, 520);
+				p5.image(p5.loadImage(BasePokemon.userImagetemp),userImagePosX, userImagePosY);
 				// Wild Pokemon Info
 				p5.textSize(30);
 				p5.text(LoadData.areaP_name.get(BasePokemon.wildID), 40, 40);
 				p5.textSize(25);
 				p5.text("Lvl: " + BasePokemon.wildLvL, 40, 70);
 				p5.text("HP: " + BasePokemon.wildActHP, 40, 100);
+				//float foeImagePosX, foeImagePosY;
+				p5.image(p5.loadImage(BasePokemon.foeImagetemp),foeImagePosX, foeImagePosY);
 			}
 		}
 		// Draw rectangle
@@ -381,13 +395,11 @@ public class Graphics {
 		}
 
 		else if (BattleScene.stop1 == false) {
-			System.out.println("Done");
 			BattleScene.choicePosX = BattleScene.textX1 - 15;
 			BattleScene.choicePosY = BattleScene.textY1 - 12;
 		}
 		
 		if (BattleScene.stop1 == false && InGame.swtch == 4) {
-			System.out.println("Done");
 			BattleScene.choicePosX = -20;
 			BattleScene.choicePosY = -20;
 		}
