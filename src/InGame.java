@@ -50,9 +50,6 @@ class InGame {
 	}
 
 	void keyPressed() {
-		// System.out.println(map2.get(characterX + character.width,
-		// characterY));
-
 		// --------------D----------------------
 		if (menu == false && selectPokemon == false && partyMenu == false) {
 			if (p5.key == 'd' && ((map2.get(characterX + character.width, characterY) == white
