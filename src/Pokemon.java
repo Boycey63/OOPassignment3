@@ -33,12 +33,6 @@ public class Pokemon extends PApplet {
 		mainMenu = new MainMenu(this);
 		graphics = new Graphics(this);
 		basepokemon = new BasePokemon(this);
-		loadData.loadPokeArea();
-
-		// Set saved background image
-		InGame.map2 = loadImage(InGame.background[InGame.location]);
-		InGame.map1 = loadImage(InGame.background[InGame.location + 1]);
-		InGame.character = loadImage(InGame.movement[InGame.tempMovement]);
 	}
 
 	public void draw() {

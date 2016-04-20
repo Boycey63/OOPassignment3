@@ -91,8 +91,8 @@ class InGame {
 				p5.key = 'm';
 			}
 			// --------------W----------------------
-			if (p5.key == 'w' && ((map2.get(characterX, characterY) == white
-					|| map2.get(characterX + character.width, characterY) == white)
+			if (p5.key == 'w' && ((map2.get(characterX, characterY) >= white
+					|| map2.get(characterX + character.width, characterY) >= white)
 					|| (map2.get(characterX, characterY) == blue
 							|| map2.get(characterX + character.width, characterY) == blue))) {
 				if (characterY <= 0) {
@@ -259,108 +259,148 @@ class InGame {
 			// ... save game
 			if (p5.keyPressed == true && p5.key == p5.ENTER && Graphics.rectHeight == Graphics.textHeight2
 					&& menu == true) {
+				LoadData.loadParty();
 				writeData.saveGame();
 				System.out.println("Game Saved");
 				p5.exit();
 			}
 
 			if (partyMenu == true && p5.keyPressed == true && p5.key == p5.ENTER) {
-				// Graphics.textX1, Graphics.textX2, Graphics.textY1,
-				// Graphics.textY2, Graphics.textY3
 				// Pokemon 1 slot
 				if (BattleScene.choicePosX == (Graphics.textX1 - 20)
 						&& BattleScene.choicePosY == (Graphics.textY1 - 15)) {
-					BasePokemon.choiceCounter++;
-					int slot = 0;
+					if (LoadData.partyCounter > 0) {
+						BasePokemon.choiceCounter++;
+						int slot = 0;
 
-					if (BasePokemon.choiceCounter == 1) {
-						BasePokemon.arrayID1 = slot;
+						if (BasePokemon.choiceCounter == 1) {
+							BasePokemon.arrayID1 = slot;
+						}
+
+						else if (BasePokemon.choiceCounter == 2) {
+							BasePokemon.arrayID2 = slot;
+						}
+
+						BasePokemon.selectSwapPoke(slot);
+						p5.keyPressed = false;
 					}
-
-					else if (BasePokemon.choiceCounter == 2) {
-						BasePokemon.arrayID2 = slot;
+					else {
+						System.out.println("No Pokemon in slot 1");
+						p5.keyPressed = false;
 					}
-
-					BasePokemon.selectSwapPoke(slot);
-					p5.keyPressed = false;
 				}
 
 				// Pokemon 2 slot
 				else if (BattleScene.choicePosX == Graphics.textX2 - 20
 						&& BattleScene.choicePosY == (Graphics.textY1 - 15)) {
-					BasePokemon.choiceCounter++;
-					int slot = 1;
-					if (BasePokemon.choiceCounter == 1) {
-						BasePokemon.arrayID1 = slot;
-					}
+					if (LoadData.partyCounter > 1) {
+						BasePokemon.choiceCounter++;
+						int slot = 1;
+						if (BasePokemon.choiceCounter == 1) {
+							BasePokemon.arrayID1 = slot;
+						}
 
-					else if (BasePokemon.choiceCounter == 2) {
-						BasePokemon.arrayID2 = slot;
+						else if (BasePokemon.choiceCounter == 2) {
+							BasePokemon.arrayID2 = slot;
+						}
+						BasePokemon.selectSwapPoke(slot);
+						p5.keyPressed = false;
 					}
-					BasePokemon.selectSwapPoke(slot);
-					p5.keyPressed = false;
+					else {
+						System.out.println("No Pokemon in slot 2");
+						p5.keyPressed = false;
+					}
 				}
 
 				// Pokemon 3 slot
 				else if (BattleScene.choicePosX == Graphics.textX1 - 20
 						&& BattleScene.choicePosY == (Graphics.textY2 - 15)) {
-					BasePokemon.choiceCounter++;
-					int slot = 2;
-					if (BasePokemon.choiceCounter == 1) {
-						BasePokemon.arrayID1 = slot;
-					} else if (BasePokemon.choiceCounter == 2) {
-						BasePokemon.arrayID2 = slot;
+					if (LoadData.partyCounter > 2) {
+						BasePokemon.choiceCounter++;
+						int slot = 2;
+						if (BasePokemon.choiceCounter == 1) {
+							BasePokemon.arrayID1 = slot;
+						} else if (BasePokemon.choiceCounter == 2) {
+							BasePokemon.arrayID2 = slot;
+						}
+						BasePokemon.selectSwapPoke(slot);
+						p5.keyPressed = false;
 					}
-					BasePokemon.selectSwapPoke(slot);
-					p5.keyPressed = false;
+					else {
+						System.out.println("No Pokemon in slot 3");
+						p5.keyPressed = false;
+					}
 				}
 
 				// Pokemon 4 slot
 				else if (BattleScene.choicePosX == Graphics.textX2 - 20
 						&& BattleScene.choicePosY == (Graphics.textY2 - 15)) {
-					BasePokemon.choiceCounter++;
-					int slot = 3;
-					if (BasePokemon.choiceCounter == 1) {
-						BasePokemon.arrayID1 = slot;
-					} else if (BasePokemon.choiceCounter == 2) {
-						BasePokemon.arrayID2 = slot;
+					if (LoadData.partyCounter > 3) {
+						BasePokemon.choiceCounter++;
+						int slot = 3;
+						if (BasePokemon.choiceCounter == 1) {
+							BasePokemon.arrayID1 = slot;
+						} else if (BasePokemon.choiceCounter == 2) {
+							BasePokemon.arrayID2 = slot;
+						}
+						BasePokemon.selectSwapPoke(slot);
+						p5.keyPressed = false;
 					}
-					BasePokemon.selectSwapPoke(slot);
-					p5.keyPressed = false;
+					else {
+						System.out.println("No Pokemon in slot 4");
+						p5.keyPressed = false;
+					}
 				}
 
 				// Pokemon 5 slot
 				else if (BattleScene.choicePosX == Graphics.textX1 - 20
 						&& BattleScene.choicePosY == (Graphics.textY3 - 15)) {
-					BasePokemon.choiceCounter++;
-					int slot = 4;
-					if (BasePokemon.choiceCounter == 1) {
-						BasePokemon.arrayID1 = slot;
-					} else if (BasePokemon.choiceCounter == 2) {
-						BasePokemon.arrayID2 = slot;
+					if (LoadData.partyCounter > 4) {
+						BasePokemon.choiceCounter++;
+						int slot = 4;
+						if (BasePokemon.choiceCounter == 1) {
+							BasePokemon.arrayID1 = slot;
+						} else if (BasePokemon.choiceCounter == 2) {
+							BasePokemon.arrayID2 = slot;
+						}
+						BasePokemon.selectSwapPoke(slot);
+						p5.keyPressed = false;
 					}
-					BasePokemon.selectSwapPoke(slot);
-					p5.keyPressed = false;
+					else {
+						System.out.println("No Pokemon in slot 5");
+						p5.keyPressed = false;
+					}
 				}
 
 				// Pokemon 6 slot
 				else if (BattleScene.choicePosX == Graphics.textX2 - 20
 						&& BattleScene.choicePosY == (Graphics.textY3 - 15)) {
-					BasePokemon.choiceCounter++;
-					int slot = 5;
-					if (BasePokemon.choiceCounter == 1) {
-						BasePokemon.arrayID1 = slot;
-					} else if (BasePokemon.choiceCounter == 2) {
-						BasePokemon.arrayID2 = slot;
+					if (LoadData.partyCounter > 5) {
+						BasePokemon.choiceCounter++;
+						int slot = 5;
+						if (BasePokemon.choiceCounter == 1) {
+							BasePokemon.arrayID1 = slot;
+						} else if (BasePokemon.choiceCounter == 2) {
+							BasePokemon.arrayID2 = slot;
+						}
+						BasePokemon.selectSwapPoke(slot);
+						p5.keyPressed = false;
 					}
-					BasePokemon.selectSwapPoke(slot);
-					p5.keyPressed = false;
+					else {
+						System.out.println("No Pokemon in slot 6");
+						p5.keyPressed = false;
+					}
 				}
 			}
 		}
 	}
 
 	void runInGame() {
+		//System.out.println("location = " + InGame.location);
+
+		//for (int i = 0; i < LoadData.partyCounter; i++) {
+			//System.out.println("Position " + i + " = " + BasePokemon.PartyPos[i]);
+		//}
 		// If main menu = false ... walking view
 		if (menu == false) {
 			Graphics.displayMap();
@@ -395,6 +435,7 @@ class InGame {
 	public static void startTimer() {
 		// Resets the timer, battle option and changes the next wild pokemon
 		if (resetTimer == true) {
+			LoadData.loadPokeArea();
 			seconds = time = 0;
 			swtch = 0;
 			BasePokemon.intWildPokemon();

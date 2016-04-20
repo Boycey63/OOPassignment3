@@ -471,14 +471,14 @@ public class LoadData {
 				StringTokenizer st = new StringTokenizer(line, split);
 
 				while (st.hasMoreTokens()) {
-					// Sets location of background image + x and y of character
-					InGame.location = (Integer.parseInt(st.nextToken()));
-					InGame.characterX = (Integer.parseInt(st.nextToken()));
-					InGame.characterY = (Integer.parseInt(st.nextToken()));
-					InGame.tempMovement = (Integer.parseInt(st.nextToken()));
 					for(int i = 0; i <  LoadData.partyCounter; i++) {
 						BasePokemon.PartyPos[i] = (Integer.parseInt(st.nextToken()));
 					}
+					// Sets location of background image + x and y of character
+					InGame.characterX = (Integer.parseInt(st.nextToken()));
+					InGame.characterY = (Integer.parseInt(st.nextToken()));
+					InGame.tempMovement = (Integer.parseInt(st.nextToken()));
+					InGame.location = (Integer.parseInt(st.nextToken()));
 				}
 			}
 		}

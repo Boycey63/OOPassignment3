@@ -4,7 +4,7 @@ import java.io.File;
 public class MainMenu {
 	static Pokemon p5;
 	PImage pic;
-	boolean newGame;
+	public static boolean newGame;
 
 	MainMenu(Pokemon _p5) {
 		p5 = _p5;
@@ -14,21 +14,21 @@ public class MainMenu {
 
 	void gameMenu() {
 		p5.image(pic, 0, 0);
-		p5.fill(255);
-		p5.rect(700, 40, 400, 120);
-		p5.fill(255, 0, 0);
-		p5.textSize(20);
-		p5.text("Press ENTER = saved game", 725, 70);
-		p5.text("Press TAB = new game", 725, 100);
+		Graphics.DrawstartMenu();
 		File file = new File("LoadData" + File.separator + "party.csv");
+		LoadData.loadMoves();
 		LoadData.loadParty();
+		
 		//System.out.println(LoadData.partyCounter);
 		if (p5.key == p5.ENTER) {
 			if (file.exists()) {
 				LoadData.loadPokeDex();
-				LoadData.loadParty();
 				LoadData.loadSaveGame();
 				LoadData.loadMoves();
+				// Set saved background image
+				InGame.map2 = p5.loadImage(InGame.background[InGame.location]);
+				InGame.map1 = p5.loadImage(InGame.background[InGame.location + 1]);
+				InGame.character = p5.loadImage(InGame.movement[InGame.tempMovement]);
 				Pokemon.walkingView = true;
 				p5.key = 'm';
 			} 
@@ -43,15 +43,8 @@ public class MainMenu {
 			newGame = true;
 			LoadData.loadStartPokemon();
 			LoadData.loadMoves();
-			p5.fill(0, 255, 0);
-			p5.rect(750, 160, 300, 150);
-			p5.fill(0, 0, 255);
-			p5.text("Choose a starter pokemon:", 755, 190);
-			p5.text("Press 1 for " + LoadData.start_name.get(0), 755, 220);
-			p5.text("Press 2 for " + LoadData.start_name.get(1), 755, 250);
-			p5.text("Press 3 for " + LoadData.start_name.get(2), 755, 280);
 		}
-
+		
 		if (newGame == true) {
 			keyPressed();
 		}
@@ -79,6 +72,8 @@ public class MainMenu {
 
 	void keyPressed() {
 		if (newGame == true) {
+			
+			
 			if (p5.key == '1') {
 				deleteFile();
 				resetLocation();
@@ -87,6 +82,7 @@ public class MainMenu {
 				BasePokemon.intFirstPoke();
 				writeData.newParty();
 				LoadData.loadParty();
+				LoadData.loadPokeArea();
 				p5.key = 'm';
 				Pokemon.walkingView = true;
 			}
@@ -99,6 +95,7 @@ public class MainMenu {
 				BasePokemon.intFirstPoke();
 				writeData.newParty();
 				LoadData.loadParty();
+				LoadData.loadPokeArea();
 				p5.key = 'm';
 				Pokemon.walkingView = true;
 			}
@@ -111,6 +108,7 @@ public class MainMenu {
 				BasePokemon.intFirstPoke();
 				writeData.newParty();
 				LoadData.loadParty();
+				LoadData.loadPokeArea();
 				p5.key = 'm';
 				Pokemon.walkingView = true;
 			}

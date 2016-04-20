@@ -341,23 +341,14 @@ public class writeData {
 			bw = new BufferedWriter(fw);
 
 			StringBuilder makeLine = new StringBuilder();
-			makeLine.append(InGame.location + ",");
+			for (int i = 0; i < LoadData.partyCounter; i++) {
+				makeLine.append(BasePokemon.PartyPos[i] + ",");
+			}
+			
 			makeLine.append(InGame.characterX + ",");
 			makeLine.append(InGame.characterY + ",");
 			makeLine.append(InGame.tempMovement + ",");
-			
-			System.out.println("PartyCounter = " + LoadData.partyCounter);
-			for (int i = 0; i < LoadData.partyCounter; i++) {
-				if (LoadData.partyCounter > 1 && i != (LoadData.partyCounter - 1)) {
-					System.out.println("FUCK");
-					makeLine.append(BasePokemon.PartyPos[i] + ",");
-				}
-				
-				if (i == (LoadData.partyCounter - 1)){
-					System.out.println("NOOOOOOOOOOO");
-					makeLine.append(BasePokemon.PartyPos[i] + "");
-				}
-			}
+			makeLine.append(InGame.location + "");
 
 			String newLine = makeLine.toString();
 
